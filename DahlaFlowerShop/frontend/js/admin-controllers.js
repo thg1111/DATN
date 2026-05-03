@@ -459,6 +459,8 @@ app.controller('VoucherCtrl', function($scope, $http){
 //Người dùng
 app.controller('NguoiDungCtrl', function($scope, $http){
     $scope.nguoiDungItem = [];
+    $scope.taiKhoanDangKyItem = [];
+    $scope.accountSearchQuery = "";
     $scope.maND = "";
     $scope.tenND = "";
     $scope.sinhNhat ="";
@@ -476,7 +478,21 @@ app.controller('NguoiDungCtrl', function($scope, $http){
             $scope.nguoiDungItem = response.data;
         });
     }
+
+    $scope.getTaiKhoanDangKy = function(){
+        $http({
+            method : "GET",
+            url: apiUrl('/api-admin/TaiKhoan/get-all-tk')
+        }).then(function(response){
+            $scope.taiKhoanDangKyItem = Array.isArray(response.data) ? response.data : [];
+        }).catch(function(error) {
+            console.error("Loi khi lay danh sach tai khoan dang ky:", error);
+            $scope.taiKhoanDangKyItem = [];
+        });
+    }
+
     $scope.getNguoiDung();
+    $scope.getTaiKhoanDangKy();
     //thêm người dùng
     $scope.anh = '';
     $scope.imagePreviewND = '';
@@ -671,7 +687,6 @@ app.controller('HoaDonCtrl',function($scope,$http){
 
 
 })
-
 
 
 

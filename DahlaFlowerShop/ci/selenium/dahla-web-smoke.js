@@ -320,6 +320,27 @@ test('Admin dashboard exposes management tabs', 'Admin management', async (drive
     }
     return selectors.join(', ');
   });
+
+  await step('Verify user tab includes registered account list', async () => {
+    await driver.findElement(By.css('.button.nguoidung')).click();
+    await waitForElement(driver, By.css('#nguoidung.active'));
+    await waitForElement(driver, By.css('#BangTaiKhoanDangKy'));
+
+    const headers = await driver.executeScript(() => {
+      return Array.from(document.querySelectorAll('#BangTaiKhoanDangKy thead th'))
+        .map((cell) => cell.textContent.trim())
+        .join(', ');
+    });
+    const rowCount = await driver.executeScript(() => {
+      return document.querySelectorAll('#BangTaiKhoanDangKy tbody tr').length;
+    });
+
+    if (!headers.includes('Tên tài khoản') || !headers.includes('Email') || rowCount < 1) {
+      throw new Error(`Registered account table is incomplete. Headers: ${headers}. Rows: ${rowCount}`);
+    }
+
+    return `${headers}; rows=${rowCount}`;
+  });
 });
 
 async function run() {

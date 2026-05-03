@@ -670,6 +670,44 @@
                     </div>
                 </div>
                 <div class="row px-5 py-2">
+                    <div class="col-12" style="border: 1px solid #f0c7cf; border-radius: 6px; padding: 14px; background-color: #fff7f9;">
+                        <div class="row align-items-center">
+                            <div class="col-6">
+                                <p style="font-weight: bold; font-size: 20px; color: #a23e50; margin-bottom: 4px;">Tài khoản đã đăng ký</p>
+                                <span style="color: #6c757d;">Tổng số: {{taiKhoanDangKyItem.length || 0}} tài khoản</span>
+                            </div>
+                            <div class="col-6">
+                                <input type="text" placeholder="Tìm tài khoản, email, quyền..." class="form-control" ng-model="accountSearchQuery">
+                            </div>
+                        </div>
+                        <div class="table-responsive mt-3">
+                            <table id="BangTaiKhoanDangKy" class="table table-bordered mb-0">
+                                <thead>
+                                    <tr class="table-danger">
+                                        <th><b>Mã tài khoản</b></th>
+                                        <th><b>Tên tài khoản</b></th>
+                                        <th><b>Email</b></th>
+                                        <th><b>Quyền</b></th>
+                                        <th><b>Trạng thái</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in taiKhoanDangKyItem | filter: accountSearchQuery">
+                                        <td>{{item.maTK}}</td>
+                                        <td>{{item.tenTK}}</td>
+                                        <td>{{item.email}}</td>
+                                        <td>{{item.quyen}}</td>
+                                        <td>{{item.trangThai === null || item.trangThai === undefined || item.trangThai === '' ? 'Chưa có' : item.trangThai}}</td>
+                                    </tr>
+                                    <tr ng-if="(taiKhoanDangKyItem | filter: accountSearchQuery).length === 0">
+                                        <td colspan="5" class="text-center" style="color: #6c757d;">Chưa có tài khoản đăng ký phù hợp.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row px-5 py-2">
                     <table class="table table-bordered">
                         <thead>
                             <tr class="table-danger">
