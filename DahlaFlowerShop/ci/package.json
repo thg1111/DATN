@@ -5,15 +5,15 @@
   "description": "CI helpers for Dahla Flower Shop",
   "scripts": {
     "newman:smoke": "newman run ./newman/dahla-gateway.postman_collection.json -e ./newman/dahla-local.postman_environment.json --reporters cli,junit,json,htmlextra --reporter-junit-export ./reports/newman/newman-junit.xml --reporter-json-export ./reports/newman/newman-summary.json --reporter-htmlextra-export ./reports/newman/newman-report.html --insecure",
-    "playwright:smoke": "playwright test --config ./playwright.config.js",
+    "selenium:smoke": "node ./selenium/dahla-web-smoke.js",
     "smoke:local": "powershell -NoProfile -ExecutionPolicy Bypass -File ./run-local-smoke.ps1",
     "web:start": "powershell -NoProfile -ExecutionPolicy Bypass -File ./run-local-web.ps1",
     "web:stop": "powershell -NoProfile -ExecutionPolicy Bypass -File ./stop-local-web.ps1",
     "artifacts": "powershell -NoProfile -ExecutionPolicy Bypass -File ./package-artifacts.ps1 -WorkspaceRoot .."
   },
   "devDependencies": {
-    "@playwright/test": "^1.52.0",
     "newman": "^6.1.3",
-    "newman-reporter-htmlextra": "^1.23.1"
+    "newman-reporter-htmlextra": "^1.23.1",
+    "selenium-webdriver": "^4.38.0"
   }
 }

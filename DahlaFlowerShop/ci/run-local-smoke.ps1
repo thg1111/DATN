@@ -9,7 +9,7 @@ param(
     [string]$AccountSearchTerm = "",
     [switch]$SkipDbSetup,
     [switch]$SkipDotnetValidation,
-    [switch]$SkipPlaywright,
+    [switch]$SkipSelenium,
     [switch]$DisablePerfAssertion,
     [switch]$KeepServices,
     [switch]$OpenReport
@@ -248,7 +248,7 @@ try {
         & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot "setup-localdb.ps1")
     }
 
-    Write-Step "[3/9] Restoring Node/Newman/Playwright dependencies"
+    Write-Step "[3/9] Restoring Node/Newman/Selenium dependencies"
     $localNewman = Join-Path $PSScriptRoot "node_modules\.bin\newman.cmd"
     if (-not (Test-Path $localNewman)) {
         Push-Location $PSScriptRoot
@@ -325,14 +325,14 @@ try {
         throw "Newman smoke tests failed with exit code $LASTEXITCODE"
     }
 
-    if ($SkipPlaywright) {
-        Write-Step "[7/9] Skipping Playwright web smoke tests"
+    if ($SkipSelenium) {
+        Write-Step "[7/9] Skipping Selenium web smoke tests"
     }
     else {
-        Write-Step "[7/9] Running Playwright web smoke tests"
-        & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot "run-playwright.ps1") -FrontendBaseUrl "http://127.0.0.1:$FrontendPort" -ApiBaseUrl $BaseUrl
+        Write-Step "[7/9] Running Selenium web smoke tests"
+        & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot "run-selenium.ps1") -FrontendBaseUrl "http://127.0.0.1:$FrontendPort" -ApiBaseUrl $BaseUrl
         if ($LASTEXITCODE -ne 0) {
-            throw "Playwright web smoke tests failed with exit code $LASTEXITCODE"
+            throw "Selenium web smoke tests failed with exit code $LASTEXITCODE"
         }
     }
 

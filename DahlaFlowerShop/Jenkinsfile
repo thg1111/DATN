@@ -14,7 +14,7 @@ pipeline {
         string(name: 'BASE_URL', defaultValue: 'https://localhost:7114', description: 'Base URL của gateway để Newman gọi test.')
         string(name: 'WAIT_TIMEOUT_SECONDS', defaultValue: '180', description: 'Timeout chờ API/Gateway sẵn sàng.')
         string(name: 'MAX_RESPONSE_TIME_MS', defaultValue: '5000', description: 'Ngưỡng response time khi bật strict performance.')
-        string(name: 'FRONTEND_PORT', defaultValue: '5500', description: 'Port frontend static server cho Playwright E2E.')
+        string(name: 'FRONTEND_PORT', defaultValue: '5500', description: 'Port frontend static server cho Selenium E2E.')
         string(name: 'PRODUCT_SEARCH_TERM', defaultValue: 'hoa', description: 'Từ khóa dùng cho bài search sản phẩm.')
         string(name: 'ACCOUNT_SEARCH_TERM', defaultValue: 'admin', description: 'Từ khóa dùng cho bài search tài khoản.')
         string(name: 'ADMIN_USERNAME', defaultValue: '', description: 'Override admin username nếu muốn test account khác.')
@@ -22,7 +22,7 @@ pipeline {
         booleanParam(name: 'STRICT_RESPONSE_TIME', defaultValue: false, description: 'Bật để fail nếu response time vượt ngưỡng. Tắt để bypass bài perf.')
         booleanParam(name: 'SKIP_DB_SETUP', defaultValue: false, description: 'Bỏ qua bước setup LocalDB nếu dữ liệu đã sẵn.')
         booleanParam(name: 'SKIP_DOTNET_VALIDATION', defaultValue: false, description: 'Bỏ qua dotnet restore/build/test nếu chỉ muốn chạy smoke nhanh.')
-        booleanParam(name: 'SKIP_PLAYWRIGHT', defaultValue: false, description: 'Bo qua Playwright web smoke tests neu chi muon test API.')
+        booleanParam(name: 'SKIP_SELENIUM', defaultValue: false, description: 'Bo qua Selenium web smoke tests neu chi muon test API.')
         booleanParam(name: 'KEEP_SERVICES', defaultValue: false, description: 'Giữ service chạy sau khi smoke test xong.')
         booleanParam(name: 'OPEN_REPORT', defaultValue: false, description: 'Mở report HTML sau khi chạy local smoke.')
     }
@@ -123,7 +123,7 @@ echo ACCOUNT_SEARCH_TERM=%EFFECTIVE_ACCOUNT_SEARCH_TERM%
 echo STRICT_RESPONSE_TIME=%STRICT_RESPONSE_TIME%
 echo SKIP_DB_SETUP=%SKIP_DB_SETUP%
 echo SKIP_DOTNET_VALIDATION=%SKIP_DOTNET_VALIDATION%
-echo SKIP_PLAYWRIGHT=%SKIP_PLAYWRIGHT%
+echo SKIP_SELENIUM=%SKIP_SELENIUM%
 echo KEEP_SERVICES=%KEEP_SERVICES%
 echo OPEN_REPORT=%OPEN_REPORT%
 if not "%EFFECTIVE_ADMIN_USERNAME%"=="" echo ADMIN_USERNAME=%EFFECTIVE_ADMIN_USERNAME%
@@ -164,7 +164,7 @@ if not "%EFFECTIVE_ACCOUNT_SEARCH_TERM%"=="" set "SMOKE_ARGS=%SMOKE_ARGS% -Accou
 if /I "%STRICT_RESPONSE_TIME%"=="false" set "SMOKE_ARGS=%SMOKE_ARGS% -DisablePerfAssertion"
 if /I "%SKIP_DB_SETUP%"=="true" set "SMOKE_ARGS=%SMOKE_ARGS% -SkipDbSetup"
 if /I "%SKIP_DOTNET_VALIDATION%"=="true" set "SMOKE_ARGS=%SMOKE_ARGS% -SkipDotnetValidation"
-if /I "%SKIP_PLAYWRIGHT%"=="true" set "SMOKE_ARGS=%SMOKE_ARGS% -SkipPlaywright"
+if /I "%SKIP_SELENIUM%"=="true" set "SMOKE_ARGS=%SMOKE_ARGS% -SkipSelenium"
 if /I "%KEEP_SERVICES%"=="true" set "SMOKE_ARGS=%SMOKE_ARGS% -KeepServices"
 if /I "%OPEN_REPORT%"=="true" set "SMOKE_ARGS=%SMOKE_ARGS% -OpenReport"
 
@@ -214,7 +214,7 @@ exit /b %ERRORLEVEL%
 
     post {
         always {
-            junit allowEmptyResults: true, testResults: 'ci/reports/newman/newman-junit.xml,ci/reports/playwright/playwright-junit.xml'
+            junit allowEmptyResults: true, testResults: 'ci/reports/newman/newman-junit.xml,ci/reports/selenium/selenium-junit.xml'
         }
     }
 }

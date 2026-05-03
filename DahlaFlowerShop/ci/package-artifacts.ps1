@@ -328,8 +328,8 @@ function New-Dashboard {
         (New-LinkMarkup -FileName "newman-report.html" -Label "Newman HTML"),
         (New-LinkMarkup -FileName "newman-summary.json" -Label "Newman JSON"),
         (New-LinkMarkup -FileName "newman-junit.xml" -Label "JUnit XML"),
-        (New-LinkMarkup -FileName "playwright-report.zip" -Label "Playwright Zip"),
-        (New-LinkMarkup -FileName "playwright-junit.xml" -Label "Playwright JUnit"),
+        (New-LinkMarkup -FileName "selenium-report.zip" -Label "Selenium Zip"),
+        (New-LinkMarkup -FileName "selenium-junit.xml" -Label "Selenium JUnit"),
         (New-LinkMarkup -FileName "newman-report.zip" -Label "Newman Zip"),
         (New-LinkMarkup -FileName "service-logs.zip" -Label "Service Logs Zip"),
         (New-LinkMarkup -FileName "local-web-logs.zip" -Label "Local Web Logs Zip"),
@@ -696,7 +696,7 @@ function New-Dashboard {
 }
 
 New-ReportZip -SourceFolder (Join-Path $reportsRoot "newman") -ZipName "newman-report.zip"
-New-ReportZip -SourceFolder (Join-Path $reportsRoot "playwright") -ZipName "playwright-report.zip"
+New-ReportZip -SourceFolder (Join-Path $reportsRoot "selenium") -ZipName "selenium-report.zip"
 New-ReportZip -SourceFolder (Join-Path $reportsRoot "services") -ZipName "service-logs.zip"
 New-ReportZip -SourceFolder (Join-Path $reportsRoot "local-web") -ZipName "local-web-logs.zip"
 New-ReportZip -SourceFolder $reportsRoot -ZipName "ci-reports-all.zip"
@@ -704,7 +704,7 @@ New-ReportZip -SourceFolder $reportsRoot -ZipName "ci-reports-all.zip"
 Copy-ArtifactFile -SourcePath (Join-Path $reportsRoot "newman\newman-report.html") -TargetName "newman-report.html"
 Copy-ArtifactFile -SourcePath (Join-Path $reportsRoot "newman\newman-summary.json") -TargetName "newman-summary.json"
 Copy-ArtifactFile -SourcePath (Join-Path $reportsRoot "newman\newman-junit.xml") -TargetName "newman-junit.xml"
-Copy-ArtifactFile -SourcePath (Join-Path $reportsRoot "playwright\playwright-junit.xml") -TargetName "playwright-junit.xml"
+Copy-ArtifactFile -SourcePath (Join-Path $reportsRoot "selenium\selenium-junit.xml") -TargetName "selenium-junit.xml"
 
 New-TestTypeReport
 New-Dashboard
