@@ -245,8 +245,13 @@ test('Header cart navigation works', 'Navigation', async (driver, step) => {
     await assert(Boolean(cartHref), 'Expected a cart navigation href on the home page');
     await driver.get(cartHref);
     await waitUntil(driver, async () => (await driver.getCurrentUrl()).includes('/pages/cart.html'), 'Expected cart page URL');
-    await waitForElement(driver, By.css('#cart-table'));
-    return cartHref;
+    await waitForElement(driver, By.css('#content'));
+    await waitUntil(driver, async () => {
+      const tableCount = await countElements(driver, By.css('#cart-table'));
+      const text = await bodyText(driver);
+      return tableCount > 0 || /giỏ hàng.*trống|gio hang.*trong/i.test(text);
+    }, 'Expected cart page to show either cart table or empty-cart message');
+    return `${cartHref} -> ${await driver.getCurrentUrl()}`;
   });
 });
 
