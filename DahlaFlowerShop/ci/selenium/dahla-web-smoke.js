@@ -74,6 +74,10 @@ async function waitForElement(driver, locator, timeout = 10000) {
   return element;
 }
 
+async function waitForLocatedElement(driver, locator, timeout = 10000) {
+  return driver.wait(until.elementLocated(locator), timeout);
+}
+
 async function waitUntil(driver, condition, message, timeout = 10000) {
   await driver.wait(async () => Boolean(await condition()), timeout, message);
 }
@@ -84,7 +88,7 @@ test('home page loads catalog and search UI', async (driver) => {
   await waitUntil(driver, async () => /Dahla|Trang/i.test(await driver.getTitle()), 'Expected home page title');
   await waitForElement(driver, By.css('.header'));
   await waitForElement(driver, By.css('input[ng-model="searchQuery"]'));
-  await waitForElement(driver, By.css('.btn-spc1'));
+  await waitForLocatedElement(driver, By.css('.btn-spc1'));
 });
 
 test('login page authenticates seeded admin', async (driver) => {

@@ -208,13 +208,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\
 exit /b %ERRORLEVEL%
 '''
                 archiveArtifacts allowEmptyArchive: true, fingerprint: true, artifacts: 'ci/artifacts/**/*'
+                junit allowEmptyResults: true, testResults: 'ci/reports/newman/newman-junit.xml,ci/reports/selenium/selenium-junit.xml'
             }
-        }
-    }
-
-    post {
-        always {
-            junit allowEmptyResults: true, testResults: 'ci/reports/newman/newman-junit.xml,ci/reports/selenium/selenium-junit.xml'
         }
     }
 }
