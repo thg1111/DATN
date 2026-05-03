@@ -708,7 +708,7 @@
                     </div>
                 </div>
                 <div class="row px-5 py-2">
-                    <table class="table table-bordered">
+                    <table id="BangNguoiDung" class="table table-bordered">
                         <thead>
                             <tr class="table-danger">
                                 <th><b>Mã người dùng</b></th>
@@ -729,7 +729,12 @@
                                 <td>{{item.diaChi}}</td>
                                 <td>{{item.sdt}}</td>
                                 <td>{{item.gioiTinh}}</td>
-                                <td>{{item.anh}} </td>
+                                <td>
+                                    <img ng-src="{{getNguoiDungImageUrl(item.anh)}}" alt="{{item.tenND}}"
+                                        title="{{item.anh}}"
+                                        onerror="this.onerror=null; this.src='/assets/images/customers/avt.jpg';"
+                                        style="width: 64px; height: 64px; object-fit: cover; border-radius: 8px; border: 1px solid #f0c7cf; background-color: #fff;">
+                                </td>
                                 <td>
                                     <button class="btn-edit" data-id="1" onclick="openEditFormND()" ng-click="editNguoiDung(item.maND)">
                                         <i class="bx bx-edit"></i>

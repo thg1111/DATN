@@ -341,6 +341,24 @@ test('Admin dashboard exposes management tabs', 'Admin management', async (drive
 
     return `${headers}; rows=${rowCount}`;
   });
+
+  await step('Verify user table renders avatar images', async () => {
+    await waitForElement(driver, By.css('#BangNguoiDung'));
+
+    const imageInfo = await driver.executeScript(() => {
+      return Array.from(document.querySelectorAll('#BangNguoiDung tbody img')).map((image) => ({
+        src: image.getAttribute('src') || '',
+        width: image.getBoundingClientRect().width,
+        height: image.getBoundingClientRect().height
+      }));
+    });
+
+    if (!imageInfo.length || imageInfo.some((image) => !image.src || image.width < 20 || image.height < 20)) {
+      throw new Error(`User avatar images are not rendered: ${JSON.stringify(imageInfo)}`);
+    }
+
+    return `${imageInfo.length} user avatar images rendered`;
+  });
 });
 
 async function run() {

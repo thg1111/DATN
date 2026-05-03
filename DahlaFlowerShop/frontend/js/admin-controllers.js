@@ -491,6 +491,30 @@ app.controller('NguoiDungCtrl', function($scope, $http){
         });
     }
 
+    $scope.getNguoiDungImageUrl = function(anh) {
+        if (!anh) {
+            return '/assets/images/customers/avt.jpg';
+        }
+
+        let imageValue = String(anh).trim();
+        if (!imageValue) {
+            return '/assets/images/customers/avt.jpg';
+        }
+
+        if (/^data:image\//i.test(imageValue) || /^https?:\/\//i.test(imageValue) || imageValue.charAt(0) === '/') {
+            return imageValue;
+        }
+
+        const avatarMap = {
+            'avatar1.jpg': 'kh6.jpg',
+            'avatar2.jpg': 'kh7.jpg',
+            'avatar3.jpg': 'kh8.jpg',
+            'avatar4.jpg': 'kh9.jpg'
+        };
+        const fileName = avatarMap[imageValue.toLowerCase()] || imageValue;
+        return '/assets/images/customers/' + encodeURIComponent(fileName);
+    };
+
     $scope.getNguoiDung();
     $scope.getTaiKhoanDangKy();
     //thêm người dùng
@@ -687,7 +711,6 @@ app.controller('HoaDonCtrl',function($scope,$http){
 
 
 })
-
 
 
 
