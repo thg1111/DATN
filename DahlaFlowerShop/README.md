@@ -55,4 +55,4 @@ DahlaFlowerShop/
 | Database | SQL Server, Stored Procedures |
 
 ## 👤 Tác giả
-- Đinh Thị Huyền Trang
+- Lưu Hoài Thương
