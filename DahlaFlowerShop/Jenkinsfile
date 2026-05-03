@@ -8,7 +8,9 @@ pipeline {
     }
 
     parameters {
-        string(name: 'REPO_ROOT', defaultValue: 'E:\\Antigravity\\DA2\\DA2\\Đồ án 2\\DahlaFlowerShop', description: 'Đường dẫn local tới repo trên máy Jenkins.')
+        string(name: 'GIT_URL', defaultValue: 'https://github.com/thg1111/DATN.git', description: 'Git repository URL để Jenkins clone source.')
+        string(name: 'GIT_BRANCH', defaultValue: 'dev', description: 'Nhánh cần clone để chạy CI.')
+        string(name: 'REPO_ROOT', defaultValue: '', description: 'Override repo root nếu cần. Mặc định là %WORKSPACE%\\DahlaFlowerShop sau khi clone DATN.')
         string(name: 'BASE_URL', defaultValue: 'https://localhost:7114', description: 'Base URL của gateway để Newman gọi test.')
         string(name: 'WAIT_TIMEOUT_SECONDS', defaultValue: '180', description: 'Timeout chờ API/Gateway sẵn sàng.')
         string(name: 'MAX_RESPONSE_TIME_MS', defaultValue: '5000', description: 'Ngưỡng response time khi bật strict performance.')
@@ -28,7 +30,8 @@ pipeline {
     environment {
         DOTNET_CLI_TELEMETRY_OPTOUT = '1'
         DOTNET_NOLOGO = '1'
-        DEFAULT_REPO_ROOT = 'E:\\Antigravity\\DA2\\DA2\\Đồ án 2\\DahlaFlowerShop'
+        DEFAULT_GIT_URL = 'https://github.com/thg1111/DATN.git'
+        DEFAULT_GIT_BRANCH = 'dev'
         DEFAULT_BASE_URL = 'https://localhost:7114'
         DEFAULT_WAIT_TIMEOUT_SECONDS = '180'
         DEFAULT_MAX_RESPONSE_TIME_MS = '5000'
@@ -37,10 +40,34 @@ pipeline {
     }
 
     stages {
+        stage('Checkout Source') {
+            steps {
+                script {
+                    env.EFFECTIVE_GIT_URL = params.GIT_URL?.trim() ? params.GIT_URL.trim() : env.DEFAULT_GIT_URL
+                    env.EFFECTIVE_GIT_BRANCH = params.GIT_BRANCH?.trim() ? params.GIT_BRANCH.trim() : env.DEFAULT_GIT_BRANCH
+
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "*/${env.EFFECTIVE_GIT_BRANCH}"]],
+                        userRemoteConfigs: [[url: env.EFFECTIVE_GIT_URL]],
+                        extensions: [
+                            [$class: 'CleanBeforeCheckout']
+                        ]
+                    ])
+                }
+                bat '''
+@echo off
+chcp 65001>nul
+echo Checked out %EFFECTIVE_GIT_URL%
+echo Branch: %EFFECTIVE_GIT_BRANCH%
+'''
+            }
+        }
+
         stage('Resolve Parameters') {
             steps {
                 script {
-                    env.EFFECTIVE_REPO_ROOT = params.REPO_ROOT?.trim() ? params.REPO_ROOT.trim() : env.DEFAULT_REPO_ROOT
+                    env.EFFECTIVE_REPO_ROOT = params.REPO_ROOT?.trim() ? params.REPO_ROOT.trim() : "${env.WORKSPACE}\\DahlaFlowerShop"
                     env.EFFECTIVE_BASE_URL = params.BASE_URL?.trim() ? params.BASE_URL.trim() : env.DEFAULT_BASE_URL
                     env.EFFECTIVE_WAIT_TIMEOUT_SECONDS = params.WAIT_TIMEOUT_SECONDS?.trim() ? params.WAIT_TIMEOUT_SECONDS.trim() : env.DEFAULT_WAIT_TIMEOUT_SECONDS
                     env.EFFECTIVE_MAX_RESPONSE_TIME_MS = params.MAX_RESPONSE_TIME_MS?.trim() ? params.MAX_RESPONSE_TIME_MS.trim() : env.DEFAULT_MAX_RESPONSE_TIME_MS
@@ -58,7 +85,7 @@ echo Resolved base URL : %EFFECTIVE_BASE_URL%
             }
         }
 
-        stage('Check Local Path') {
+        stage('Check Source Path') {
             steps {
                 bat '''
 @echo off
@@ -66,7 +93,7 @@ chcp 65001>nul
 echo Workspace: %WORKSPACE%
 echo Repo root : %EFFECTIVE_REPO_ROOT%
 if not exist "%EFFECTIVE_REPO_ROOT%" (
-    echo Local repo path not found: %EFFECTIVE_REPO_ROOT%
+    echo Source path not found: %EFFECTIVE_REPO_ROOT%
     exit /b 1
 )
 if not exist "%EFFECTIVE_REPO_ROOT%\\run-local-smoke.bat" (
