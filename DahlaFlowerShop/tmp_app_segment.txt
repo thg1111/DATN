@@ -1,0 +1,36 @@
+        return;
+        }
+
+        $scope.anh = file.name;
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $scope.$apply(function () {
+                $scope.imagePreviewND = e.target.result;
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+
+    $scope.checkMaTKExist = function (maTK) {
+        return $scope.taiKhoanItem.some(function (taiKhoan) {
+            return taiKhoan.maTK === maTK;
+        });
+    };
+
+    $scope.checkMaNDExist = function (maND) {
+        return $scope.nguoiDungItem.some(function (nguoiDung) {
+            return nguoiDung.maND === maND;
+        });
+    };
+
+    $scope.generateMaTK = function () {
+        return $scope.taiKhoanItem.reduce(function (maxValue, taiKhoan) {
+            var currentValue = parseInt(taiKhoan.maTK, 10);
+            return isNaN(currentValue) || currentValue < maxValue ? maxValue : currentValue;
+        }, 0) + 1;
+    };
+
+    $scope.generateMaND = function () {
+        return $scope.nguoiDungItem.reduce(function (maxValue, nguoiDung) {
+            var currentValue = parseInt(nguoiDung.maND, 10);
+            return isNaN(currentValue) || currentValue < maxValue ? maxValue : 

@@ -1,0 +1,288 @@
+﻿{
+    "generatedAt":  "2026-04-30T23:17:52",
+    "status":  "PASS",
+    "summary":  [
+                    {
+                        "type":  "Login",
+                        "requests":  1,
+                        "assertions":  2,
+                        "passed":  1,
+                        "failed":  0
+                    },
+                    {
+                        "type":  "Customer Function",
+                        "requests":  7,
+                        "assertions":  14,
+                        "passed":  7,
+                        "failed":  0
+                    },
+                    {
+                        "type":  "Catalog Function",
+                        "requests":  14,
+                        "assertions":  30,
+                        "passed":  14,
+                        "failed":  0
+                    },
+                    {
+                        "type":  "Admin Function",
+                        "requests":  6,
+                        "assertions":  12,
+                        "passed":  6,
+                        "failed":  0
+                    }
+                ],
+    "tests":  [
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - User Categories",
+                      "method":  "GET",
+                      "route":  "/api-user/DanhMuc/get-all",
+                      "statusCode":  200,
+                      "assertions":  3,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - User Category Search",
+                      "method":  "GET",
+                      "route":  "/api-user/DanhMuc/search-DM/Valentine",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - User Products",
+                      "method":  "GET",
+                      "route":  "/api-user/SanPham/get-all-sp",
+                      "statusCode":  200,
+                      "assertions":  3,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - User Product By Id",
+                      "method":  "GET",
+                      "route":  "/api-user/SanPham/get-by-id/101",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - User Products By Category",
+                      "method":  "GET",
+                      "route":  "/api-user/SanPham/get-by-danh-muc/1",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - User Product Search",
+                      "method":  "GET",
+                      "route":  "/api-user/SanPham/Search/hoa",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Customer Function",
+                      "name":  "Gateway - User Cart",
+                      "method":  "GET",
+                      "route":  "/api-user/GioHang/get-all-GioHang",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Customer Function",
+                      "name":  "Gateway - User Feedback",
+                      "method":  "GET",
+                      "route":  "/api-user/Feedback/get-all-feedback",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Customer Function",
+                      "name":  "Gateway - User Orders",
+                      "method":  "GET",
+                      "route":  "/api-user/HoaDon/get-all-hd",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Customer Function",
+                      "name":  "Gateway - User Order By Id",
+                      "method":  "GET",
+                      "route":  "/api-user/HoaDon/get-data-by-id/9001",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Login",
+                      "name":  "Gateway - Login With Seeded Admin",
+                      "method":  "POST",
+                      "route":  "/api-user/TaiKhoan/CheckLogin",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - Admin Categories",
+                      "method":  "GET",
+                      "route":  "/api-admin/DanhMuc/get-all",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - Admin Category Search",
+                      "method":  "GET",
+                      "route":  "/api-admin/DanhMuc/search-DM/Valentine",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - Admin Products",
+                      "method":  "GET",
+                      "route":  "/api-admin/SanPham/get-all-sp",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - Admin Product By Id",
+                      "method":  "GET",
+                      "route":  "/api-admin/SanPham/get-by-id/101",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - Admin Product Search",
+                      "method":  "GET",
+                      "route":  "/api-admin/SanPham/Search/hoa",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Admin Function",
+                      "name":  "Gateway - Admin Accounts",
+                      "method":  "GET",
+                      "route":  "/api-admin/TaiKhoan/get-all-tk",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Admin Function",
+                      "name":  "Gateway - Admin Account By Id",
+                      "method":  "GET",
+                      "route":  "/api-admin/TaiKhoan/get-by-id/1",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - Admin Account Search",
+                      "method":  "GET",
+                      "route":  "/api-admin/TaiKhoan/Search/admin",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Admin Function",
+                      "name":  "Gateway - Admin Users",
+                      "method":  "GET",
+                      "route":  "/api-admin/NguoiDung/get-all-nd",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Admin Function",
+                      "name":  "Gateway - Admin User By Id",
+                      "method":  "GET",
+                      "route":  "/api-admin/NguoiDung/get-by-id/1",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - Admin User Search",
+                      "method":  "GET",
+                      "route":  "/api-admin/NguoiDung/Search/Trang",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Admin Function",
+                      "name":  "Gateway - Admin Vouchers",
+                      "method":  "GET",
+                      "route":  "/api-admin/Voucher/get-all-voucher",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Admin Function",
+                      "name":  "Gateway - Admin Voucher By Id",
+                      "method":  "GET",
+                      "route":  "/api-admin/Voucher/get-by-id/1",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Catalog Function",
+                      "name":  "Gateway - Admin Voucher Search",
+                      "method":  "GET",
+                      "route":  "/api-admin/Voucher/Search/Voucher",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Customer Function",
+                      "name":  "Gateway - Admin Orders",
+                      "method":  "GET",
+                      "route":  "/api-admin/HoaDon/get-all-hd",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Customer Function",
+                      "name":  "Gateway - Admin Order By Id",
+                      "method":  "GET",
+                      "route":  "/api-admin/HoaDon/get-data-by-id/9001",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  },
+                  {
+                      "type":  "Customer Function",
+                      "name":  "Gateway - Admin Order Search",
+                      "method":  "POST",
+                      "route":  "/api-admin/HoaDon/search-hd",
+                      "statusCode":  200,
+                      "assertions":  2,
+                      "result":  "PASS"
+                  }
+              ]
+}

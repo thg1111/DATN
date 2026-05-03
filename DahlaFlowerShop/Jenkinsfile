@@ -1,0 +1,193 @@
+pipeline {
+    agent any
+
+    options {
+        timestamps()
+        buildDiscarder(logRotator(numToKeepStr: '20'))
+        skipDefaultCheckout(true)
+    }
+
+    parameters {
+        string(name: 'REPO_ROOT', defaultValue: 'E:\\Antigravity\\DA2\\DA2\\Đồ án 2\\DahlaFlowerShop', description: 'Đường dẫn local tới repo trên máy Jenkins.')
+        string(name: 'BASE_URL', defaultValue: 'https://localhost:7114', description: 'Base URL của gateway để Newman gọi test.')
+        string(name: 'WAIT_TIMEOUT_SECONDS', defaultValue: '180', description: 'Timeout chờ API/Gateway sẵn sàng.')
+        string(name: 'MAX_RESPONSE_TIME_MS', defaultValue: '5000', description: 'Ngưỡng response time khi bật strict performance.')
+        string(name: 'FRONTEND_PORT', defaultValue: '5500', description: 'Port frontend static server cho Playwright E2E.')
+        string(name: 'PRODUCT_SEARCH_TERM', defaultValue: 'hoa', description: 'Từ khóa dùng cho bài search sản phẩm.')
+        string(name: 'ACCOUNT_SEARCH_TERM', defaultValue: 'admin', description: 'Từ khóa dùng cho bài search tài khoản.')
+        string(name: 'ADMIN_USERNAME', defaultValue: '', description: 'Override admin username nếu muốn test account khác.')
+        password(name: 'ADMIN_PASSWORD', defaultValue: '', description: 'Override admin password nếu muốn test account khác.')
+        booleanParam(name: 'STRICT_RESPONSE_TIME', defaultValue: false, description: 'Bật để fail nếu response time vượt ngưỡng. Tắt để bypass bài perf.')
+        booleanParam(name: 'SKIP_DB_SETUP', defaultValue: false, description: 'Bỏ qua bước setup LocalDB nếu dữ liệu đã sẵn.')
+        booleanParam(name: 'SKIP_DOTNET_VALIDATION', defaultValue: false, description: 'Bỏ qua dotnet restore/build/test nếu chỉ muốn chạy smoke nhanh.')
+        booleanParam(name: 'SKIP_PLAYWRIGHT', defaultValue: false, description: 'Bo qua Playwright web smoke tests neu chi muon test API.')
+        booleanParam(name: 'KEEP_SERVICES', defaultValue: false, description: 'Giữ service chạy sau khi smoke test xong.')
+        booleanParam(name: 'OPEN_REPORT', defaultValue: false, description: 'Mở report HTML sau khi chạy local smoke.')
+    }
+
+    environment {
+        DOTNET_CLI_TELEMETRY_OPTOUT = '1'
+        DOTNET_NOLOGO = '1'
+        DEFAULT_REPO_ROOT = 'E:\\Antigravity\\DA2\\DA2\\Đồ án 2\\DahlaFlowerShop'
+        DEFAULT_BASE_URL = 'https://localhost:7114'
+        DEFAULT_WAIT_TIMEOUT_SECONDS = '180'
+        DEFAULT_MAX_RESPONSE_TIME_MS = '5000'
+        DEFAULT_PRODUCT_SEARCH_TERM = 'hoa'
+        DEFAULT_ACCOUNT_SEARCH_TERM = 'admin'
+    }
+
+    stages {
+        stage('Resolve Parameters') {
+            steps {
+                script {
+                    env.EFFECTIVE_REPO_ROOT = params.REPO_ROOT?.trim() ? params.REPO_ROOT.trim() : env.DEFAULT_REPO_ROOT
+                    env.EFFECTIVE_BASE_URL = params.BASE_URL?.trim() ? params.BASE_URL.trim() : env.DEFAULT_BASE_URL
+                    env.EFFECTIVE_WAIT_TIMEOUT_SECONDS = params.WAIT_TIMEOUT_SECONDS?.trim() ? params.WAIT_TIMEOUT_SECONDS.trim() : env.DEFAULT_WAIT_TIMEOUT_SECONDS
+                    env.EFFECTIVE_MAX_RESPONSE_TIME_MS = params.MAX_RESPONSE_TIME_MS?.trim() ? params.MAX_RESPONSE_TIME_MS.trim() : env.DEFAULT_MAX_RESPONSE_TIME_MS
+                    env.EFFECTIVE_FRONTEND_PORT = params.FRONTEND_PORT?.trim() ? params.FRONTEND_PORT.trim() : '5500'
+                    env.EFFECTIVE_PRODUCT_SEARCH_TERM = params.PRODUCT_SEARCH_TERM?.trim() ? params.PRODUCT_SEARCH_TERM.trim() : env.DEFAULT_PRODUCT_SEARCH_TERM
+                    env.EFFECTIVE_ACCOUNT_SEARCH_TERM = params.ACCOUNT_SEARCH_TERM?.trim() ? params.ACCOUNT_SEARCH_TERM.trim() : env.DEFAULT_ACCOUNT_SEARCH_TERM
+                    env.EFFECTIVE_ADMIN_USERNAME = params.ADMIN_USERNAME?.trim() ? params.ADMIN_USERNAME.trim() : ''
+                }
+                bat '''
+@echo off
+chcp 65001>nul
+echo Resolved repo root: %EFFECTIVE_REPO_ROOT%
+echo Resolved base URL : %EFFECTIVE_BASE_URL%
+'''
+            }
+        }
+
+        stage('Check Local Path') {
+            steps {
+                bat '''
+@echo off
+chcp 65001>nul
+echo Workspace: %WORKSPACE%
+echo Repo root : %EFFECTIVE_REPO_ROOT%
+if not exist "%EFFECTIVE_REPO_ROOT%" (
+    echo Local repo path not found: %EFFECTIVE_REPO_ROOT%
+    exit /b 1
+)
+if not exist "%EFFECTIVE_REPO_ROOT%\\run-local-smoke.bat" (
+    echo Missing run-local-smoke.bat in %EFFECTIVE_REPO_ROOT%
+    exit /b 1
+)
+if not exist "%EFFECTIVE_REPO_ROOT%\\ci" (
+    echo Missing ci folder in %EFFECTIVE_REPO_ROOT%
+    exit /b 1
+)
+'''
+            }
+        }
+
+        stage('Show Parameters') {
+            steps {
+                bat '''
+@echo off
+chcp 65001>nul
+echo REPO_ROOT=%EFFECTIVE_REPO_ROOT%
+echo BASE_URL=%EFFECTIVE_BASE_URL%
+echo WAIT_TIMEOUT_SECONDS=%EFFECTIVE_WAIT_TIMEOUT_SECONDS%
+echo MAX_RESPONSE_TIME_MS=%EFFECTIVE_MAX_RESPONSE_TIME_MS%
+echo FRONTEND_PORT=%EFFECTIVE_FRONTEND_PORT%
+echo PRODUCT_SEARCH_TERM=%EFFECTIVE_PRODUCT_SEARCH_TERM%
+echo ACCOUNT_SEARCH_TERM=%EFFECTIVE_ACCOUNT_SEARCH_TERM%
+echo STRICT_RESPONSE_TIME=%STRICT_RESPONSE_TIME%
+echo SKIP_DB_SETUP=%SKIP_DB_SETUP%
+echo SKIP_DOTNET_VALIDATION=%SKIP_DOTNET_VALIDATION%
+echo SKIP_PLAYWRIGHT=%SKIP_PLAYWRIGHT%
+echo KEEP_SERVICES=%KEEP_SERVICES%
+echo OPEN_REPORT=%OPEN_REPORT%
+if not "%EFFECTIVE_ADMIN_USERNAME%"=="" echo ADMIN_USERNAME=%EFFECTIVE_ADMIN_USERNAME%
+'''
+            }
+        }
+
+        stage('Show Environment') {
+            steps {
+                bat '''
+@echo off
+chcp 65001>nul
+cd /d "%EFFECTIVE_REPO_ROOT%"
+echo Current directory: %CD%
+where dotnet
+dotnet --version
+where node
+node --version
+'''
+            }
+        }
+
+        stage('Run Local Smoke') {
+            steps {
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        bat '''
+@echo off
+chcp 65001>nul
+cd /d "%EFFECTIVE_REPO_ROOT%"
+
+set "SMOKE_ARGS=-BaseUrl ""%EFFECTIVE_BASE_URL%"" -WaitTimeoutSeconds %EFFECTIVE_WAIT_TIMEOUT_SECONDS% -MaxResponseTimeMs %EFFECTIVE_MAX_RESPONSE_TIME_MS% -FrontendPort %EFFECTIVE_FRONTEND_PORT%"
+
+if not "%EFFECTIVE_ADMIN_USERNAME%"=="" set "SMOKE_ARGS=%SMOKE_ARGS% -AdminUsername ""%EFFECTIVE_ADMIN_USERNAME%"""
+if not "%ADMIN_PASSWORD%"=="" set "SMOKE_ARGS=%SMOKE_ARGS% -AdminPassword ""%ADMIN_PASSWORD%"""
+if not "%EFFECTIVE_PRODUCT_SEARCH_TERM%"=="" set "SMOKE_ARGS=%SMOKE_ARGS% -ProductSearchTerm ""%EFFECTIVE_PRODUCT_SEARCH_TERM%"""
+if not "%EFFECTIVE_ACCOUNT_SEARCH_TERM%"=="" set "SMOKE_ARGS=%SMOKE_ARGS% -AccountSearchTerm ""%EFFECTIVE_ACCOUNT_SEARCH_TERM%"""
+if /I "%STRICT_RESPONSE_TIME%"=="false" set "SMOKE_ARGS=%SMOKE_ARGS% -DisablePerfAssertion"
+if /I "%SKIP_DB_SETUP%"=="true" set "SMOKE_ARGS=%SMOKE_ARGS% -SkipDbSetup"
+if /I "%SKIP_DOTNET_VALIDATION%"=="true" set "SMOKE_ARGS=%SMOKE_ARGS% -SkipDotnetValidation"
+if /I "%SKIP_PLAYWRIGHT%"=="true" set "SMOKE_ARGS=%SMOKE_ARGS% -SkipPlaywright"
+if /I "%KEEP_SERVICES%"=="true" set "SMOKE_ARGS=%SMOKE_ARGS% -KeepServices"
+if /I "%OPEN_REPORT%"=="true" set "SMOKE_ARGS=%SMOKE_ARGS% -OpenReport"
+
+echo Running smoke command:
+echo powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\run-local-smoke.ps1" %SMOKE_ARGS%
+
+powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\run-local-smoke.ps1" %SMOKE_ARGS%
+exit /b %ERRORLEVEL%
+'''
+                    }
+                }
+            }
+        }
+
+        stage('Sync Reports') {
+            steps {
+                bat '''
+@echo off
+if not exist "%EFFECTIVE_REPO_ROOT%\\ci\\reports" (
+    echo No report folder found at %EFFECTIVE_REPO_ROOT%\\ci\\reports
+    exit /b 0
+)
+if /I "%WORKSPACE%"=="%EFFECTIVE_REPO_ROOT%" (
+    echo Workspace already points to repo root, skip report sync.
+    exit /b 0
+)
+if not exist "%WORKSPACE%\\ci\\reports" mkdir "%WORKSPACE%\\ci\\reports"
+robocopy "%EFFECTIVE_REPO_ROOT%\\ci\\reports" "%WORKSPACE%\\ci\\reports" /E /NFL /NDL /NJH /NJS /NC /NS
+if %ERRORLEVEL% LEQ 7 exit /b 0
+exit /b %ERRORLEVEL%
+'''
+            }
+        }
+
+        stage('Archive Artifacts') {
+            steps {
+                bat '''
+@echo off
+chcp 65001>nul
+powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\package-artifacts.ps1" -WorkspaceRoot "%WORKSPACE%"
+exit /b %ERRORLEVEL%
+'''
+                archiveArtifacts allowEmptyArchive: true, fingerprint: true, artifacts: 'ci/artifacts/**/*'
+            }
+        }
+    }
+
+    post {
+        always {
+            junit allowEmptyResults: true, testResults: 'ci/reports/newman/newman-junit.xml,ci/reports/playwright/playwright-junit.xml'
+        }
+    }
+}

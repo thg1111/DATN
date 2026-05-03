@@ -1,0 +1,2689 @@
+{
+  "info": {
+    "_postman_id": "ce8f863e-c0af-4480-8af0-739d1337c952",
+    "name": "Dahla Gateway Validation Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Gateway validation suite covering read-only smoke, CRUD lifecycle, and negative API contract checks through Ocelot."
+  },
+  "item": [
+    {
+      "name": "Gateway - User Categories",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/DanhMuc/get-all",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "DanhMuc",
+            "get-all"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response body is a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});",
+              "",
+              "pm.test('Response time is below configured threshold', function () {",
+              "    var strictResponseTime = String(pm.variables.get('strictResponseTime') || 'true').toLowerCase() === 'true';",
+              "    var maxResponseTimeMs = parseInt(pm.variables.get('maxResponseTimeMs') || '5000', 10);",
+              "    if (!strictResponseTime) {",
+              "        console.log('Skipping strict response time assertion. Current response time:', pm.response.responseTime);",
+              "        return;",
+              "    }",
+              "    pm.expect(pm.response.responseTime).to.be.below(maxResponseTimeMs);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - User Category Search",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/DanhMuc/search-DM/Valentine",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "DanhMuc",
+            "search-DM",
+            "Valentine"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Category search returns data', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - User Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/SanPham/get-all-sp",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "SanPham",
+            "get-all-sp"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Products response body is a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});",
+              "",
+              "pm.test('Response time is below configured threshold', function () {",
+              "    var strictResponseTime = String(pm.variables.get('strictResponseTime') || 'true').toLowerCase() === 'true';",
+              "    var maxResponseTimeMs = parseInt(pm.variables.get('maxResponseTimeMs') || '5000', 10);",
+              "    if (!strictResponseTime) {",
+              "        console.log('Skipping strict response time assertion. Current response time:', pm.response.responseTime);",
+              "        return;",
+              "    }",
+              "    pm.expect(pm.response.responseTime).to.be.below(maxResponseTimeMs);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - User Product By Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/SanPham/get-by-id/101",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "SanPham",
+            "get-by-id",
+            "101"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Product detail returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "    pm.expect(Object.keys(body).length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - User Products By Category",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/SanPham/get-by-danh-muc/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "SanPham",
+            "get-by-danh-muc",
+            "1"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Category product list returns data', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - User Product Search",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/SanPham/Search/{{productSearchTerm}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "SanPham",
+            "Search",
+            "{{productSearchTerm}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Search response body is a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - User Cart",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/GioHang/get-all-GioHang",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "GioHang",
+            "get-all-GioHang"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Cart response body is a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - User Feedback",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/Feedback/get-all-feedback",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "Feedback",
+            "get-all-feedback"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Feedback response body is a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - User Orders",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/HoaDon/get-all-hd",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "HoaDon",
+            "get-all-hd"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('User orders response body is a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - User Order By Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/HoaDon/get-data-by-id/9001",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "HoaDon",
+            "get-data-by-id",
+            "9001"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('User order detail returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "    pm.expect(Object.keys(body).length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Login With Seeded Admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenTK\": \"{{adminUsername}}\",\n  \"matKhau\": \"{{adminPassword}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api-user/TaiKhoan/CheckLogin",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "TaiKhoan",
+            "CheckLogin"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Login response contains identity fields', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.have.property('maTK');",
+              "    pm.expect(body).to.have.property('tenTK');",
+              "    pm.expect(body).to.have.property('quyen');",
+              "    pm.expect(body).to.have.property('email');",
+              "    pm.expect(body).to.have.property('maND');",
+              "    pm.expect(body.tenTK).to.eql(pm.environment.get('adminUsername'));",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Categories",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/DanhMuc/get-all",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "DanhMuc",
+            "get-all"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Admin category list returns data', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Category Search",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/DanhMuc/search-DM/Valentine",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "DanhMuc",
+            "search-DM",
+            "Valentine"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Admin category search returns data', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/SanPham/get-all-sp",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "SanPham",
+            "get-all-sp"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Admin products response body is a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Product By Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/SanPham/get-by-id/101",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "SanPham",
+            "get-by-id",
+            "101"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Admin product detail returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "    pm.expect(Object.keys(body).length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Product Search",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/SanPham/Search/{{productSearchTerm}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "SanPham",
+            "Search",
+            "{{productSearchTerm}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Admin product search returns a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Accounts",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/TaiKhoan/get-all-tk",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "TaiKhoan",
+            "get-all-tk"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Accounts response body is a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Account By Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/TaiKhoan/get-by-id/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "TaiKhoan",
+            "get-by-id",
+            "1"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Account detail returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "    pm.expect(Object.keys(body).length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Account Search",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/TaiKhoan/Search/{{accountSearchTerm}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "TaiKhoan",
+            "Search",
+            "{{accountSearchTerm}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Account search returns a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Users",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/NguoiDung/get-all-nd",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "NguoiDung",
+            "get-all-nd"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Users response body is a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin User By Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/NguoiDung/get-by-id/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "NguoiDung",
+            "get-by-id",
+            "1"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('User detail returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "    pm.expect(Object.keys(body).length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin User Search",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/NguoiDung/Search/Trang",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "NguoiDung",
+            "Search",
+            "Trang"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('User search returns a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Vouchers",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/Voucher/get-all-voucher",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "Voucher",
+            "get-all-voucher"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Voucher response body is a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Voucher By Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/Voucher/get-by-id/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "Voucher",
+            "get-by-id",
+            "1"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Voucher detail returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "    pm.expect(Object.keys(body).length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Voucher Search",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/Voucher/Search/Voucher",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "Voucher",
+            "Search",
+            "Voucher"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Voucher search returns a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Orders",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/HoaDon/get-all-hd",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "HoaDon",
+            "get-all-hd"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Orders response body is a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Order By Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/HoaDon/get-data-by-id/9001",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "HoaDon",
+            "get-data-by-id",
+            "9001"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Order detail returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "    pm.expect(Object.keys(body).length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - Admin Order Search",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"page_index\": 1,\n  \"Page_size\": 10,\n  \"NgayMua\": \"2026-04-01\",\n  \"DiaChiGiao\": \"\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/HoaDon/search-hd",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "HoaDon",
+            "search-hd"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Order search returns a paged payload', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "    pm.expect(body).to.have.property('data');",
+              "    pm.expect(body.data).to.be.an('array');",
+              "    pm.expect(body.data.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Negative - Login Missing Password",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/TaiKhoan/CheckLogin",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "TaiKhoan",
+            "CheckLogin"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenTK\": \"admin\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 400', function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "",
+              "pm.test('Validation message is returned', function () {",
+              "    pm.expect(pm.response.json()).to.have.property('message');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Negative - Login Wrong Password",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/TaiKhoan/CheckLogin",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "TaiKhoan",
+            "CheckLogin"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenTK\": \"admin\",\n  \"matKhau\": \"wrong-password\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 401', function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test('Unauthorized message is returned', function () {",
+              "    pm.expect(pm.response.json()).to.have.property('message');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Negative - Login Locked Account",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/TaiKhoan/CheckLogin",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "TaiKhoan",
+            "CheckLogin"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenTK\": \"user2\",\n  \"matKhau\": \"456\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 401', function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test('Locked account message is returned', function () {",
+              "    pm.expect(pm.response.json()).to.have.property('message');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Cleanup - Product 9901",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/SanPham/Delete/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "SanPham",
+            "Delete",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Product Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/SanPham/sp-create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "SanPham",
+            "sp-create"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"maSanPham\": 9901,\n  \"tenSanPham\": \"CI Contract Flower\",\n  \"sl\": 9,\n  \"gia\": 199000,\n  \"moTaSP\": \"Created by Newman contract suite\",\n  \"maDanhMuc\": 1,\n  \"anhSP\": \"ci-contract-flower.jpg\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Created product returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "});",
+              "",
+              "pm.test('Response contains maSanPham', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.have.property('maSanPham');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Product Get Created",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/SanPham/get-by-id/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "SanPham",
+            "get-by-id",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Created product can be fetched by id', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body.maSanPham).to.eql(9901);",
+              "    pm.expect(body.tenSanPham).to.eql('CI Contract Flower');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Product Update",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/SanPham/sp-update",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "SanPham",
+            "sp-update"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"maSanPham\": 9901,\n  \"tenSanPham\": \"CI Contract Flower Updated\",\n  \"sl\": 11,\n  \"gia\": 249000,\n  \"moTaSP\": \"Updated by Newman contract suite\",\n  \"maDanhMuc\": 1,\n  \"anhSP\": \"ci-contract-flower-updated.jpg\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Updated product returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Product Search Updated",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/SanPham/Search/Contract%20Flower%20Updated",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "SanPham",
+            "Search",
+            "Contract%20Flower%20Updated"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Product search returns a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "});",
+              "",
+              "pm.test('Updated product appears in search results', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body.some(function (item) { return item.maSanPham === 9901; })).to.eql(true);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Negative - Product Missing Id Returns Null",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/SanPham/get-by-id/9999",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "SanPham",
+            "get-by-id",
+            "9999"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 204 when product is missing', function () {",
+              "    pm.response.to.have.status(204);",
+              "});",
+              "",
+              "pm.test('Missing product has an empty body', function () {",
+              "    pm.expect(pm.response.text()).to.eql('');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Cleanup - Voucher 9901",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/Voucher/Delete/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "Voucher",
+            "Delete",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Voucher Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/Voucher/voucher-create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "Voucher",
+            "voucher-create"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"voucher_id\": 9901,\n  \"voucher_name\": \"CI Voucher\",\n  \"giaTien\": 15,\n  \"giaToiThieu\": 100000,\n  \"slCon\": 7,\n  \"batDau\": \"2026-05-01\",\n  \"ketThuc\": \"2026-12-31\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Created voucher returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Voucher Update",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/Voucher/voucher-update",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "Voucher",
+            "voucher-update"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"voucher_id\": 9901,\n  \"voucher_name\": \"CI Voucher Updated\",\n  \"giaTien\": 20,\n  \"giaToiThieu\": 150000,\n  \"slCon\": 8,\n  \"batDau\": \"2026-05-01\",\n  \"ketThuc\": \"2026-12-31\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Updated voucher returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Voucher Get Created",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/Voucher/get-by-id/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "Voucher",
+            "get-by-id",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Updated voucher can be fetched by id', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body.voucher_id).to.eql(9901);",
+              "    pm.expect(body.voucher_name).to.eql('CI Voucher Updated');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Cleanup - Account 9901",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/TaiKhoan/Delete/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "TaiKhoan",
+            "Delete",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Account Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/TaiKhoan/tk-create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "TaiKhoan",
+            "tk-create"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"maTK\": 9901,\n  \"tenTK\": \"ci_account_9901\",\n  \"matKhau\": \"123456\",\n  \"quyen\": \"User\",\n  \"email\": \"ci9901@dahla.local\",\n  \"trangThai\": \"Ho?t ??ng\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Created account returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - User Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/NguoiDung/nd-create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "NguoiDung",
+            "nd-create"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"maND\": 9901,\n  \"tenND\": \"CI Contract User\",\n  \"sinhNhat\": \"2001-01-01\",\n  \"diaChi\": \"CI Address\",\n  \"sdt\": 123456789,\n  \"anh\": \"ci-user.jpg\",\n  \"gioiTinh\": \"Nam\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Created user returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Account Update",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/TaiKhoan/tk-update",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "TaiKhoan",
+            "tk-update"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"maTK\": 9901,\n  \"tenTK\": \"ci_account_9901_updated\",\n  \"matKhau\": \"654321\",\n  \"quyen\": \"User\",\n  \"email\": \"ci9901-updated@dahla.local\",\n  \"trangThai\": \"Ho?t ??ng\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Updated account returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - User Update",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/NguoiDung/nd-update",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "NguoiDung",
+            "nd-update"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"maND\": 9901,\n  \"tenND\": \"CI Contract User Updated\",\n  \"sinhNhat\": \"2001-01-01\",\n  \"diaChi\": \"CI Address Updated\",\n  \"sdt\": 987654321,\n  \"anh\": \"ci-user-updated.jpg\",\n  \"gioiTinh\": \"Nam\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Updated user returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - User Get Created",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/NguoiDung/get-by-id/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "NguoiDung",
+            "get-by-id",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Updated user can be fetched by id', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body.maND).to.eql(9901);",
+              "    pm.expect(body.tenND).to.eql('CI Contract User Updated');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Account Login Created",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/TaiKhoan/CheckLogin",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "TaiKhoan",
+            "CheckLogin"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenTK\": \"ci_account_9901_updated\",\n  \"matKhau\": \"654321\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Created account can login', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body.maTK).to.eql(9901);",
+              "    pm.expect(body.tenTK).to.eql('ci_account_9901_updated');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Cleanup - Cart Product 9901",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/GioHang/Delete/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "GioHang",
+            "Delete",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Cart Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/GioHang/GioHang-create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "GioHang",
+            "GioHang-create"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"maSanPham\": 9901,\n  \"maND\": 9901,\n  \"soLuong\": 2\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Created cart item returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Cart Update",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/GioHang/GioHang-update",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "GioHang",
+            "GioHang-update"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"maSanPham\": 9901,\n  \"maND\": 9901,\n  \"soLuong\": 5\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Updated cart item returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Cart List Contains Item",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/GioHang/get-all-GioHang",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "GioHang",
+            "get-all-GioHang"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Cart list returns a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "});",
+              "",
+              "pm.test('Updated cart item appears in list', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body.some(function (item) { return item.maSanPham === 9901 && item.maND === 9901 && item.soLuong === 5; })).to.eql(true);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Cleanup - Order 9901",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/HoaDon/hd-delete/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "HoaDon",
+            "hd-delete",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Order Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/HoaDon/hd-create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "HoaDon",
+            "hd-create"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"maHD\": 9901,\n  \"ngayMua\": \"2026-05-03\",\n  \"tongTien\": 249000,\n  \"trangThai\": \"?ang ch?\",\n  \"diaChiGiao\": \"CI Address Updated\",\n  \"maND\": 9901,\n  \"listjson_chitiet\": [\n    {\n      \"MaChiTietHD\": 9901,\n      \"SLSP\": 1,\n      \"Gia\": 249000,\n      \"SoTienGiam\": 0,\n      \"MaSanPham\": 9901,\n      \"MaVoucher\": null\n    }\n  ]\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Created order returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Order Update",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/HoaDon/hd-update",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "HoaDon",
+            "hd-update"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"maHD\": 9901,\n  \"ngayMua\": \"2026-05-03\",\n  \"tongTien\": 249000,\n  \"trangThai\": \"?? x?c nh?n\",\n  \"diaChiGiao\": \"CI Address Updated\",\n  \"maND\": 9901,\n  \"listjson_chitiet\": [\n    {\n      \"MaChiTietHD\": 9901,\n      \"SLSP\": 1,\n      \"Gia\": 249000,\n      \"SoTienGiam\": 0,\n      \"MaSanPham\": 9901,\n      \"MaVoucher\": null\n    }\n  ]\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Updated order returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Order Get Created",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/HoaDon/get-data-by-id/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "HoaDon",
+            "get-data-by-id",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Updated order can be fetched by id', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body.maHD).to.eql(9901);",
+              "    pm.expect(body.trangThai).to.eql('?? x?c nh?n');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Order Search Created",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/HoaDon/search-hd",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "HoaDon",
+            "search-hd"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"page_index\": 1,\n  \"Page_size\": 10,\n  \"NgayMua\": \"2026-05-03\",\n  \"DiaChiGiao\": \"CI Address\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Order search returns created order', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.have.property('data');",
+              "    pm.expect(body.data.some(function (item) { return item.maHD === 9901; })).to.eql(true);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Negative - Order Search Missing Paging",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/HoaDon/search-hd",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "HoaDon",
+            "search-hd"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"NgayMua\": \"2026-05-03\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 500', function () {",
+              "    pm.response.to.have.status(500);",
+              "});",
+              "",
+              "pm.test('Invalid search body is rejected by the API', function () {",
+              "    pm.expect(pm.response.code).to.eql(500);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Cleanup - Feedback 9901",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/Feedback/Delete/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "Feedback",
+            "Delete",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Feedback Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/Feedback/feedback-create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "Feedback",
+            "feedback-create"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"feedbackID\": 9901,\n  \"maHD\": 9901,\n  \"maND\": 9901,\n  \"noiDung\": \"CI feedback\",\n  \"ngayTao\": \"2026-05-03T10:00:00\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Created feedback returns a JSON object', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract - Feedback List Contains Item",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/Feedback/get-all-feedback",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "Feedback",
+            "get-all-feedback"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Feedback list returns a JSON array', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "});",
+              "",
+              "pm.test('Created feedback appears in list', function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body.some(function (item) { return item.feedbackID === 9901; })).to.eql(true);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Cleanup - Feedback 9901 Final",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/Feedback/Delete/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "Feedback",
+            "Delete",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Cleanup - Order 9901 Final",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/HoaDon/hd-delete/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "HoaDon",
+            "hd-delete",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Cleanup - Cart Product 9901 Final",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-user/GioHang/Delete/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-user",
+            "GioHang",
+            "Delete",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Cleanup - Product 9901 Final",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/SanPham/Delete/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "SanPham",
+            "Delete",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Cleanup - User 9901 Final",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/NguoiDung/nd-Delete/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "NguoiDung",
+            "nd-Delete",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Cleanup - Account 9901 Final",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/TaiKhoan/Delete/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "TaiKhoan",
+            "Delete",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Cleanup - Voucher 9901 Final",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api-admin/Voucher/Delete/9901",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api-admin",
+            "Voucher",
+            "Delete",
+            "9901"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

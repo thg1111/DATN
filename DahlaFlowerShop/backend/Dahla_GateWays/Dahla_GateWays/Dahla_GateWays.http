@@ -1,0 +1,6 @@
+@Dahla_GateWays_HostAddress = http://localhost:5075
+
+GET {{Dahla_GateWays_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

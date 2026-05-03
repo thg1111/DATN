@@ -1,0 +1,541 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="../../../../../../../../css/main.css?v=20260430-3">
+        <link rel="stylesheet" href="../../../../../../../../css/cart.css">
+        <script src="../../../../../../../../js/jquery.min.js"></script>
+        <script src="../../../../../../../../js/angular.min.js"></script>
+        <script src="../../../../../../../../js/config.js"></script>
+        <script src="../../../../../../../../js/app.js"></script>
+        <script src="../../../../../../../../js/site-auth.js?v=20260430-3"></script>
+        <script src="../../../../../../../../js/cart.js"></script>
+        <title>Giỏ hàng</title>
+        <script>
+            $(document).ready(function () {
+            // Lấy giỏ hàng từ localStorage
+              var DatHang = JSON.parse(localStorage.getItem("DatHang")) || {};
+
+              // Kiểm tra nếu DatHang không phải là đối tượng hợp lệ
+              if (typeof DatHang !== 'object') {
+                  DatHang = {}; // Khởi tạo lại nếu dữ liệu không hợp lệ
+              }
+
+              // Hàm để hiển thị giỏ hàng
+              function renderCart() {
+                  // Xóa nội dung cũ của #content
+                  $("#content").empty();
+
+                  // Tạo bảng giỏ hàng
+                  let cartHTML = `
+                      <table id="cart-table">
+                          <thead>
+                              <tr>
+                                  <th>Mã SP</th>
+                                  <th>Ảnh</th>
+                                  <th>Tên SP</th>
+                                  <th>Giá (VNĐ)</th>
+                                  <th>SL</th>
+                                  <th>Thao tác</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                  `;
+
+                  let total = 0;
+
+                  // Duyệt qua từng sản phẩm trong DatHang
+                  $.each(DatHang, function (id, product) {
+                      const { photo, name, price, quantity } = product;
+                      const itemPrice = parseFloat(price.replace(/[^0-9.-]+/g, '')); // Chuyển giá thành số
+                      const itemTotal = itemPrice * quantity; // Tổng giá trị sản phẩm
+                      total += itemTotal;
+
+                      // Thêm hàng sản phẩm vào bảng
+                      cartHTML += `
+                          <tr>
+                              <td>${id}</td>
+                              <td><img src="${photo}" alt="${name}" class="product-image"></td>
+                              <td>${name}</td>
+                              <td>${itemPrice.toLocaleString()}</td>
+                              <td>${quantity}</td>
+                              <td><button class="btn-delete" data-id="${id}"><i class="bi bi-trash-fill"></i></button></td>
+                          </tr>
+                      `;
+                  });
+
+                  cartHTML += `
+                          </tbody>
+                      </table>
+                  `;
+
+                  // Nếu giỏ hàng trống, hiển thị thông báo
+                  if (Object.keys(DatHang).length === 0) {
+                      cartHTML = `<p style="text-align: center;">Giỏ hàng của bạn trống!</p>`;
+                  }
+
+                  // Đưa nội dung giỏ hàng vào #content
+                  $("#content").html(cartHTML);
+                  // Cập nhật tổng tiền vào thẻ .total-amount
+                  $(".total-amount").text(`${total.toLocaleString()} VND`);
+              }
+
+              // Gọi hàm hiển thị giỏ hàng khi trang được tải
+              renderCart();
+
+              // Xử lý sự kiện xóa sản phẩm khỏi giỏ hàng
+              $(document).on("click", ".btn-delete", function () {
+                  const id = $(this).data("id");
+
+                  // Xóa sản phẩm khỏi đối tượng DatHang
+                  delete DatHang[id];
+
+                  // Cập nhật lại localStorage
+                  localStorage.setItem("DatHang", JSON.stringify(DatHang));
+
+                  // Cập nhật lại giao diện giỏ hàng
+                  renderCart();
+              });
+          });
+
+        </script>
+    </head>
+    <body ng-app="userApp" ng-controller="SanPhamCtrl">
+        <!--Header-->
+        <div class="header" style="z-index: 1000;">
+            <div class="container " style="padding-top: 15px;">
+              <div class="row">
+                <div class="col-sm-6 col-lg-2 header1"><!--p:padding, y: trục y(trên, dưới);3: kích thước-->
+                  <a href="../../../../../../../../index.html"><img src="../../../../../../../../assets/images/icons/icon.jpg" alt="Logo"  class="img-fluid w-50 "></a>
+                </div>
+                <div class="col-sm-0 col-lg-5 header2">
+                  <div class="input-group mb-3 py-1">
+                    <input type="text" class="form-control" placeholder="Từ khoá tìm kiếm.." 
+                          ng-model="searchQuery" ng-change="searchProducts()" 
+                          aria-label="Từ khoá tìm kiếm.." aria-describedby="basic-addon2">
+                    <span class="input-group-text" id="basic-addon2"><i class="bi bi-search-heart"></i></span>
+                  </div>
+
+                  <!-- Dropdown kết quả tìm kiếm -->
+                  <div class="dropdown-menu" ng-if="filteredProducts.length > 0" style="display: block;">
+                    <div class="dropdown-item" ng-repeat="product in filteredProducts">
+                        <img ng-src="{{ product.anhSP }}" alt="{{ product.tenSanPham }}" class="product-image">
+                        <strong>{{ product.tenSanPham }}</strong><br>
+                        <span>{{ product.gia | currency }}</span>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-sm-0 col-lg-3 header3">
+                  <div class="row">
+                    <div class="col">
+                      <div class="row">
+                        <div class="col-3 py-2 " style="color:  #de546d;">
+                          <div class="fs-4"><i class="bi bi-telephone-fill"></i></div>
+                        </div>
+                        <div class="col-9">
+                          Tư vấn hỗ trợ <br>
+                          <strong style="color:  #de546d;">0364239807</strong>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="row">
+                        <div class="col-3 py-2 " style="color: #de546d;">
+                          <div class="fs-4"><i class="bi bi-person-circle"></i></div>
+                        </div>
+                        <div class="col-9 auth-links">
+                          <a href="../../../../../../../../pages/auth/login.html" class="auth-button auth-button-login">Đăng nhập</a>
+                          <a href="../../../../../../../../pages/auth/register.html" class="auth-button auth-button-register">Đăng ký</a>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2 header4">
+                  <div class="row w-75 py-2" style="float: right; margin-right: 10px;">
+                    <div class="col-3"><a href="#" class="position-relative"> 
+                        <span class="fs-4" style="color:  #de546d;"><i class="bi bi-geo-alt"></i></span>
+                      </a>
+                    </div>
+                    <div class="col-3"><a href="#" class="position-relative"></a>
+                      <span class="fs-4 " style="color:  #de546d;"><i class="bi bi-person-fill-gear"></i></span>
+                    </a>
+                    </div>
+                    <div class="col-3">
+                      <a href="#" class="position-relative">
+                        <span class="fs-4 " style="color:  #de546d;"><i class="bi bi-heart"></i></span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                          0
+                          <span class="visually-hidden">unread messages</span>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-3" id="cart">
+                      <a href="../../../../../../../../pages/cart.html" class="position-relative">
+                        <span class="fs-4 " style="color: #de546d;"><i class="bi bi-cart3"></i></span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                          0
+                          <span class="visually-hidden">unread messages</span>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+  
+        <!--thanh điều hướng-->
+        <div class="nav-banner chatbot">
+          <div class="row">
+            <div class="col-2">
+              <div class="chat-button" onclick="toggleChat()">
+                <i class="bi bi-egg-fried" style="color: #e03a61; font-size: 30px;"></i>
+              </div>
+            </div>
+            <div class="col-8">
+              <marquee behavior="scroll" direction="left" style="color: white;">
+                Chào mừng đến với Dahla Flower Shop, chúc các bạn có 1 trải nghiệm tốt khi đến với chúng tôi!
+              </marquee>    
+            </div>
+            <div class="col-2"></div>
+          </div>
+        </div>
+
+        <!-- Chat Form -->
+        <div class="chat-form" id="chatForm">
+          <div class="chat-header">
+            Dahla Flower Chatbot
+          </div>
+          <div class="chat-body" id="chatBody">
+            <!-- Chat messages will appear here -->
+          </div>
+          <div class="chat-footer">
+            <input type="text" id="userInput" placeholder="Hỏi gì đó..." />
+            <button onclick="sendMessage()">Gửi</button>
+          </div>
+        </div>
+        <script>
+          const chatResponses = {
+              "chào": "Chào bạn! Dahla Flower Shop có thể giúp gì cho bạn?",
+              "tôi muốn tư vấn hoa để tặng bạn gái": "Rất vui khi được tư vấn cho bạn, theo yêu cầu của bạn tôi có thể recomment cho bạn bó Kiêu xa, Ngọt ngào... bạn có thể tìm trên thành tìm kiếm của cửa hàng để tìm kiếm sản phẩm, hoặc ấn vào thanh danh mục sản phẩm nếu bạn muốn",
+              "giá hoa": "Hiện tại giá hoa bên mình dao động từ 1,000,000đ đến 5,000,000đ tùy loại.",
+              "địa chỉ": "Cửa hàng Dahla Flower nằm ở Sài Thị, Phùng Hưng, Khoái Châu, Hưng Yên",
+              "cảm ơn": "Rất vui được giúp bạn!",
+            };
+
+            // Toggle chat form
+            function toggleChat() {
+              const chatForm = document.getElementById("chatForm");
+              chatForm.style.display = chatForm.style.display === "flex" ? "none" : "flex";
+            }
+
+            // Handle user message
+            function sendMessage() {
+              const userInput = document.getElementById("userInput");
+              const chatBody = document.getElementById("chatBody");
+              const userMessage = userInput.value.trim();
+
+              if (userMessage) {
+                // Add user message
+                chatBody.innerHTML += `<div class="chat-message user">${userMessage}</div>`;
+
+                // Get bot response
+                const botResponse = chatResponses[userMessage.toLowerCase()] || "Xin lỗi, mình không hiểu câu hỏi của bạn.";
+                chatBody.innerHTML += `<div class="chat-message bot">${botResponse}</div>`;
+
+                // Scroll to the bottom
+                chatBody.scrollTop = chatBody.scrollHeight;
+
+                // Clear input
+                userInput.value = "";
+              }
+            }
+        </script>
+  
+          <!--Menu-->
+          <div class="menu " style="background-color:#f06e86; height: 40px;">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-3 menu1 py-2 text-white">
+                  <div class="menu1"> <i class="bi bi-list"></i>Danh mục sản phẩm
+                    <ul class="submenu" style="width: 200px; text-align: center;" >
+                      <li><a href="../../../../../../../../pages/products/wedding.html">Hoa cưới</a></li>
+                      <li><a href="../../../../../../../../pages/products/teddy-bear.html"> Gấu bông</a></li>
+                      <li><a href="../../../../../../../../pages/products/chocolate.html">Chocolate</a></li>
+                      <li><a href="../../../../../../../../pages/products/fruit.html">Trái cây</a></li>
+                      <li><a href="../../../../../../../../pages/products/candle.html">Nến thơm</a></li>
+                      <li><a href="../../../../../../../../pages/products/cake.html">Bánh kem</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-lg-9 menu2 ">
+                  <nav class="navbar navbar-expand-lg navbar-light " style=" height: 40px;">
+                    <div class="container-fluid">
+                      <a class="navbar-brand d-none" href="#">Navbar</a>
+                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                          <li class="nav-item-mn1 px-4 dropdown">
+                            <a class="nav-link text-white dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Chủ đề
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <li><a class="dropdown-item" href="../../../../../../../../pages/products/birthday.html">Hoa sinh nhật</a></li>
+                              <li><a class="dropdown-item" href="../../../../../../../../pages/products/wedding.html">Hoa cưới</a></li>
+                              <li><a class="dropdown-item" href="#">Hoa tốt nghiệp</a></li>
+                              <li><a class="dropdown-item" href="#">Lan hồ điệp</a></li>
+                              <li><a class="dropdown-item" href="#">Hoa khai trương</a></li>
+                              <li><a class="dropdown-item" href="../../../../../../../../pages/products/christmas.html">Giáng sinh</a></li>
+                              <li><a class="dropdown-item" href="#">Hoa kỷ niệm ngày cưới</a></li>
+                            </ul>
+                          </li>
+                          <li class="nav-item-mn2 px-4">
+                            <a class="nav-link text-white active " aria-current="page" href="../../../../../../../../pages/coming-soon.html">Tuyển dụng</a>
+                          </li>
+                          <li class="nav-item-mn3 px-4">
+                            <a class="nav-link text-white active " aria-current="page" href="../../../../../../../../pages/coming-soon.html">Tin tức</a>
+                          </li>
+                          <li class="nav-item-mn4 px-4 ">
+                            <a class="nav-link text-white active " aria-current="page" href="../../../../../../../../pages/blog/index.html">Blogs</a>
+                          </li>
+                          <li class="nav-item-mn5 px-4 ">
+                            <a class="nav-link text-white active " aria-current="page" href="../../../../../../../../pages/blog/index.html">Giới thiệu</a>
+                          </li>
+                          <li class="nav-item-mn5 px-4 ">
+                            <a class="nav-link text-white active " aria-current="page" href="../../../../../../../../pages/faq.html">Câu hỏi thường gặp</a>
+                          </li>
+                         
+                        </ul>
+                        
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+              </div>
+            </div>
+            <script>
+              
+            </script>
+          </div>
+  
+        <!--tiếp tục mua hàng-->
+        <div class="container">
+            <div class="row tiep-tuc " style="padding-top: 20px;">
+                <a href="../../../../../../../../index.html">
+                    <button><i class="bi bi-chevron-left"></i> Tiếp tục mua hàng</button>
+                </a>
+            </div>
+        </div>
+
+        <!--main-->
+        <div class="container" ng-controller="InvoiceController">
+            <div class="row px-3 py-3 ">
+                <div class="col-4 px-3 py-3 hoa-don "> 
+                  <div class="row text-center">
+                    <b  style="font-size: 17px; color: #e03a61;;">THÔNG TIN ĐƠN HÀNG</b>
+                  </div>
+                  <!--chứa sản phẩm trong giỏ hàng-->
+                    <div class="row">
+                      <div class="Ring">
+                        <div class="main">
+                            <div id="content" class="content" style="height: 200px;">
+                            </div>
+                            <div id="control"></div>
+                            <div id="container"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="dropdown phieu-qua py-2" >
+                      <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border-color: gray; width: 396px;">
+                        Chọn nhà cung cấp phiếu quà tặng
+                      </button>
+                      <ul class="dropdown-menu menu-qua">
+                        <li><a class="dropdown-item" href="#">Dahla</a></li>
+                        <li><a class="dropdown-item" href="#">KOVA</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="input-group mb-3 phieu-qua-1">
+                      <input type="text" class="form-control" placeholder="Phiếu quà tặng 1, phiếu quà tặng 2,...">
+                      <button >Áp dụng</button>
+                    </div>
+
+                    <hr style="background-color: black;">
+                    <div class="Endow">
+                      <ul class="Endow4">
+                        <span>Tạm tính</span>
+                        <span class="total-amount">0VND</span>
+                      </ul>
+                      <ul class="Endow5">
+                          <span>Giảm giá</span>
+                          <span>0VND</span>
+                      </ul>
+                      <ul class="Endow6">
+                          <span>Chi phí vận chuyển</span>
+                          <span>Miễn phí</span>
+                      </ul>
+                      <hr style="background-color: black;">
+                      <ul class="Endow7">
+                          <span>Thành tiền</span>
+                          <span class="total-amount" style="float: right;">0VND</span>
+                      </ul>
+                      <br>
+                      <em style="float: right; font-size: 13px;">Giá tham khảo đã bao gồm VAT</em>
+                      <br> <br> <br>
+                    </div>
+                </div>
+                <div class="col-8 px-3 py-3 khach-hang">
+                  <div class="row text-center">
+                    <b  style="font-size: 17px; color: #e03a61;;">THÔNG TIN KHÁCH HÀNG</b>
+                  </div>
+                  <div class="row">
+                    <div class="radio-group" style="margin-left: 3px;">
+                      <label class="radio" style="margin-right: 20px;"><input type="radio" name="gender" value="male"> Anh</label>
+                      <label class="radio"><input type="radio" name="gender" value="female"> Chị</label>
+                    </div>
+                  </div>
+                  <div class="row py-1">
+                    <div class="col-6 px-3">
+                      <input type="text" class="form-control" required placeholder="Họ tên( Bắt buộc)" style="border: 1px solid #757272;">
+                    </div>
+                    <div class="col-6 px-3">
+                      <input type="tel" class="form-control" required placeholder="Số điện thoại (Bắt buộc)" style="border: 1px solid #757272;">
+                    </div>
+                  
+                  </div>
+                  <div class="row py-1">
+                    <div class="col-6" style="padding: 0px 16px;">
+                    <input type="email" class="form-control" placeholder="Email" style="border: 1px solid #757272;">
+                    </div>
+                    <div class="col-6" style="padding: 0px 16px;">
+                      <input type="text" class="form-control" placeholder="Thời gian giao hàng" style="border: 1px solid #757272;">
+                    </div>
+                  </div>
+                  <div class="row py-1" style="padding: 0px 16px;">
+                    <textarea class="form-control" placeholder="Lời nhắn cho người nhận" style="border: 1px solid #757272;"></textarea>
+                  </div>
+                  <div class="row text-center">
+                    <b  style="font-size: 17px; color: #e03a61;;">CHỌN HÌNH THỨC NHẬN HÀNG</b>
+                  </div>
+                  <div class="row tan-noi">
+                    <div class="col-6 px-3">
+                      <select name="" id="cantry1" class="container-fluid" style="border: 1px solid #757272;">
+                        <ul>
+                            <option value="volvo">Hà Nội</option>
+                            <option value="saab">Hưng Yên</option>
+                        </ul>
+                    </select>
+                    </div>
+                    <div class="col-6 px-3">
+                      <select name="" id="cantry1" class="container-fluid"style="border: 1px solid #757272;">
+                        <ul>
+                            <option value="volvo">Yên Mỹ</option>
+                            <option value="saab">Mỹ Hào</option>
+                            <option value="saab">Khoái Châu</option>
+                            <option value="saab">Kim Động</option>
+                            <option value="saab">TP. Hưng Yên</option>
+                        </ul>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row py-1" style="padding: 0px 16px;">
+                    <textarea ng-model="invoice.DiaChiGiao"  class="form-control" placeholder="Địa chỉ người nhận*" style="border: 1px solid #757272;"></textarea>
+                  </div>
+                  <hr>
+                  <div class="row px-3" style="border-radius: 5px;">
+                    <b>Phương thức vận chuyển:</b>
+                    <label class="radio" style="margin-right: 20px;">
+                    <input type="radio" name="gender" value="male"> Miễn phí giao hàng nhanh</label>
+                    <label class="radio">
+                    <input type="radio" name="gender" value="female"> Giao hàng hoả tốc</label>
+                    <p>Dự kiến nhận hàng: 2-3 ngày sau khi đặt (Nhận ngay khi chọn giao hàng hoả tốc)</p>
+                  </div>
+                  <hr>
+                  <div class="row px-3">
+                    <label class="checkbox" style="margin-right: 20px;">
+                    <input type="checkbox" name="gender" value="male"> Xuất hoá đơn VAT</label>
+                    <label class="checkbox">
+                    <input type="checkbox" name="gender" value="female"> Ẩn thông tin người gửi</label> <br>
+                    <p><i class="bi bi-gift" style="color: #e03a61; font-size: 20px;"></i> Quà tặng thiệp kèm theo</p> 
+                    <em style="border-radius: 5px; box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.2);font-size: 14px;">Dahla lắng nghe khách hàng, đồng thời cho phép viết lời chúc và gửi kèm thiệp. Hoa sẽ được gửi
+                      trực tiếp đến cho người nhận - đảm bảo sự an toàn, bảo mật, riêng tư.
+                    </em>
+                  </div>
+                  <div class="row px-3 py-3">
+                    <button ng-click="createInvoice()">Tạo Hóa Đơn</button>
+                  </div>
+                </div>
+            </div>
+              
+            </div>
+        </div>
+
+
+        <!--Dòng ngăn cách-->
+        <div class="container " style="height: 1px; background-color: rgb(101, 27, 39);"></div>
+
+        <!--Footer-->
+        <div class="footer py-4 px-5" style="color:  rgb(101, 27, 39);">
+          <div class="row footer-1">
+            <div class="col-5 px-5 ">
+              <img src="../../../../../../../../assets/images/icons/icon.jpg" alt="" class="w-25 px-6"> <br>
+              <b> Đặt hoa Online - Ưu đãi hấp dẫn</b>
+              <iframe width='100%' height="auto" src="https://www.youtube.com/embed/slv6L1Bzk14" title="Dahla.vn - website đặt hoa online hàng đầu Việt Nam" 
+              frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <br><p class="lh-lg">    Shop hoa dalha là một trong những tiệm hoa uy tín nhất tại Hưng Yên. Dahla cung cấp dịch vụ đặt hoa online giao tận nơi tại Hưng Yên. Với hệ thống
+                cửa hàng hoa tươi liên kết rộng khắp các huyện trên địa bàn tỉnh, Dahla có thể giúp bạn gửi tặng hoa tươi cho người thân ở bất cứ nơi đâu. Cam kết 
+                mang đến cho bạn sản phẩm chất lượng cao, mức giá tốt nhất và dịch vụ chuyên nghiệp khi sử dụng dịch vụ.</p>
+              <br>
+
+            </div>
+            <div class="col-2 lh-lg">
+              <b >Chăm sóc khách hàng</b>
+              <br>
+              <a href="" class="text-decoration-none">Giới thiệu</a> <br>
+              <a href="" class="text-decoration-none">Liên hệ</a> <br>
+              <a href="" class="text-decoration-none">Chính sách vận chuyển</a> <br>
+              <a href="" class="text-decoration-none">Hình thức thanh toán</a> <br>
+              <a href="" class="text-decoration-none">Bảo mật thông tin</a> <br>
+              <a href="" class="text-decoration-none">Xử lý khiếu nại</a> <br>
+              <a href="" class="text-decoration-none">Chính sách hoàn tiền</a> <br>
+              <br>
+              <img src="../../../../../../../../assets/images/icons/chungnhan.jpg" alt="" class="img-fluid w-75">
+            </div>
+            <div class="col-2 lh-lg">
+              <b >Kết nối với chúng tôi</b>
+              <br>
+              <a href="" class="text-decoration-none"><i class="bi bi-facebook"></i> Facebook</a> <br>
+              <a href="" class="text-decoration-none"><i class="bi bi-instagram"></i> Instagram</a> <br>
+              <a href="" class="text-decoration-none"><i class="bi bi-twitter"></i> Twitter</a> <br>
+              <a href="" class="text-decoration-none"><i class="bi bi-youtube"></i> Youtube</a> <br> <br>
+              <b >Về Dahla</b>
+              <br>
+              <a href="" class="text-decoration-none">Câu chuyện về Dahla</a> <br>
+              <a href="" class="text-decoration-none">Tuyển dụng</a> <br>
+              <a href="" class="text-decoration-none">Kinh doanh sỉ</a> <br>
+              <a href="" class="text-decoration-none">Hướng dẫn chọn hoa theo yêu cầu</a> <br>
+            </div>
+            <div class="col-3 lh-lg">
+              <b>Quan tâm Dahla</b>
+              <p>Địa chỉ: TTTM - Dân Tiến - Khoái Châu - Hưng Yên <br> SĐT: 0364239807 <br>CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ ZAS | Mã số thuế: 0313630426</p>
+              <b>Quan tâm qua Zalo</b>
+              <p>Nhận các thông tin ưu đãi hấp dẫn</p>
+              <img src="../../../../../../../../assets/images/icons/zalu.jpg" alt="" class="img-fluid w-50">
+              
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>
+

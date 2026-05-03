@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dahla Test Types Report</title>
+  <style>
+    body { margin: 0; padding: 28px; background: #f6f8fb; color: #1f2430; font-family: Segoe UI, Arial, sans-serif; }
+    .layout { max-width: 1280px; margin: 0 auto; display: grid; gap: 20px; }
+    .panel { background: #fff; border: 1px solid #e4e7ec; border-radius: 18px; padding: 22px; box-shadow: 0 18px 40px rgba(16,24,40,.08); }
+    h1, h2 { margin: 0 0 12px; }
+    p { color: #667085; margin: 0 0 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 11px 10px; border-bottom: 1px solid #e4e7ec; text-align: left; vertical-align: top; }
+    th { background: #fcfcfd; color: #344054; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+    code { padding: 2px 6px; border-radius: 8px; background: #f5f7fa; color: #344054; font-size: 12px; word-break: break-word; }
+    .pill { display: inline-flex; min-width: 64px; justify-content: center; padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .ok { color: #18794e; background: #e8fff2; }
+    .bad { color: #b42318; background: #fff2f0; }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <section class="panel">
+      <h1>Dahla Test Types Report</h1>
+      <p>Grouped CI smoke results by business test type: login, customer features, catalog features, admin features, and gateway health.</p>
+      <table>
+        <thead><tr><th>Test Type</th><th>Requests</th><th>Assertions</th><th>Passed</th><th>Failed</th><th>Status</th></tr></thead>
+        <tbody><tr><td>Login</td><td>1</td><td>2</td><td>1</td><td>0</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Customer Function</td><td>7</td><td>14</td><td>7</td><td>0</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>14</td><td>30</td><td>14</td><td>0</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Admin Function</td><td>6</td><td>12</td><td>6</td><td>0</td><td><span class="pill ok">PASS</span></td></tr></tbody>
+      </table>
+    </section>
+    <section class="panel">
+      <h2>Executed Tests</h2>
+      <table>
+        <thead><tr><th>Type</th><th>Test</th><th>Method</th><th>Route</th><th>Status</th><th>Assertions</th><th>Result</th></tr></thead>
+        <tbody><tr><td>Catalog Function</td><td>Gateway - User Categories</td><td>GET</td><td><code>/api-user/DanhMuc/get-all</code></td><td>200</td><td>3</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>Gateway - User Category Search</td><td>GET</td><td><code>/api-user/DanhMuc/search-DM/Valentine</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>Gateway - User Products</td><td>GET</td><td><code>/api-user/SanPham/get-all-sp</code></td><td>200</td><td>3</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>Gateway - User Product By Id</td><td>GET</td><td><code>/api-user/SanPham/get-by-id/101</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>Gateway - User Products By Category</td><td>GET</td><td><code>/api-user/SanPham/get-by-danh-muc/1</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>Gateway - User Product Search</td><td>GET</td><td><code>/api-user/SanPham/Search/hoa</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Customer Function</td><td>Gateway - User Cart</td><td>GET</td><td><code>/api-user/GioHang/get-all-GioHang</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Customer Function</td><td>Gateway - User Feedback</td><td>GET</td><td><code>/api-user/Feedback/get-all-feedback</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Customer Function</td><td>Gateway - User Orders</td><td>GET</td><td><code>/api-user/HoaDon/get-all-hd</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Customer Function</td><td>Gateway - User Order By Id</td><td>GET</td><td><code>/api-user/HoaDon/get-data-by-id/9001</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Login</td><td>Gateway - Login With Seeded Admin</td><td>POST</td><td><code>/api-user/TaiKhoan/CheckLogin</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>Gateway - Admin Categories</td><td>GET</td><td><code>/api-admin/DanhMuc/get-all</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>Gateway - Admin Category Search</td><td>GET</td><td><code>/api-admin/DanhMuc/search-DM/Valentine</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>Gateway - Admin Products</td><td>GET</td><td><code>/api-admin/SanPham/get-all-sp</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>Gateway - Admin Product By Id</td><td>GET</td><td><code>/api-admin/SanPham/get-by-id/101</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>Gateway - Admin Product Search</td><td>GET</td><td><code>/api-admin/SanPham/Search/hoa</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Admin Function</td><td>Gateway - Admin Accounts</td><td>GET</td><td><code>/api-admin/TaiKhoan/get-all-tk</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Admin Function</td><td>Gateway - Admin Account By Id</td><td>GET</td><td><code>/api-admin/TaiKhoan/get-by-id/1</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>Gateway - Admin Account Search</td><td>GET</td><td><code>/api-admin/TaiKhoan/Search/admin</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Admin Function</td><td>Gateway - Admin Users</td><td>GET</td><td><code>/api-admin/NguoiDung/get-all-nd</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Admin Function</td><td>Gateway - Admin User By Id</td><td>GET</td><td><code>/api-admin/NguoiDung/get-by-id/1</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>Gateway - Admin User Search</td><td>GET</td><td><code>/api-admin/NguoiDung/Search/Trang</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Admin Function</td><td>Gateway - Admin Vouchers</td><td>GET</td><td><code>/api-admin/Voucher/get-all-voucher</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Admin Function</td><td>Gateway - Admin Voucher By Id</td><td>GET</td><td><code>/api-admin/Voucher/get-by-id/1</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Catalog Function</td><td>Gateway - Admin Voucher Search</td><td>GET</td><td><code>/api-admin/Voucher/Search/Voucher</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Customer Function</td><td>Gateway - Admin Orders</td><td>GET</td><td><code>/api-admin/HoaDon/get-all-hd</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Customer Function</td><td>Gateway - Admin Order By Id</td><td>GET</td><td><code>/api-admin/HoaDon/get-data-by-id/9001</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>Customer Function</td><td>Gateway - Admin Order Search</td><td>POST</td><td><code>/api-admin/HoaDon/search-hd</code></td><td>200</td><td>2</td><td><span class="pill ok">PASS</span></td></tr></tbody>
+      </table>
+    </section>
+  </div>
+</body>
+</html>

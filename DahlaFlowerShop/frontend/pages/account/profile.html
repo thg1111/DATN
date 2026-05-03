@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỗ tôi - Hồ sơ cá nhân</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/main.css?v=20260430-3">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/config.js?v=20260429-5"></script>
+    <script src="/js/site-auth.js?v=20260430-3"></script>
+    <script src="/js/profile.js?v=20260429-5"></script>
+</head>
+<body>
+    <div class="header" style="z-index: 1000;">
+        <div class="container" style="padding-top: 15px;">
+            <div class="row">
+                <div class="col-sm-6 col-lg-2 header1"><a href="/index.html"><img src="/assets/images/icons/icon.jpg" alt="Logo Dahla" class="img-fluid w-50"></a></div>
+                <div class="col-sm-0 col-lg-5 header2">
+                    <div class="input-group mb-3 py-1">
+                        <input type="text" class="form-control" placeholder="Từ khoá tìm kiếm..">
+                        <span class="input-group-text"><i class="bi bi-search-heart"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-0 col-lg-3 header3"></div>
+                <div class="col-sm-6 col-lg-2 header4"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-banner chatbot">
+        <div class="row">
+            <div class="col-2">
+                <div class="chat-button">
+                    <i class="bi bi-egg-fried" style="color: #e03a61; font-size: 30px;"></i>
+                </div>
+            </div>
+            <div class="col-8">
+                <marquee behavior="scroll" direction="left" style="color: white;">
+                    Đây là khu vực Chỗ tôi, nơi người dùng có thể chỉnh thông tin cá nhân và ảnh đại diện ngay trên website local.
+                </marquee>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+
+    <div class="menu" style="background-color:#f06e86; height: 40px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 menu1 py-2 text-white" style="padding-left: 40px;">
+                    <div class="menu1"><i class="bi bi-list"></i>Danh mục sản phẩm
+                        <ul class="submenu">
+                            <li><a href="#">Xuất xứ</a></li>
+                            <li><a href="#">Chủng loại</a></li>
+                            <li><a href="#">Dịp</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Tips</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9 menu2">
+                    <nav class="navbar navbar-expand-lg navbar-light" style="height: 40px;">
+                        <div class="container-fluid">
+                            <a class="navbar-brand d-none" href="#">Navbar</a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <li class="nav-item-mn1 px-4 dropdown">
+                                        <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Chủ đề</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Hoa sinh nhật</a></li>
+                                            <li><a class="dropdown-item" href="#">Hoa cưới</a></li>
+                                            <li><a class="dropdown-item" href="#">Hoa tốt nghiệp</a></li>
+                                            <li><a class="dropdown-item" href="#">Lan hồ điệp</a></li>
+                                            <li><a class="dropdown-item" href="#">Hoa khai trương</a></li>
+                                            <li><a class="dropdown-item" href="#">Hoa tiệc</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item-mn2 px-4"><a class="nav-link text-white active" href="#">Tuyển dụng</a></li>
+                                    <li class="nav-item-mn3 px-4"><a class="nav-link text-white active" href="#">Tin tức</a></li>
+                                    <li class="nav-item-mn4 px-4"><a class="nav-link text-white active" href="#">Blogs</a></li>
+                                    <li class="nav-item-mn5 px-4"><a class="nav-link text-white active" href="#">Giới thiệu</a></li>
+                                    <li class="nav-item-mn5 px-4"><a class="nav-link text-white active" href="#">Câu hỏi thường gặp</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="container py-4">
+        <section class="account-page">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="account-summary-card">
+                        <span class="page-kicker mb-3"><i class="bi bi-person-badge"></i> Chỗ tôi</span>
+                        <div id="profileAvatarPreview" class="mb-3"></div>
+                        <h3 id="profileCurrentName" style="color:#9f2f49; font-weight: 800;">Tài khoản Dahla</h3>
+                        <p id="profileCurrentEmail" class="mb-2" style="color:#7a5560;">Đang tải email...</p>
+                        <p class="mb-2"><strong>Số điện thoại:</strong> <span id="profileCurrentPhone">Đang tải...</span></p>
+                        <p class="mb-3"><strong>Địa chỉ:</strong> <span id="profileCurrentAddress">Đang tải...</span></p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="/index.html" class="auth-button">Về trang chủ</a>
+                            <a href="/pages/cart.html" class="auth-button">Mở giỏ hàng</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="account-form-card">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                            <div>
+                                <h2 class="mb-1" style="color:#9f2f49; font-weight: 800;">Chỉnh thông tin cá nhân</h2>
+                                <p class="mb-0" style="color:#7a5560;">Tên đăng nhập giữ nguyên, còn họ tên, email, số điện thoại, ngày sinh, giới tính, địa chỉ và ảnh đại diện có thể chỉnh trực tiếp.</p>
+                            </div>
+                        </div>
+
+                        <form id="profileForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="profileTenTK" class="form-label">Tên đăng nhập</label>
+                                    <input type="text" id="profileTenTK" class="form-control" readonly>
+                                    <div class="account-field-note mt-1">Trường này đang để chỉ đọc để tránh làm đứt luồng login hiện tại.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="profileTenND" class="form-label">Họ tên</label>
+                                    <input type="text" id="profileTenND" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="profileEmail" class="form-label">Email</label>
+                                    <input type="email" id="profileEmail" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="profileSdt" class="form-label">Số điện thoại</label>
+                                    <input type="text" id="profileSdt" class="form-control" maxlength="10" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="profileSinhNhat" class="form-label">Ngày sinh</label>
+                                    <input type="date" id="profileSinhNhat" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="profileGioiTinh" class="form-label">Giới tính</label>
+                                    <select id="profileGioiTinh" class="form-select">
+                                        <option value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="profileDiaChi" class="form-label">Địa chỉ</label>
+                                    <textarea id="profileDiaChi" class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <label for="profileAvatarFile" class="form-label">Ảnh đại diện</label>
+                                    <input type="file" id="profileAvatarFile" class="form-control" accept="image/*">
+                                    <input type="hidden" id="profileAvatarData">
+                                    <div id="profileAvatarHint" class="account-field-note mt-1" style="color:#9f2f49;"></div>
+                                    <div class="account-field-note mt-1">Ảnh mới sẽ được lưu vào hồ sơ hiện tại để header và trang chủ cập nhật đồng bộ.</div>
+                                </div>
+                            </div>
+
+                            <div id="profileStatus" class="profile-message mt-3"></div>
+
+                            <div class="d-flex flex-wrap gap-2 mt-3">
+                                <button type="submit" id="profileSubmit" class="auth-button auth-button-register">Lưu thay đổi</button>
+                                <a href="/pages/faq.html" class="auth-button">Cần hỗ trợ thêm</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div style="height: 110px;"></div>
+</body>
+</html>

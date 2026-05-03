@@ -1,0 +1,348 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"
+        integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"
+        integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
+        sintegrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link rel="stylesheet" href="../../../../../../../../../css/main.css?v=20260430-3">
+        <title>Hãy để Dahla giúp bạn chăm chút lời cầu hôn</title>
+        <script src="../../../../../../../../../js/jquery.min.js"></script>
+        <script src="../../../../../../../../../js/angular.min.js"></script>
+        <script src="../../../../../../../../../js/config.js"></script>
+        <script src="../../../../../../../../../js/app.js"></script>
+        <script src="../../../../../../../../../js/site-auth.js?v=20260430-3"></script>
+        <script src="TrangChuCuaHang.js"></script>
+    </head>
+    <body  ng-app="userApp" ng-controller="SanPhamCtrl">
+        <!--Header-->
+        <div class="header" style="z-index: 1000;">
+            <div class="container " style="padding-top: 15px;">
+            <div class="row">
+            <div class="col-sm-6 col-lg-2 header1"><!--p:padding, y: trục y(trên, dưới);3: kích thước-->
+                <a href="../../../../../../../../../index.html"><img src="../../../../../../../../../assets/images/icons/icon.jpg" alt="Logo"  class="img-fluid w-50 "></a>
+            </div>
+            <div class="col-sm-0 col-lg-5 header2">
+                <div class="input-group mb-3 py-1">
+                    <input type="text" class="form-control" placeholder="Từ khoá tìm kiếm.." 
+                          ng-model="searchQuery" ng-change="searchProducts()" 
+                          aria-label="Từ khoá tìm kiếm.." aria-describedby="basic-addon2">
+                    <span class="input-group-text" id="basic-addon2"><i class="bi bi-search-heart"></i></span>
+                </div>
+
+                  <!-- Dropdown kết quả tìm kiếm -->
+                <div class="dropdown-menu" ng-if="filteredProducts.length > 0" style="display: block;">
+                    <div class="dropdown-item" ng-repeat="product in filteredProducts">
+                        <img ng-src="{{ product.anhSP }}" alt="{{ product.tenSanPham }}" class="product-image">
+                        <strong class="product-name">{{ product.tenSanPham }}</strong><br>
+                        <span>{{ product.gia | currency }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-0 col-lg-3 header3">
+                <div class="row">
+                <div class="col">
+                    <div class="row">
+                    <div class="col-3 py-2 " style="color:  #de546d;">
+                        <div class="fs-4"><i class="bi bi-telephone-fill"></i></div>
+                    </div>
+                    <div class="col-9">
+                        Tư vấn hỗ trợ <br>
+                        <strong style="color:  #de546d;">0364239807</strong>
+                    </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                    <div class="col-3 py-2 " style="color: #de546d;">
+                        <div class="fs-4"><i class="bi bi-person-circle"></i></div>
+                    </div>
+                    <div class="col-9 auth-links">
+                      <a href="../../../../../../../../../pages/auth/login.html" class="auth-button auth-button-login">Đăng nhập</a>
+                      <a href="../../../../../../../../../pages/auth/register.html" class="auth-button auth-button-register">Đăng ký</a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-2 header4">
+                <div class="row w-75 py-2" style="float: right; margin-right: 10px;">
+                <div class="col-3"><a href="#" class="position-relative"> 
+                    <span class="fs-4" style="color:  #de546d;"><i class="bi bi-geo-alt"></i></span>
+                    </a>
+                </div>
+                <div class="col-3"><a href="#" class="position-relative"></a>
+                    <span class="fs-4 " style="color:  #de546d;"><i class="bi bi-person-fill-gear"></i></span>
+                </a>
+                </div>
+                <div class="col-3">
+                    <a href="#" class="position-relative">
+                    <span class="fs-4 " style="color:  #de546d;"><i class="bi bi-heart"></i></span>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                        0
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                    </a>
+                </div>
+                <div class="col-3" id="cart">
+                    <a href="#" class="position-relative">
+                    <span class="fs-4 " style="color: #de546d;"><i class="bi bi-cart3"></i></span>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                        0
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                    </a>
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
+            </div>
+    
+            <!--thanh điều hướng-->
+            <div class="nav-banner" style="background-color:#f55371">
+            <div class="row">
+            <div class="col-2">
+            <div class="chat-button">
+                <i class="bi bi-egg-fried" style="color: #e03a61; font-size: 30px;"></i>
+            </div>
+            </div>
+            <div class="col-8">
+            <marquee behavior="scroll" direction="left" style="color: white;">
+                Chào mừng đến với Dahla Flower Shop, chúc các bạn có 1 trải nghiệm tốt khi đến với chúng tôi!
+            </marquee>    
+            </div>
+            <div class="col-2"></div>
+            </div>
+            </div>
+    
+            <!--Menu-->
+            <div class="menu " style="background-color:#f06e86; height: 40px;">
+            <div class="container">
+            <div class="row">
+            <div class="col-lg-3 menu1 py-2 text-white" style="padding-left: 40px;">
+                <div class="menu1 "> <i class="bi bi-list"></i>Danh mục sản phẩm
+                <ul class="submenu">
+                    <li><a href="#">Xuất xứ</a></li>
+                    <li><a href="#">Chủng loại</a></li>
+                    <li><a href="#">Dịp</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Tips</a></li>
+                </ul>
+                </div>
+    
+            </div>
+            <div class="col-lg-9 menu2 ">
+                <nav class="navbar navbar-expand-lg navbar-light " style=" height: 40px;">
+                <div class="container-fluid">
+                    <a class="navbar-brand d-none" href="#">Navbar</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item-mn1 px-4 dropdown">
+                        <a class="nav-link text-white dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Chủ đề
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Hoa sinh nhật</a></li>
+                            <li><a class="dropdown-item" href="#">Hoa cưới</a></li>
+                            <li><a class="dropdown-item" href="#">Hoa tốt nghiệp</a></li>
+                            <li><a class="dropdown-item" href="#">Lan hồ điệp</a></li>
+                            <li><a class="dropdown-item" href="#">Hoa khai trương</a></li>
+                            <li><a class="dropdown-item" href="#">Hoa tiệc</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                        </li>
+                        <li class="nav-item-mn2 px-4">
+                        <a class="nav-link text-white active " aria-current="page" href="#">Tuyển dụng</a>
+                        </li>
+                        <li class="nav-item-mn3 px-4">
+                        <a class="nav-link text-white active " aria-current="page" href="#">Tin tức</a>
+                        </li>
+                        <li class="nav-item-mn4 px-4 ">
+                        <a class="nav-link text-white active " aria-current="page" href="#">Blogs</a>
+                        </li>
+                        <li class="nav-item-mn5 px-4 ">
+                        <a class="nav-link text-white active " aria-current="page" href="#">Giới thiệu</a>
+                        </li>
+                        <li class="nav-item-mn5 px-4 ">
+                        <a class="nav-link text-white active " aria-current="page" href="#">Câu hỏi thường gặp</a>
+                        </li>
+                        
+                    </ul>
+                    
+                    </div>
+                </div>
+                </nav>
+            </div>
+            </div>
+            </div>
+            <script>
+    
+            </script>
+            </div>
+
+        <!--main-->
+        <div class="container">
+            <div class="row py-4 text-center">
+                <b style="color: gray; font-size: 20px;">Trang chủ / Blogs / Hãy để Dahla giúp bạn chăm chút lời cầu hôn</b>
+            </div>
+            <div class="row py-2 px-2">
+                <div class="col-5">
+                    <img src="../../../../../../../../../assets/images/blogs/blog4.jpg" alt="" class="img-fluid rounded">
+                </div>
+                <div class="col-5">
+                    <h3>Hãy để Dahla giúp bạn chăm chút lời cầu hôn.</h3>
+                    <div style="display: flex; color: gray; font-size: 14px;">
+                        <p style="margin-right: 30px;">Bởi Dahla Flower Shop</p>
+                        <p>Cập nhật vào Th4 15, 2024</p>
+                    </div>
+                    <hr>
+                    <p>   Khi mà mối quan hệ của hai bạn đã ở thời điểm chín muồi, thì cũng là
+                         lúc mà bạn nên ngỏ lời cầu hôn với nàng. Để chuẩn bị cho buổi lễ cầu hôn,
+                          nhẫn cầu hôn là một vật đính ước không thể thiếu. Bên cạnh đó, bạn cũng 
+                          cần chuẩn bị một địa điểm thật lãng mạn cùng một bó hoa cầu hôn thật xinh xắn. 
+                          Nếu bạn vẫn đang phân vân chưa biết nên chọn loài hoa nào để cầu hôn bạn gái. 
+                          Tham khảo ngay những gợi ý dưới đây từ DahlaFlowerShop.vn nhé!</p>
+                    <p>FlowerCorner.vn cung cấp dịch vụ đặt hoa online giao tận nơi tại Việt Nam.
+                         Gọi ngay 1900 633 045 để được tư vấn hoặc đặt hoa giao nhanh trong 90 phút.</p>
+                </div>
+                <div class="col-2" style="border: 2px dashed #e28585;     border: 2px dashed #e28585; position: fixed; right: 50px; top: auto;">
+                    <div class="row" style="background-color: #f553713a; justify-content: center">
+                        <h3 class="text-center mb-4" style="justify-content: center">Cách Cắm Hoa</h3>
+                    </div>
+                    <ul class="custom-list">
+                        <li>Các kiểu cắm hoa cúc vàng để bàn thờ ngày Tết</li> <hr>
+                        <li>Cách cắm hoa thanh liễu đẹp chung nhà ngày Tết</li> <hr>
+                        <li>Cách bó hoa hướng dương 1 bông đơn giản mà đẹp</li> <hr>
+                        <li>Cách làm bó hoa cuối bằng hoa baby trắng đơn giản tại nhà</li> 
+                    </ul>
+                </div>
+            </div>
+            <div class="row py-2 px-2" style="line-height: 30px;">
+                <div class="col-9 px-4">
+                    <h3 style="color: #c92c51;">Cách chọn hoa cầu hôn bạn gái</h3>
+                    <b style="font-size: 20px;">Số lượng hoa</b>
+                    <p>Khi chọn hoa cầu hôn bạn gái, bên cạnh ý nghĩa và màu sắc, bạn cũng cần phải lưu ý về số 
+                        lượng bông hoa. Nếu là hoa hồng, Tulip hoặc hướng dương, bạn nên lựa chọn một bó hoa theo 
+                        số lượng là 9, 11, 12, 24, 99 hoặc 100 bông. Đây là những con số thể hiện tình yêu hoàn hỏa, vĩnh cửu.</p>
+                    <p>Bạn không nên chọn bó hoa với số lượng 4, 13, 14 hay 23 bông bởi đây được xem là những con số không may mắn.</p>
+                    <b style="font-size: 20px;">Kiểu dáng</b>
+                    <p>Kiểu hoa tặng bạn gái dịp cầu hôn cũng là điều mà bạn nên quan tâm. Phần lớn các chàng trai lựa chọn một bó hoa để tặng bạn gái.
+                     Tuy nhiên, bạn cũng có thể lựa chọn một lẵng hoa hoặc hộp hoa được cắm theo hình trái tim để tạo sự bất ngờ dành cho nàng.</p>
+                    <h3 style="color: #c92c51;">Top 6 loại hoa cầu hôn bạn gái đẹp và ý nghĩa nhất</h3>
+    
+                    <b style="font-size: 20px;">Hoa hồng</b> <br>
+                    <img src="../../../../../../../../../assets/images/products/hoahong.jpg" alt="" class="img-fluid w-75">
+                    <p>Là biểu tượng của tình yêu ngọt ngào, lãng mạn hoa hồng là loài hoa được lựa chọn nhiều nhất để cầu hôn bạn gái. Khi chọn hoa 
+                        hồng để cầu hôn bạn gái, bên cạnh màu sắc thì bạn cũng cần quan tâm đến số lượng bông. Về màu sắc, bạn nên lựa chọn hoa hồng 
+                        đỏ, hồng kem, hồng hồng hoặc hoa hồng xanh.</p>
+                    <p>Còn về số lượng, bạn nên chọn một bó hồng với 9, 10, 12, 24, 99 hoặc 100 bông bởi đây là những con số thể hiện tình yêu vĩnh 
+                        cửu, hoàn hảo.</p>
+    
+                    <b style="font-size: 20px;">Hoa tuylip đỏ</b> <br>
+                    <img src="../../../../../../../../../assets/images/products/tuylipdo.jpg" alt="" class="img-fluid w-75">
+                    <p>Hoa Tulip đỏ cũng là sự lựa chọn hoàn hảo để tặng bạn gái dịp cầu hôn. Hoa Tulip đỏ là biểu tượng của tình yêu vĩnh cửu, bất diệt. 
+                    Tặng hoa Tulip đỏ cho bạn gái nhân dịp cầu hôn như một lời hứa, lời khẳng định tình yêu của bạn đối với nàng sẽ không bao giờ thay đổi.</p>
+    
+                    <b style="font-size: 20px;">Hoa baby trắng</b> <br>
+                    <img src="../../../../../../../../../assets/images/products/baby.jpg" alt="" class="img-fluid w-75">
+                    <p>Nhỏ bé, mỏng manh nhưng những bông baby trắng lại là lời khẳng định tình yêu một cách vô cùng mạnh mẽ. 
+                        Loài hoa nhỏ xinh xắn này tượng trưng cho tình yêu vĩnh cửu, bền chặt, xuất phát từ trái tim. Tặng 
+                        nàng một bó baby nhân dịp cầu hôn sẽ thay cho lời hứa về một cuộc hôn nhân bền chặt.</p>
+    
+                    <b style="font-size: 20px;">Hoa hướng dương</b> <br>
+                    <img src="../../../../../../../../../assets/images/products/huongduong.jpg" alt="" class="img-fluid w-75">
+                    <p>Những bông hoa hướng dương với màu vàng ấm áp tượng trưng cho niềm tin, tình yêu thủy chung và luôn hướng về nhau là
+                         lựa chọn mà bạn không thể bỏ qua nếu như đang tìm một loài hoa để cầu hôn bạn gái. Không đẹp như hoa hồng, cũng không 
+                         kiêu sa như Tulip, hoa hướng dương khẳng định tình yêu một cách chân thành, ấm áp cùng lời hứa sẽ luôn tin tưởng 
+                         và hướng về nhau.</p>
+    
+                    <b style="font-size: 20px;">Hoa cúc tana</b> <br>
+                    <img src="../../../../../../../../../assets/images/products/tana.jpg" alt="" class="img-fluid w-75">
+                    <p>Hoa cúc tana là loài hoa đang được các cô gái cực kỳ yêu thích. Nếu bạn muốn dành cho nàng một sự bất ngờ nho nhỏ
+                         nhân dịp cầu hôn, thì cúc tana là lự chọn hoàn hảo. Những bông cúc tana nhỏ xinh tượng trưng cho tình yêu mộc mạc, 
+                         chân thành xuất phát từ trái tim. Không thể hiện tình yêu một cách mạnh mẽ, nhưng những bông cúc tana mang theo
+                          thông điệp “Em sẽ mãi là mặt trời bé nhỏ của Anh”.</p>
+    
+                    <b style="font-size: 20px;">Hoa cúc mẫu đơn</b> <br>
+                    <img src="../../../../../../../../../assets/images/products/cuc.jpg" alt="" class="img-fluid w-75">
+                    <p>Những bông cúc mẫu đơn khổng lồ với màu sắc độc đáo cũng được nhiều chàng trai lựa chọn để ngỏ lời cầu hôn với 
+                        bạn gái của mình. Không chỉ được ưa chuộng bởi màu sắc độc đáo, hoa cúc mẫu đơn cũng đại diện cho tình yêu bền 
+                        chặt, thủy chung, những thông điệp vô cùng ý nghĩa và phù hợp để cầu hôn bạn gái.</p> <br>
+                    <em>Trên đây là top 6 loài hoa cầu hôn bạn gái đẹp, ý nghĩa được nhiều người lựa chọn nhất. Bên cạnh những loài hoa
+                         kể trên, một số loài hoa như hoa cẩm tú cầu, mẫu đơn hay cẩm chướng cũng phù hợp để tặng dịp cầu hôn. Hi vọng, 
+                         những chia sẻ từ DahlaFlowerShop.vn sẽ giúp bạn có thêm những gợi ý nếu đang trong quá trình chuẩn bị hoa cầu hôn bạn gái.</em>
+                </div>
+            </div>
+        </div>
+
+        <!--Dòng ngăn cách-->
+        <div class="container " style="height: 1px; background-color: rgb(101, 27, 39);"></div>
+
+        <!--Footer-->
+        <div class="footer py-4 px-5" style="color:  rgb(101, 27, 39);">
+            <div class="row footer-1">
+            <div class="col-5 px-5 ">
+                <img src="../../../../../../../../../assets/images/icons/icon.jpg" alt="" class="w-25 px-6"> <br>
+                <b> Đặt hoa Online - Ưu đãi hấp dẫn</b>
+                <iframe width='100%' height="auto" src="https://www.youtube.com/embed/slv6L1Bzk14" title="Dahla.vn - website đặt hoa online hàng đầu Việt Nam" 
+                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <br><p class="lh-lg">    Shop hoa dalha là một trong những tiệm hoa uy tín nhất tại Hưng Yên. Dahla cung cấp dịch vụ đặt hoa online giao tận nơi tại Hưng Yên. Với hệ thống
+                cửa hàng hoa tươi liên kết rộng khắp các huyện trên địa bàn tỉnh, Dahla có thể giúp bạn gửi tặng hoa tươi cho người thân ở bất cứ nơi đâu. Cam kết 
+                mang đến cho bạn sản phẩm chất lượng cao, mức giá tốt nhất và dịch vụ chuyên nghiệp khi sử dụng dịch vụ.</p>
+                <br>
+
+            </div>
+            <div class="col-2 lh-lg">
+                <b >Chăm sóc khách hàng</b>
+                <br>
+                <a href="" class="text-decoration-none">Giới thiệu</a> <br>
+                <a href="" class="text-decoration-none">Liên hệ</a> <br>
+                <a href="" class="text-decoration-none">Chính sách vận chuyển</a> <br>
+                <a href="" class="text-decoration-none">Hình thức thanh toán</a> <br>
+                <a href="" class="text-decoration-none">Bảo mật thông tin</a> <br>
+                <a href="" class="text-decoration-none">Xử lý khiếu nại</a> <br>
+                <a href="" class="text-decoration-none">Chính sách hoàn tiền</a> <br>
+                <br>
+                <img src="../../../../../../../../../assets/images/icons/chungnhan.jpg" alt="" class="img-fluid w-75">
+            </div>
+            <div class="col-2 lh-lg">
+                <b >Kết nối với chúng tôi</b>
+                <br>
+                <a href="" class="text-decoration-none"><i class="bi bi-facebook"></i> Facebook</a> <br>
+                <a href="" class="text-decoration-none"><i class="bi bi-instagram"></i> Instagram</a> <br>
+                <a href="" class="text-decoration-none"><i class="bi bi-twitter"></i> Twitter</a> <br>
+                <a href="" class="text-decoration-none"><i class="bi bi-youtube"></i> Youtube</a> <br> <br>
+                <b >Về Dahla</b>
+                <br>
+                <a href="" class="text-decoration-none">Câu chuyện về Dahla</a> <br>
+                <a href="" class="text-decoration-none">Tuyển dụng</a> <br>
+                <a href="" class="text-decoration-none">Kinh doanh sỉ</a> <br>
+                <a href="" class="text-decoration-none">Hướng dẫn chọn hoa theo yêu cầu</a> <br>
+            </div>
+            <div class="col-3 lh-lg">
+                <b>Quan tâm Dahla</b>
+                <p>Địa chỉ: TTTM - Dân Tiến - Khoái Châu - Hưng Yên <br> SĐT: 0364239807 <br>CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ ZAS | Mã số thuế: 0313630426</p>
+                <b>Quan tâm qua Zalo</b>
+                <p>Nhận các thông tin ưu đãi hấp dẫn</p>
+                <img src="../../../../../../../../../assets/images/icons/zalu.jpg" alt="" class="img-fluid w-50">
+                
+            </div>
+            </div>
+        </div>
+    </body>
+</html>
+

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dahla_GateWays", "Dahla_GateWays\Dahla_GateWays.csproj", "{FA323131-2DDC-4F2D-9EE4-1BA799FFCD27}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA323131-2DDC-4F2D-9EE4-1BA799FFCD27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA323131-2DDC-4F2D-9EE4-1BA799FFCD27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA323131-2DDC-4F2D-9EE4-1BA799FFCD27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA323131-2DDC-4F2D-9EE4-1BA799FFCD27}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FEACD8D7-4C76-486E-B817-89642AD09C64}
+	EndGlobalSection
+EndGlobal

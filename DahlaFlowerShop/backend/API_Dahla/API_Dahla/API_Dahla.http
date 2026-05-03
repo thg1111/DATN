@@ -1,0 +1,6 @@
+@API_Dahla_HostAddress = http://localhost:5003
+
+GET {{API_Dahla_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

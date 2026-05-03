@@ -1,0 +1,1194 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+        <title>Trang quản trị</title>
+        <link rel="stylesheet" href="../../../../../../../../../css/admin.css">
+        <script src="../../../../../../../../../js/jquery.min.js"></script>
+        <script src="../../../../../../../../../js/config.js"></script>
+        <script src="../../../../../../../../../js/admin.js" defer></script>
+        <script src="../../../../../../../../../js/admin-controllers.js" defer></script>
+        <script src="../../../../../../../../../js/angular.min.js"></script>
+
+    </head>
+    <body  ng-app="adminApp">
+
+        <!-- Sidebar -->
+        <div class="hieu" style="background-color: #da5a71;">
+        <a class="button" data-tab="home" id="logo">
+            <i class='bx bxs-florist'></i>
+            <div class="logo-name"><span>Dahla</span>Flower</div>
+        </a>
+        <ul class="ha">
+            <li class="button danhmuc active" data-tab="danhmuc"><a href="#"><i class='bx bxs-objects-horizontal-left'></i>Danh mục</a></li>
+            <li class="button sanpham" data-tab="sanpham"><a href="#"><i class='bx bx-badge'></i>Sản phẩm</a></li>
+            <li class="button taikhoan" data-tab="taikhoan"><a href="#"><i class='bx bx-group'></i>Tài khoản</a></li>
+            <li class="button nguoidung" data-tab="nguoidung"><a href="#"><i class='bx bxs-face'></i>Người dùng</a></li>
+            <li class="button hoadon" data-tab="hoadon"><a href="#"><i class='bx bx-receipt'></i>Hoá đơn</a></li>
+            <li class="button voucher" data-tab="voucher"><a href="#"><i class='bx bxl-shopify'></i>Vouchers</a></li>
+            <li class="button baocao" data-tab="baocao"><a href="#"><i class='bx bxl-shopify'></i>Thống kê</a></li>
+        </ul>
+        <ul class="ha">
+            <li>
+                <a href="../../../../../../../../../pages/auth/login.html" class="logout">
+                    <i class='bx bx-log-out-circle'></i>
+                    Đăng xuất
+                </a>
+            </li>
+        </ul>
+        </div>
+        <!-- End of Sidebar -->
+        <!-- Main Content -->
+        <div class="ndung" style="background-color: #ffffff;">
+            <div class="tab-content" id="home" style="background-color: #ffffff;">
+                <div class="content">
+                    <!-- Navbar -->
+                    <nav >
+                        <form action="#">
+                            <div class="form-input">
+                                <input type="search" placeholder="Tìm kiếm...">
+                                <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
+                            </div>
+                        </form>
+                        <input type="checkbox" id="theme-toggle" hidden>
+                        <label for="theme-toggle" class="theme-toggle"></label>
+                        <a href="#" class="notif">
+                            <i class='bx bx-bell'></i>
+                            <span class="count">9+</span>
+                        </a>
+                        <a href="#" class="profile">
+                            <img src="../../../../../../../../../assets/images/customers/avt.jpg">
+                        </a>
+                    </nav>
+        
+                    <!-- End of Navbar -->
+                    <main>
+                        <div class="header">
+                            <div class="left">
+                                <h1>Hello Dinh Huyen Trang🌷</h1>
+                                <ul class="breadcrumb">
+                                    <li><a href="#">
+                                            Admin
+                                        </a></li>
+                                    /
+                                    <li><a href="#" class="active">Dahla </a></li>
+                                </ul>
+                            </div>
+                            <a href="#" class="report">
+                                <i class='bx bx-cloud-download'></i>
+                                <span>Download CSV</span>
+                            </a>
+                        </div>
+        
+                        <!-- Insights -->
+                        <ul class="insights">
+                            <li>
+                                <i class='bx bx-calendar-check'></i>
+                                <span class="info">
+                                    <h3>
+                                        1,074
+                                    </h3>
+                                    <p>Paid Order</p>
+                                </span>
+                            </li>
+                            <li><i class='bx bx-show-alt'></i>
+                                <span class="info">
+                                    <h3>
+                                        3,944
+                                    </h3>
+                                    <p>Site Visit</p>
+                                </span>
+                            </li>
+                            <li><i class='bx bx-line-chart'></i>
+                                <span class="info">
+                                    <h3>
+                                        14,721
+                                    </h3>
+                                    <p>Searches</p>
+                                </span>
+                            </li>
+                            <li><i class='bx bx-dollar-circle'></i>
+                                <span class="info">
+                                    <h3>
+                                        $6,742
+                                    </h3>
+                                    <p>Total Sales</p>
+                                </span>
+                            </li>
+                        </ul>
+                        <!-- End of Insights -->
+                        <div class="bottom-data">
+                            <div class="orders">
+                                <div class="header">
+                                    <i class='bx bx-receipt'></i>
+                                    <h3>Recent Orders</h3>
+                                    <i class='bx bx-filter'></i>
+                                    <i class='bx bx-search'></i>
+                                </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Order Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <img src="../../../../../../../../../assets/images/products/gau1.jpg">
+                                                <p>Bbi cute</p>
+                                            </td>
+                                            <td>14-08-2024</td>
+                                            <td><span class="status completed">Completed</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="../../../../../../../../../assets/images/products/gau12.jpg">
+                                                <p>Người chơi hệ đẹp</p>
+                                            </td>
+                                            <td>14-08-2024</td>
+                                            <td><span class="status pending">Pending</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="../../../../../../../../../assets/images/products/gau11.jpg">
+                                                <p>Ghét ăn rau</p>
+                                            </td>
+                                            <td>14-08-2024</td>
+                                            <td><span class="status process">Processing</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+        
+                            <!-- Reminders -->
+                            <div class="reminders">
+                                <div class="header">
+                                    <i class='bx bx-note'></i>
+                                    <h3>Remiders</h3>
+                                    <i class='bx bx-filter'></i>
+                                    <i class='bx bx-plus'></i>
+                                </div>
+                                <ul class="task-list">
+                                    <li class="completed">
+                                        <div class="task-title">
+                                            <i class='bx bx-check-circle'></i>
+                                            <p>Các Tips chọn hoa đẹp</p>
+                                        </div>
+                                        <i class='bx bx-dots-vertical-rounded'></i>
+                                    </li>
+                                    <li class="completed">
+                                        <div class="task-title">
+                                            <i class='bx bx-check-circle'></i>
+                                            <p>Doanh thu cửa hàng</p>
+                                        </div>
+                                        <i class='bx bx-dots-vertical-rounded'></i>
+                                    </li>
+                                    <li class="not-completed">
+                                        <div class="task-title">
+                                            <i class='bx bx-x-circle'></i>
+                                            <p>Sổ tay cắm hoa</p>
+                                        </div>
+                                        <i class='bx bx-dots-vertical-rounded'></i>
+                                    </li>
+                                </ul>
+                            </div>
+        
+                            <!-- End of Reminders-->
+        
+                        </div>
+        
+                    </main>
+                </div>
+            </div>
+            <div class="tab-content" id="danhmuc" ng-controller="DanhMucCtrl">
+                <div class="container">
+                    <div class="row text-center py-3" style="font-size: 30px; color: #ffffff;background-color: #da5a71;">
+                        <b>QUẢN LÝ DANH MỤC SẢN PHẨM HOA</b>
+                    </div>
+                    <div class="row px-4 py-4">
+                        <div class="col-6">
+                            <b>Mã danh mục:</b>
+                            <input type="text" class="form-control" placeholder="Mã danh mục..." style="border: 1px solid #757272;"
+                            ng-model="maDanhMuc" id="madm" >
+                        </div>
+                        <div class="col-6">
+                            <b>Tên danh mục:</b>
+                            <input type="text" class="form-control" placeholder="Tên danh mục..." style="border: 1px solid #757272;"
+                            ng-model="tenDanhMuc" id="tendm">
+                        </div>
+                    </div>
+                    <div class="row px-4 py-2" >
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Từ khoá tìm kiếm.." 
+                            aria-label="Từ khoá tìm kiếm.." aria-describedby="basic-addon2" ng-model="searchQuery">
+                        </div>
+                        <div class="col-6 text-center px-4">
+                            <button style="border-radius: 5px; border: 1px ; background-color: #da5a71; color: white; padding: 5px 10px;"
+                            ng-click="addDanhMuc()">Thêm bản ghi </button>
+                        </div>
+                    </div>
+                    <div class="row px-5 py-2">
+                        <table id="BangDanhmuc" class="table table-bordered">
+                            <thead>
+                                <tr class="table-danger">
+                                    <th><b>Mã danh mục</b></th>
+                                    <th><b>Tên danh mục</b></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in danhMucItem | filter: { tenDanhMuc: searchQuery }" >
+                                    <td>{{item.maDanhMuc}}</td>
+                                    <td>{{item.tenDanhMuc }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="sanpham" ng-controller="SanPhamCtrl"> 
+                <div class="container" style=" overflow-y: auto;">
+                    <div class="row text-center py-3" style="font-size: 30px; color: #ffffff;background-color: #da5a71;">
+                        <b>Quản lý sản phẩm hoa</b>
+                    </div>
+                    <div class="row px-5 py-4">
+                        <b style="font-weight: bold; font-size: 20px; color: #a23e50;">Thông tin sản phẩm hoa:</b>
+                    </div>
+                    <div class="row px-4">
+                        <div class="col-6">
+                            <b>Mã sản phẩm:</b>
+                            <input type="number" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="maSanPham" id="masp">
+                        </div>
+                        <div class="col-6">
+                            <b>Tên sản phẩm:</b>
+                            <input type="text" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="tenSanPham" id="tensp">
+                        </div>
+                    </div>
+                    <div class="row px-4">
+                        <div class="col-6">
+                            <b>Số lượng:</b>
+                            <input type="number" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="sl" id="sl">
+                        </div>
+                        <div class="col-6">
+                            <b>Giá:</b>
+                            <input type="number" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="gia" id="gia">
+                        </div>
+                    </div>
+                    <div class="row px-4">
+                        <div class="col-6">
+                            <b>Mô tả:</b>
+                            <input type="text" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="moTaSP" id="moTa">
+                        </div>
+                        <div class="col-6">
+                            <b>Mã danh mục:</b>
+                            <input type="number" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="maDanhMuc" id="maDanhMuc">
+                        </div>
+                    </div>
+                    <div class="row px-4 py-2">
+                        <div class="col-6">
+                            <form>
+                                <label for="image">Chọn ảnh:</label>
+                                <input 
+                                    type="file" 
+                                    id="image" 
+                                    name="image" 
+                                    style="display: none;" 
+                                    onchange="angular.element(this).scope().previewImage(this)"
+                                />
+                                <button 
+                                    type="button" 
+                                    id="choose-image" 
+                                    ng-click="triggerInput()" 
+                                    style="border-radius: 5px; border: 1px; background-color: #da5a71; padding: 5px 8px; color: white;">
+                                    Chọn ảnh
+                                </button>
+                                
+                                <input 
+                                    type="text" 
+                                    class="form-control"
+                                    placeholder="Đường dẫn ảnh..." 
+                                    readonly 
+                                    style="margin-left: 10px; padding: 5px; width: 300px;" ng-model="anhSP" id="anhsp" 
+                                />
+                                
+                                <div class="image-preview" style="margin-top: 10px;">
+                                    <img id="preview-image" ng-src="{{imagePreview}}" alt="Ảnh xem trước" style="max-width: 200px; max-height: 200px;">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-6">
+                            <br><p>Thao tác: <button style="border-radius: 5px; background-color: #da5a71
+                            ; border: 1px; padding: 5px 10px; color: white;" ng-click="addSanPham()" >Thêm bản ghi</button></p>
+                            <input type="text" placeholder="Tìm kiếm..." class="form-control" ng-model="searchQuery">
+                        </div>
+                    </div>
+                    <div class="row py-2 px-4">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="table-danger">
+                                    <th><b>Mã sản phẩm</b></th>
+                                    <th><b>Tên sản phẩm</b></th>
+                                    <th><b>Số lượng</b></th>
+                                    <th><b>Giá</b></th>
+                                    <th><b>Mô tả</b></th>
+                                    <th><b>Mã danh mục</b></th>
+                                    <th><b>Ảnh</b></th>
+                                    <th><b>Thao tác</b></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in sanPhamItem | filter: { tenSanPham: searchQuery }">
+                                    <td>{{item.maSanPham}}</td>
+                                    <td>{{item.tenSanPham}}</td>
+                                    <td>{{item.sl}}</td>
+                                    <td>{{item.gia}}</td>
+                                    <td>{{item.moTaSP}}</td>
+                                    <td>{{item.maDanhMuc}}</td>
+                                    <td>{{item.anhSP}}</td>
+                                    <td>
+                                        <button class="edit-btn" data-id="1" onclick="openEditForm()" ng-click="editSanPham(item.maSanPham)">
+                                            <i class="bx bx-edit"></i>
+                                        </button>
+                                        <button class="btn-delete" data-id="1" ng-click="deleteSanPham(item.maSanPham)">
+                                            <i class="bx bxs-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- Form sửa -->
+                        <div id="editForm" class="form-overlay" style="display: none;">
+                            <div class="form-container edits" style="width: 800px;">
+                                <b style="text-align: center;">Sửa thông tin sản phẩm</b>
+                                <div class="row px-4">
+                                    <div class="col-6">
+                                        <p>Mã sản phẩm:</p>
+                                        <input id="idSpDangSua" type="text" class="form-control" placeholder="Mã sản phẩm..." ng-model="spDangSua.maSanPham" readonly>
+                                    </div>
+                                    <div class="col-6">
+                                        <p>Tên sản phẩm:</p>
+                                        <input id="tenSpDangSua" type="text" class="form-control" placeholder="Tên sản phẩm..." ng-model="spDangSua.tenSanPham">
+                                    </div>
+                                </div>
+                                <div class="row px-4">
+                                    <div class="col-6">
+                                        <p>Số lượng:</p>
+                                        <input id="SLSpDangSua" type="number" class="form-control" placeholder="Số lượng..." ng-model="spDangSua.sl">
+                                    </div>
+                                    <div class="col-6">
+                                        <p>Giá:</p>
+                                        <input id="GiaSpDangSua" type="text" class="form-control" placeholder="Giá..." ng-model="spDangSua.gia">
+                                    </div>
+                                </div>
+                                <div class="row px-4">
+                                    <div class="col-6">
+                                        <p>Mô tả:</p>
+                                        <input id="MoTaSpDangSua" type="text" class="form-control" placeholder="Mô tả sản phẩm..." ng-model="spDangSua.moTaSP">
+                                    </div>
+                                    <div class="col-6">
+                                        <p>Mã danh mục:</p>
+                                        <input id="MDMSpDangSua" type="text" class="form-control" placeholder="Mã danh mục..." ng-model="spDangSua.maDanhMuc">
+                                    </div>
+                                </div>
+                                <div class="row px-4 py-2">
+                                    <div class="col-6">
+                                        <label for="editImage">Chọn ảnh:</label>
+                                        <input id="editImage" type="file" style="display: none;" onchange="angular.element(this).scope().previewEditImage(this)">
+                                        <button type="button" ng-click="triggerEditInput()" style="border-radius: 5px; background-color: #da5a71; padding: 5px 8px; color: white;">
+                                            Chọn ảnh
+                                        </button>
+                                        <input id="duongDanAnhSPDangSua" type="text" class="form-control" placeholder="Đường dẫn ảnh..." readonly ng-model="spDangSua.anhSP">
+                                        <div class="image-preview" style="margin-top: 10px;">
+                                            <img id="imageSPDangSua" ng-src="{{spDangSua.anhSP}}" alt="Ảnh xem trước" style="max-width: 200px; max-height: 200px;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; margin-right: 10px;">
+                                    <button type="submit" ng-click="saveSanPham()">Lưu</button>
+                                    <button type="button" ng-click="closeEditForm()">Hủy</button>
+                                </div>
+                            </div>
+                        <script>
+                            function openEditForm() {
+                            document.getElementById("editForm").style.display = "flex";
+                            }
+
+                            function closeEditForm() {
+                            document.getElementById("editForm").style.display = "none";
+                            }
+
+                        </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="taikhoan" ng-controller="TaiKhoanCtrl">
+                <div class="row text-center py-2" style="font-size: 30px; color: #ffffff;background-color: #da5a71;">
+                    <b>QUẢN LÝ TÀI KHOẢN</b>
+                </div>
+                <div class="row px-4 py-3" >
+                    <p style="font-weight: bold; font-size: 20px; color: #a23e50;">Thông tin tài khoản:</p>
+                </div>
+                <div class="row px-4">
+                    <div class="col-6">
+                        <b>Mã tài khoản:</b>
+                        <input type="text" class="form-control"  style="border: 1px solid #757272;"
+                        ng-model="maTK" id="matk">
+                    </div>
+                    <div class="col-6">
+                        <b>Tên tài khoản:</b>
+                        <input type="text" class="form-control"  style="border: 1px solid #757272;"
+                        ng-model="tenTK" id="tentk">
+                    </div>
+                </div>
+                <div class="row px-4">
+                    <div class="col-6">
+                        <b>Quyền:</b>
+                        <input type="text" class="form-control" style="border: 1px solid #757272;"
+                        ng-model="quyen" id="quyen">
+                    </div>
+                    <div class="col-6">
+                        <b>Mật khẩu:</b>
+                        <input type="text" class="form-control" style="border: 1px solid #757272;"
+                        ng-model="matKhau" id="mk">
+                    </div>
+                </div>
+                <div class="row px-4">
+                    <div class="col-6">
+                        <b>Email:</b>
+                        <input type="text" class="form-control" style="border: 1px solid #757272;"
+                        ng-model="email" id="email">
+                    </div>
+                    <div class="col-6">
+                        <b>Trạng thái:</b>
+                        <input type="text" class="form-control" style="border: 1px solid #757272;"
+                        ng-model="trangThai" id="trangthai">
+                    </div>
+                </div>
+                <div class="row px-4 py-2" >
+                    <div class="col-6">
+                        <input type="text" class="form-control" placeholder="Từ khoá tìm kiếm.." aria-label="Từ khoá tìm kiếm.." 
+                        aria-describedby="basic-addon2" ng-model="searchQuery">
+                    </div>
+                    <div class="col-6 text-center px-4">
+                        <button style="border-radius: 5px; border: 1px ; background-color: #da5a71; color: rgb(255, 255, 255); padding: 5px 10px;"
+                        ng-click="addTaiKhoan()">Thêm bản ghi </button>
+                    </div>
+                </div>
+                <div class="row px-5 py-2">
+                    <table id="BangTaiKhoan" class="table table-bordered">
+                        <thead>
+                            <tr class="table-danger">
+                                <th><b>Mã tài khoản</b></th>
+                                <th><b>Tên tài khoản</b></th>
+                                <th><b>Mật khẩu</b></th>
+                                <th><b>Quyền</b></th>
+                                <th><b>Email</b></th>
+                                <th><b>Trạng thái</b></th>
+                                <th><b>Thao tác</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in taiKhoanItem | filter: { tenTK: searchQuery }">
+                                <td>{{item.maTK}}</td>
+                                <td>{{item.tenTK}}</td>
+                                <td>{{item.matKhau}}</td>
+                                <td>{{item.quyen}}</td>
+                                <td>{{item.email}}</td>
+                                <td>{{item.trangThai}}</td>
+                                <td>
+                                    <button class="btn-edit" data-id="1" onclick="openEditFormTK()" ng-click="editTaiKhoan(item.maTK)">
+                                        <i class="bx bx-edit"></i>
+                                    </button>
+                                    <button class="btn-delete" data-id="1" ng-click="deleteTaiKhoan(item.maTK)">
+                                        <i class="bx bxs-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- Form sửa -->
+                    <div id="editFormTK" class="form-overlay" style="display: none;">
+                        <div class="form-container edits" style="width: 800px;">
+                            <div class="row">
+                                <p>Thông tin tài khoản:</p>
+                            </div>
+                            <div class="row px-4">
+                                <div class="col-6">
+                                    <p>Mã tài khoản:</p>
+                                    <input type="text" class="form-control" placeholder="Mã danh mục..." style="border: 1px solid #757272;"
+                                    ng-model="tkDangSua.maTK" id="maTKDangSua">
+                                </div>
+                                <div class="col-6">
+                                    <p>Tên tài khoản:</p>
+                                    <input type="text" class="form-control" placeholder="Tên danh mục..." style="border: 1px solid #757272;"
+                                    ng-model="tkDangSua.tenTK" id="tenTKDangSua">
+                                </div>
+                            </div>
+                            <div class="row px-4">
+                                <div class="col-6">
+                                    <p>Quyền:</p>
+                                    <input type="text" class="form-control" placeholder="Mã danh mục..." style="border: 1px solid #757272;"
+                                    ng-model="tkDangSua.quyen" id="quyenDangSua">
+                                </div>
+                                <div class="col-6">
+                                    <p>Mật khẩu:</p>
+                                    <input type="text" class="form-control" placeholder="Tên danh mục..." style="border: 1px solid #757272;"
+                                    ng-model="tkDangSua.matKhau" id="mkDangSua">
+                                </div>
+                            </div>
+                            <div class="row px-4">
+                                <div class="col-6">
+                                    <p>Email:</p>
+                                    <input type="text" class="form-control" placeholder="Mã danh mục..." style="border: 1px solid #757272;"
+                                    ng-model="tkDangSua.email" id="emailDangSua">
+                                </div>
+                                <div class="col-6">
+                                    <p>Trạng thái:</p>
+                                    <input type="text" class="form-control" placeholder="Tên danh mục..." style="border: 1px solid #757272;"
+                                    ng-model="tkDangSua.trangThai" id="trangthaiDangSua">
+                                </div>
+                            </div>
+                            <div style="display: flex; margin-right: 10px;">
+                                <button type="submit" ng-click="saveTaiKhoan()">Lưu</button>
+                                <button type="button" ng-click="closeEditFormTK()">Hủy</button>
+                            </div>
+                        </div>
+                    <script>
+                        function openEditFormTK() {
+                        document.getElementById("editFormTK").style.display = "flex";
+                        }
+
+                        function closeEditFormTK() {
+                        document.getElementById("editFormTK").style.display = "none";
+                        }
+
+                    </script>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="nguoidung" ng-controller="NguoiDungCtrl">
+                <div class="row text-center py-2" style="font-size: 30px; color: #ffffff;background-color: #da5a71;">
+                    <b>QUẢN LÝ NGƯỜI DÙNG</b>
+                </div>
+                <div class="row px-4 py-2">
+                    <p style="font-weight: bold; font-size: 20px; color: #a23e50;">Thông tin người dùng:</p>
+                </div>
+                <div class="container">
+                    <div class="row px-4">
+                        <div class="col-6">
+                            <b>Mã người dùng:</b>
+                            <input type="text" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="maND" id="mand">
+                        </div>
+                        <div class="col-6">
+                            <b>Tên người dùng:</b>
+                            <input type="text" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="tenND" id="tennd">
+                        </div>
+                    </div>
+                    <div class="row px-4">
+                        <div class="col-6">
+                            <b>Sinh nhật:</b>
+                            <input type="date" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="sinhNhat" id="sinhnhat">
+                        </div>
+                        <div class="col-6">
+                            <b>Địa chỉ:</b>
+                            <input type="text" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="diaChi" id="diachi">
+                        </div>
+                    </div>
+                    <div class="row px-4">
+                        <div class="col-6">
+                            <b>Số điện thoại:</b>
+                            <input type="text" class="form-control"  style="border: 1px solid #757272;"
+                            ng-model="sdt" id="sdT">
+                        </div>
+                        <div class="col-6">
+                            <b>Giới tính:</b>
+                            <input type="text" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="gioiTinh" id="gioitinh">
+                        </div>
+                    </div>
+                    <div class="row px-4 py-2">
+                        <div class="col-6">
+                            <form>
+                                <label for="imageND">Chọn ảnh:</label>
+                                <input 
+                                    type="file" 
+                                    id="imageND" 
+                                    name="imageND" 
+                                    style="display: none;" 
+                                    onchange="angular.element(this).scope().previewImageND(this)"
+                                />
+                                <button 
+                                    type="button" 
+                                    id="choose-imageND" 
+                                    ng-click="triggerInput()" 
+                                    style="border-radius: 5px; border: 1px; background-color: #da5a71; padding: 5px 8px; color: white;">
+                                    Chọn ảnh
+                                </button>
+                                
+                                <input 
+                                    type="text" 
+                                    class="form-control"
+                                    placeholder="Đường dẫn ảnh..." 
+                                    readonly 
+                                    style="margin-left: 10px; padding: 5px; width: 300px;" ng-model="anh" id="anh" 
+                                />
+                                
+                                <div class="image-previewND px-2" style="margin-top: 10px;">
+                                    <img id="preview-imageND" ng-src="{{imagePreviewND}}" alt="Ảnh xem trước" style="max-width: 200px; max-height: 200px;">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-6">
+                            <br><p>Thao tác: <button style="border-radius: 5px; background-color: #da5a71
+                            ; border: 1px; padding: 5px 10px; color: white;" ng-click="addNguoiDung()" >Thêm bản ghi</button></p>
+                            <input type="text" placeholder="Tìm kiếm..." class="form-control" ng-model="searchQuery">
+                        </div>
+                    </div>
+                </div>
+                <div class="row px-5 py-2">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="table-danger">
+                                <th><b>Mã người dùng</b></th>
+                                <th><b>Tên người dùng</b></th>
+                                <th><b>Sinh nhật</b></th>
+                                <th><b>Địa chỉ</b></th>
+                                <th><b>SDT</b></th>
+                                <th><b>Giới tính</b></th>
+                                <th><b>Ảnh</b></th>
+                                <th><b>Thao tác</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in nguoiDungItem | filter: { tenND: searchQuery }">
+                                <td>{{item.maND}}</td>
+                                <td>{{item.tenND}}</td>
+                                <td>{{item.sinhNhat}}</td>
+                                <td>{{item.diaChi}}</td>
+                                <td>{{item.sdt}}</td>
+                                <td>{{item.gioiTinh}}</td>
+                                <td>{{item.anh}} </td>
+                                <td>
+                                    <button class="btn-edit" data-id="1" onclick="openEditFormND()" ng-click="editNguoiDung(item.maND)">
+                                        <i class="bx bx-edit"></i>
+                                    </button>
+                                    <button class="btn-delete" data-id="1" ng-click="deleteNguoiDung(item.maND)">
+                                        <i class="bx bxs-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- Form sửa -->
+                    <div id="editFormND" class="form-overlay" style="display: none;">
+                        <div class="form-container edits" style="width: 800px;">
+                            <b style="text-align: center;">Sửa thông tin sản phẩm</b>
+                            <div class="row px-4">
+                                <div class="col-6">
+                                    <p>Mã người dùng:</p>
+                                    <input type="text" class="form-control" placeholder="Mã danh mục..." style="border: 1px solid #757272;"
+                                    ng-model="ndDangSua.maND" id="mandDangSua" readonly>
+                                </div>
+                                <div class="col-6">
+                                    <p>Tên người dùng:</p>
+                                    <input type="text" class="form-control" placeholder="Tên danh mục..." style="border: 1px solid #757272;"
+                                    ng-model="ndDangSua.tenND" id="tenndDangSua">
+                                </div>
+                            </div>
+                            <div class="row px-4">
+                                <div class="col-6">
+                                    <p>Sinh nhật:</p>
+                                    <input type="date" class="form-control" placeholder="Mã danh mục..." style="border: 1px solid #757272;"
+                                    ng-model="ndDangSua.sinhNhat" id="sinhnhatDangSua">
+                                </div>
+                                <div class="col-6">
+                                    <p>Địa chỉ:</p>
+                                    <input type="text" class="form-control" placeholder="Tên danh mục..." style="border: 1px solid #757272;"
+                                    ng-model="ndDangSua.diaChi" id="diachiDangSua">
+                                </div>
+                            </div>
+                            <div class="row px-4">
+                                <div class="col-6">
+                                    <p>Số điện thoại:</p>
+                                    <input type="text" class="form-control" placeholder="Mã danh mục..." style="border: 1px solid #757272;"
+                                    ng-model="ndDangSua.sdt" id="sdTDangSua">
+                                </div>
+                                <div class="col-6">
+                                    <p>Giới tính:</p>
+                                    <input type="text" class="form-control" placeholder="Tên danh mục..." style="border: 1px solid #757272;"
+                                    ng-model="ndDangSua.gioiTinh" id="gioitinhDangSua">
+                                </div>
+                            </div>
+                            <div class="row px-4 py-2">
+                                <div class="col-6">
+                                    <label for="imageND">Chọn ảnh:</label>
+                                    <input type="file" id="fileUploadND" style="display: none;" onchange="angular.element(this).scope().previewImageND(this)">
+                                    <button type="button" ng-click="triggerInput()" style="border-radius: 5px; background-color: #da5a71; padding: 5px 8px; color: white;">
+                                        Chọn ảnh
+                                    </button>
+                                    <input id="duongDanAnhNDDangSua" type="text" class="form-control" placeholder="Đường dẫn ảnh..." readonly ng-model="ndDangSua.anh">
+                                    <div class="image-previewND" style="margin-top: 10px;">
+                                        <img id="imageNDDangSua" ng-src="{{ndDangSua.anh}}" alt="Ảnh xem trước" style="max-width: 200px; max-height: 200px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; margin-right: 10px;">
+                                <button type="submit" ng-click="saveNguoiDung()">Lưu</button>
+                                <button type="button" ng-click="closeEditFormND()">Hủy</button>
+                            </div>
+                        </div>
+                    <script>
+                        function openEditFormND() {
+                        document.getElementById("editFormND").style.display = "flex";
+                        }
+
+                        function closeEditFormND() {
+                        document.getElementById("editFormND").style.display = "none";
+                        }
+
+                    </script>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab-content" id="hoadon" ng-controller="HoaDonCtrl">
+                <div class="container">
+                    <div class="row text-center py-2" style="font-size: 30px; color: #ffffff;background-color: #da5a71;">
+                        <b>QUẢN LÝ HOÁ ĐƠN</b>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 px-4 py-2">
+                            <b style="font-weight: bold; font-size: 20px; color: #a23e50;">Thông tin hoá đơn:</b>
+                            <div class="row">
+                                <b>Mã hoá đơn:</b>
+                                <input type="text" class="form-control" style="border: 1px solid #757272;"
+                                ng-model="maHD" id="mahd" >
+                            </div>
+                            <div class="row">
+                                <b>Ngày bán:</b>
+                                <input type="date" class="form-control" style="border: 1px solid #757272;"
+                                ng-model="ngayMua" id="ngaymua" >
+                            </div>
+                            <div class="row">
+                                <b>Tổng tiền:</b>
+                                <input type="text" class="form-control" style="border: 1px solid #757272;"
+                                ng-model="tongTien" id="tongtien" >
+                            </div>
+                            <div class="row">
+                                <b>Trạng thái:</b>
+                                <input type="text" class="form-control" style="border: 1px solid #757272;"
+                                ng-model="trangThai" id="trangthai" >
+                            </div>
+                            <div class="row">
+                                <b>Địa chỉ giao:</b>
+                                <input type="text" class="form-control" style="border: 1px solid #757272;"
+                                ng-model="diaChiGiao" id="AdrGiao" >
+                            </div>
+                            <div class="row">
+                                <b>Mã người dùng:</b>
+                                <input type="text" class="form-control" style="border: 1px solid #757272;"
+                                ng-model="maND" id="mand" >
+                            </div>
+                        </div>
+                        <div class="col-6 px-4 py-2">
+                            <b style="font-weight: bold; font-size: 20px; color: #a23e50;">Thông tin chi tiết hoá đơn</b>
+                            <div class="row">
+                                <b>Mã chi tiết hoá đơn:</b>
+                                <input type="text" class="form-control" style="border: 1px solid #757272;"
+                                ng-model="maChiTietHD" id="maCTHD" >
+                            </div>
+                            <div class="row">
+                                <b>Giá sản phẩm:</b>
+                                <input type="text" class="form-control" style="border: 1px solid #757272;"
+                                ng-model="gia" id="Gia" >
+                            </div>
+                            <div class="row">
+                                <b>Số tiền giảm giá:</b>
+                                <input type="text" class="form-control" style="border: 1px solid #757272;"
+                                ng-model="soTienGiam" id="sotienGiam" >
+                            </div>
+                            <div class="row">
+                                <b>Mã sản phẩm:</b>
+                                <input type="text" class="form-control" style="border: 1px solid #757272;"
+                                ng-model="maSanPham" id="maSP" >
+                            </div>
+                            <div class="row">
+                                <b>Mã voucher:</b>
+                                <input type="text" class="form-control" style="border: 1px solid #757272;"
+                                ng-model="maVoucher" id="maVC" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row px-4 py-2" >
+                        <p style="font-weight: bold;">Thao tác</p>
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Từ khoá tìm kiếm.." 
+                            aria-label="Từ khoá tìm kiếm.." aria-describedby="basic-addon2" ng-model="searchQuery">
+                        </div>
+                        <div class="col-6 text-center px-4">
+                            <button style="border-radius: 5px; border: 1px ; background-color: #da5a71; color: white; padding: 5px 10px;"
+                            ng-click="addHoaDon()">Thêm bản ghi </button>
+                        </div>
+                    </div>
+                    <div class="row px-5 py-2">
+                        <table id="BangHoaDon" class="table table-bordered">
+                            <thead>
+                                <tr class="table-danger">
+                                    <th><b>Mã hoá đơn</b></th>
+                                    <th><b>Ngày mua</b></th>
+                                    <th><b>Tổng tiền</b></th>
+                                    <th><b>Trạng thái</b></th>
+                                    <th><b>Địa chỉ giao</b></th>
+                                    <th><b>Mã người dùng</b></th>
+                                    <th><b>Thao tác</b></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in hoaDonItem | filter: { ngayMua: searchQuery }" >
+                                    <td>{{item.maHD}}</td>
+                                    <td>{{item.ngayMua }}</td>
+                                    <td>{{item.tongTien }}</td>
+                                    <td>{{item.trangThai }}</td>
+                                    <td>{{item.diaChiGiao }}</td>
+                                    <td>{{item.maND }}</td>
+                                    <td>
+                                        <button class="btn-edit">
+                                            <i class="bx bx-edit"></i>
+                                        </button>
+                                        <button class="btn-delete">
+                                            <i class="bx bxs-trash"></i>
+                                        </button>
+                                        <button class="btn-seen" onclick="openEditFormHD()" >
+                                            <i class='bx bxs-book-open'></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> 
+                    <div class="row">
+                            <!-- Form sửa -->
+                            <div id="editFormHD" class="form-overlay" style="display: none;">
+                                <div class="form-container edits" style="width: 800px;">
+                                    <b style="text-align: center;">Sửa thông tin sản phẩm</b>
+                                    <div class="row">
+                                        <table id="BangHoaDon" class="table table-bordered">
+                                            <thead>
+                                                <tr class="table-danger">
+                                                    <th><b>Mã hoá đơn</b></th>
+                                                    <th><b>Ngày mua</b></th>
+                                                    <th><b>Tổng tiền</b></th>
+                                                    <th><b>Trạng thái</b></th>
+                                                    <th><b>Địa chỉ giao</b></th>
+                                                    <th><b>Mã người dùng</b></th>
+                                                    <th><b>Thao tác</b></th>
+                
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in hoaDonItem" >
+                                                    <td>{{item.maHD}}</td>
+                                                    <td>{{item.ngayMua }}</td>
+                                                    <td>{{item.tongTien }}</td>
+                                                    <td>{{item.trangThai }}</td>
+                                                    <td>{{item.diaChiGiao }}</td>
+                                                    <td>{{item.maND }}</td>
+                                                    <td>
+                                                        <button class="btn-edit">
+                                                            <i class="bx bx-edit"></i>
+                                                        </button>
+                                                        <button class="btn-delete">
+                                                            <i class="bx bxs-trash"></i>
+                                                        </button>
+                                                        <button class="btn-seen" onclick="openEditFormHD()" ng-click="getCTHoaDon(item.maHD)">
+                                                            <i class='bx bxs-book-open'></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <table id="BangChiTietHoaDon" class="table table-bordered">
+                                            <thead>
+                                                <tr class="table-danger">
+                                                    <th><b>Mã chi tiết hoá đơn</b></th>
+                                                    <th><b>Số lượng sản phẩm</b></th>
+                                                    <th><b>Giá</b></th>
+                                                    <th><b>Số tiền giảm</b></th>
+                                                    <th><b>maSanPham</b></th>
+                                                    <th><b>Mã Voucher</b></th>            
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in CTHDitem" >
+                                                    <td>{{item.maChiTietHD}}</td>
+                                                    <td>{{item.slsp }}</td>
+                                                    <td>{{item.gia }}</td>
+                                                    <td>{{item.soTienGiam }}</td>
+                                                    <td>{{item.maSanPham }}</td>
+                                                    <td>{{item.maVoucher }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div style="display: flex; margin-right: 10px;">
+                                        <button type="button" ng-click="closeEditFormHD()">Hủy</button>
+                                    </div>
+                                </div>
+                            <script>
+                                function openEditFormHD() {
+                                document.getElementById("editFormND").style.display = "flex";
+                                }
+    
+                                function closeEditFormHD() {
+                                document.getElementById("editFormND").style.display = "none";
+                                }
+    
+                            </script>
+                            </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="voucher" ng-controller="VoucherCtrl">
+                <div class="container">
+                    <div class="row text-center py-3" style="font-size: 30px; color: #ffffff;background-color: #da5a71;">
+                        <b>QUẢN LÝ VOUCHERS</b>
+                    </div>
+                    <div class="row px-4 py-2">
+                        <div class="col-6">
+                            <b>Mã voucher:</b>
+                            <input type="text" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="voucher_id" id="maVC" >
+                        </div>
+                        <div class="col-6">
+                            <b>Tên voucher:</b>
+                            <input type="text" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="voucher_name" id="tenVC">
+                        </div>
+                    </div>
+                    <div class="row px-4 py-2">
+                        <div class="col-6">
+                            <b>Giá tiền:</b>
+                            <input type="text" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="giaTien" id="gia">
+                        </div>
+                        <div class="col-6">
+                            <b>Giá tối thiểu:</b>
+                            <input type="text" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="giaToiThieu" id="giaTT">
+                        </div>
+                    </div>
+                    <div class="row px-4 py-2">
+                        <div class="col-4">
+                            <b>Số lượng còn:</b>
+                            <input type="text" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="slCon" id="slg">
+                        </div>
+                        <div class="col-4">
+                            <b>Bắt đầu:</b>
+                            <input type="date" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="batDau" id="start">
+                        </div>
+                        <div class="col-4">
+                            <b>Kết thúc:</b>
+                            <input type="date" class="form-control" style="border: 1px solid #757272;"
+                            ng-model="ketThuc" id="end">
+                        </div>
+                    </div>
+                    <div class="row px-4 py-2" >
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Từ khoá tìm kiếm.." aria-label="Từ khoá tìm kiếm.." 
+                            ng-model="searchQuery" aria-describedby="basic-addon2">
+                        </div>
+                        <div class="col-6 text-center px-4">
+                            <button style="border-radius: 5px; border: 1px ; background-color: #da5a71; color: white; padding: 5px 10px;"
+                            ng-click="addVoucher()">Thêm bản ghi </button>
+                        </div>
+                    </div>
+                    <div class="row px-5 py-2">
+                        <table id="BangVoucher" class="table table-bordered">
+                            <thead>
+                                <tr class="table-danger">
+                                    <th><b>Mã voucher</b></th>
+                                    <th><b>Tên voucher</b></th>
+                                    <th><b>Giá tiền</b></th>
+                                    <th><b>Giá tối thiểu</b></th>
+                                    <th><b>SL còn</b></th>
+                                    <th><b>Ngày bắt đầu</b></th>
+                                    <th><b>Ngày kết thúc</b></th>
+
+                                    <th><b>Thao tác</b></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr  ng-repeat="item in voucherItem | filter: { voucher_name: searchQuery }">
+                                    <td>{{item.voucher_id}}</td>
+                                    <td>{{item.voucher_name}}</td>
+                                    <td>{{item.giaTien}}</td>
+                                    <td>{{item.giaToiThieu}}</td>
+                                    <td>{{item.slCon}}</td>
+                                    <td>{{item.batDau}}</td>
+                                    <td>{{item.ketThuc}}</td>
+                                    <td>
+                                        <button class="btn-edit" data-id="1" onclick="openEditFormVC()" ng-click="editVoucher(item.voucher_id)">
+                                            <i class="bx bx-edit"></i>
+                                        </button>
+                                        <button class="btn-delete" data-id="1" ng-click="deleteVoucher(item.voucher_id)">
+                                            <i class="bx bxs-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- Form sửa -->
+                        <div id="editFormVC" class="form-overlay" style="display: none;">
+                            <div class="form-container edits" style="width: 800px;">
+                                <div class="row">
+                                    <p>Sửa thông tin Vouchers:</p>
+                                </div>
+                                <div class="row px-4">
+                                    <div class="col-6">
+                                        <p>Mã voucher:</p>
+                                        <input type="text" class="form-control" placeholder="Mã danh mục..." style="border: 1px solid #757272;"
+                                        ng-model="vcDangSua.voucher_id" id="voucher_idDangSua">
+                                    </div>
+                                    <div class="col-6">
+                                        <p>Tên voucher:</p>
+                                        <input type="text" class="form-control" placeholder="Tên danh mục..." style="border: 1px solid #757272;"
+                                        ng-model="vcDangSua.voucher_name" id="tenVCDangSua">
+                                    </div>
+                                </div>
+                                <div class="row px-4">
+                                    <div class="col-6">
+                                        <p>Giá tiền:</p>
+                                        <input type="text" class="form-control" placeholder="Mã danh mục..." style="border: 1px solid #757272;"
+                                        ng-model="vcDangSua.giaTien" id="giaDangSua">
+                                    </div>
+                                    <div class="col-6">
+                                        <p>Giá tối thiểu:</p>
+                                        <input type="text" class="form-control" placeholder="Tên danh mục..." style="border: 1px solid #757272;"
+                                        ng-model="vcDangSua.giaToiThieu" id="giaTTDangSua">
+                                    </div>
+                                </div>
+                                <div class="row px-4">
+                                    <div class="col-4">
+                                        <p>Số lượng còn:</p>
+                                        <input type="text" class="form-control" placeholder="Mã danh mục..." style="border: 1px solid #757272;"
+                                        ng-model="vcDangSua.slCon" id="slgDangSua">
+                                    </div>
+                                    <div class="col-4">
+                                        <p>Bắt đầu:</p>
+                                        <input type="date" class="form-control" placeholder="Tên danh mục..." style="border: 1px solid #757272;"
+                                        ng-model="vcDangSua.batDau" id="startDangSua">
+                                    </div>
+                                    <div class="col-4">
+                                        <p>Kết thúc:</p>
+                                        <input type="date" class="form-control" placeholder="Tên danh mục..." style="border: 1px solid #757272;"
+                                        ng-model="vcDangSua.ketThuc" id="endDangSua">
+                                    </div>
+                                </div>
+                                <div style="display: flex; margin-right: 10px;">
+                                    <button type="submit" ng-click="saveVoucher()">Lưu</button>
+                                    <button type="button" ng-click="closeEditFormVC()">Hủy</button>
+                                </div>
+                            </div>
+                            <script>
+                                function openEditFormVC() {
+                                document.getElementById("editFormVC").style.display = "flex";
+                                }
+
+                                function closeEditFormVC() {
+                                document.getElementById("editFormVC").style.display = "none";
+                                }
+
+                            </script>
+                            </div>
+                    </div>
+     
+                </div>
+
+            </div>
+            <div class="tab-content" id="baocao" style="font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            width: 100%;
+            background-color: #ffffff;">
+                <div class="text-center py-2" style="font-size: 30px; color: #ffffff;background-color: #da5a71;"><b>Top mặt hàng bán chạy nhất</b></div>
+                <div class="container py-5">
+                    <div class="chart-container" >
+                        <div class="container w-75"><canvas id="myChart"></canvas></div>
+                    </div>
+                </div>
+                <!-- Thêm thư viện Chart.js từ CDN -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    // Đảm bảo rằng thư viện Chart.js đã tải xong và sẵn sàng sử dụng
+                    window.onload = function() {
+                      // Lấy phần tử canvas
+                      var ctx = document.getElementById('myChart').getContext('2d');
+                
+                      // Dữ liệu cho biểu đồ
+                      var data = {
+                        labels: ['Kiêu xa', 'Diamond', 'Forever Young', 'Cappybara tịnh tâm', 'Cây sơn tùng noel(60cm)'], // Các nhãn (Tên sản phẩm)
+                        datasets: [{
+                          label: 'Doanh Thu',
+                          data: [120, 150, 180, 90, 220], // Dữ liệu doanh thu
+                          backgroundColor: '#f06e86', // Màu nền của cột
+                          borderColor: '#c04f6c', // Màu viền của cột
+                          borderWidth: 1
+                        }]
+                      };
+                
+                      // Các cấu hình cho biểu đồ
+                      var config = {
+                        type: 'bar', // Kiểu biểu đồ (cột)
+                        data: data,
+                        options: {
+                          responsive: true,
+                          scales: {
+                            y: {
+                              beginAtZero: true // Đảm bảo trục Y bắt đầu từ 0
+                            }
+                          }
+                        }
+                      };
+                
+                      // Tạo biểu đồ
+                      var myChart = new Chart(ctx, config);
+                    };
+                  </script>
+            </div>
+        </div>
+    </body>
+</html>

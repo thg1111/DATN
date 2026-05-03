@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sản phẩm yêu thích</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/main.css?v=20260430-3">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/config.js?v=20260429-5"></script>
+    <script src="/js/site-auth.js?v=20260430-3"></script>
+</head>
+<body>
+    <div class="header" style="z-index: 1000;">
+        <div class="container" style="padding-top: 15px;">
+            <div class="row">
+                <div class="col-sm-6 col-lg-2 header1"><a href="/index.html"><img src="/assets/images/icons/icon.jpg" alt="Logo Dahla" class="img-fluid w-50"></a></div>
+                <div class="col-sm-0 col-lg-5 header2">
+                    <div class="input-group mb-3 py-1">
+                        <input type="text" class="form-control" placeholder="Từ khoá tìm kiếm..">
+                        <span class="input-group-text"><i class="bi bi-search-heart"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-0 col-lg-3 header3"></div>
+                <div class="col-sm-6 col-lg-2 header4"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-banner chatbot">
+        <div class="row">
+            <div class="col-2">
+                <div class="chat-button">
+                    <i class="bi bi-egg-fried" style="color: #e03a61; font-size: 30px;"></i>
+                </div>
+            </div>
+            <div class="col-8">
+                <marquee behavior="scroll" direction="left" style="color: white;">
+                    Khu vực lưu nhanh các sản phẩm yêu thích để bạn quay lại kiểm tra sau.
+                </marquee>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+
+    <div class="menu" style="background-color:#f06e86; height: 40px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 menu1 py-2 text-white" style="padding-left: 40px;">
+                    <div class="menu1"><i class="bi bi-list"></i>Danh mục sản phẩm
+                        <ul class="submenu">
+                            <li><a href="#">Xuất xứ</a></li>
+                            <li><a href="#">Chủng loại</a></li>
+                            <li><a href="#">Dịp</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Tips</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9 menu2">
+                    <nav class="navbar navbar-expand-lg navbar-light" style="height: 40px;">
+                        <div class="container-fluid">
+                            <a class="navbar-brand d-none" href="#">Navbar</a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <li class="nav-item-mn1 px-4 dropdown">
+                                        <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Chủ đề</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Hoa sinh nhật</a></li>
+                                            <li><a class="dropdown-item" href="#">Hoa cưới</a></li>
+                                            <li><a class="dropdown-item" href="#">Hoa tốt nghiệp</a></li>
+                                            <li><a class="dropdown-item" href="#">Lan hồ điệp</a></li>
+                                            <li><a class="dropdown-item" href="#">Hoa khai trương</a></li>
+                                            <li><a class="dropdown-item" href="#">Hoa tiệc</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item-mn2 px-4"><a class="nav-link text-white active" href="#">Tuyển dụng</a></li>
+                                    <li class="nav-item-mn3 px-4"><a class="nav-link text-white active" href="#">Tin tức</a></li>
+                                    <li class="nav-item-mn4 px-4"><a class="nav-link text-white active" href="#">Blogs</a></li>
+                                    <li class="nav-item-mn5 px-4"><a class="nav-link text-white active" href="#">Giới thiệu</a></li>
+                                    <li class="nav-item-mn5 px-4"><a class="nav-link text-white active" href="#">Câu hỏi thường gặp</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="container py-4">
+        <section class="page-hero mb-4">
+            <span class="page-kicker"><i class="bi bi-heart"></i> Wishlist</span>
+            <h1 class="mt-3 mb-3" style="color:#7c1c31; font-weight: 800;">Danh sách sản phẩm bạn muốn quay lại xem sau</h1>
+            <p class="mb-0" style="color:#5a3340; font-size: 17px;">
+                Trang này đã có đích riêng để icon tim trên header không còn là link rỗng. Nếu sau này shop cần mở rộng, có thể nối tiếp thành wishlist đầy đủ.
+            </p>
+        </section>
+
+        <section class="wishlist-card">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                <div>
+                    <h3 class="mb-1" style="color:#9f2f49; font-weight: 800;">Mục đã lưu</h3>
+                    <p class="mb-0" style="color:#7a5560;">Nếu danh sách đang trống, bạn có thể bắt đầu từ danh mục sản phẩm hoặc blog gợi ý.</p>
+                </div>
+                <button type="button" class="auth-button" id="clearWishlistButton">Xoá toàn bộ</button>
+            </div>
+            <div id="wishlistList"></div>
+        </section>
+    </main>
+
+    <div style="height: 110px;"></div>
+
+    <script>
+        (function () {
+            function renderWishlist() {
+                var listNode = document.getElementById('wishlistList');
+                var items = window.DahlaAuth ? window.DahlaAuth.getWishlistItems() : [];
+
+                if (!items.length) {
+                    listNode.innerHTML = [
+                        '<div class="wishlist-empty">',
+                        '<p class="mb-2"><strong>Hiện chưa có sản phẩm yêu thích nào được lưu.</strong></p>',
+                        '<p class="mb-3">Bạn có thể tiếp tục xem danh mục, bài blog hoặc cập nhật hồ sơ cá nhân để hoàn thiện trải nghiệm local.</p>',
+                        '<div class="d-flex flex-wrap gap-2">',
+                        '<a href="/pages/products/category.html" class="auth-button auth-button-register">Xem danh mục</a>',
+                        '<a href="/pages/blog/index.html" class="auth-button">Đọc blog</a>',
+                        '<a href="/pages/account/profile.html" class="auth-button">Vào Chỗ tôi</a>',
+                        '</div>',
+                        '</div>'
+                    ].join('');
+                    return;
+                }
+
+                listNode.innerHTML = items.map(function (item, index) {
+                    return [
+                        '<div class="info-card mb-3">',
+                        '<div class="row align-items-center g-3">',
+                        '<div class="col-md-2"><img src="', item.photo || '/assets/images/icons/icon.jpg', '" class="img-fluid rounded-4" alt="', item.name || 'San pham', '"></div>',
+                        '<div class="col-md-7">',
+                        '<h5 class="mb-1">', item.name || 'Sản phẩm Dahla', '</h5>',
+                        '<p class="mb-1" style="color:#7a5560;">', item.price || 'Giá đang cập nhật', '</p>',
+                        '</div>',
+                        '<div class="col-md-3 text-md-end">',
+                        '<button type="button" class="auth-button remove-wishlist-item" data-index="', index, '">Bỏ khỏi danh sách</button>',
+                        '</div>',
+                        '</div>',
+                        '</div>'
+                    ].join('');
+                }).join('');
+
+                listNode.querySelectorAll('.remove-wishlist-item').forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        var index = Number(button.getAttribute('data-index'));
+                        var nextItems = items.filter(function (_, itemIndex) {
+                            return itemIndex !== index;
+                        });
+                        window.DahlaAuth.saveWishlistItems(nextItems);
+                        renderWishlist();
+                    });
+                });
+            }
+
+            document.getElementById('clearWishlistButton').addEventListener('click', function () {
+                window.DahlaAuth.saveWishlistItems([]);
+                renderWishlist();
+            });
+
+            window.addEventListener('storage', renderWishlist);
+            renderWishlist();
+        })();
+    </script>
+</body>
+</html>

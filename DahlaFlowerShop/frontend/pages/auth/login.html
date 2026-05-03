@@ -1,0 +1,315 @@
+<html lang="en" ng-app="userApp" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../../../../../../../../css/main.css?v=20260430-3">
+    <link rel="stylesheet" href="../../../../../../../../../css/auth.css">
+    <title>Đăng nhập</title>
+    <script src="../../../../../../../../../js/jquery.min.js"></script>
+    <script src="../../../../../../../../../js/angular.min.js"></script>
+    <script src="../../../../../../../../../js/config.js?v=20260429-4"></script>
+    <script src="../../../../../../../../../js/app.js?v=20260429-4"></script>
+    <script src="../../../../../../../../../js/site-auth.js?v=20260430-3"></script>
+</head>
+<body ng-controller="trangchuCtrl" >
+    <!--Header-->
+    <div class="header" style="z-index: 1000;">
+        <div class="container " style="padding-top: 15px;">
+            <div class="row">
+            <div class="col-sm-6 col-lg-2 header1"><!--p:padding, y: trục y(trên, dưới);3: kích thước-->
+                <a href="../../../../../../../../../index.html"><img src="../../../../../../../../../assets/images/icons/icon.jpg" alt="Logo"  class="img-fluid w-50 "></a>
+            </div>
+            <div class="col-sm-0 col-lg-5 header2">
+                <div class="input-group mb-3 py-1">
+                <input type="text" class="form-control" placeholder="Từ khoá tìm kiếm.." aria-label="Từ khoá tìm kiếm.." aria-describedby="basic-addon2">
+                <span class="input-group-text" id="basic-addon2"><i class="bi bi-search-heart"></i></span>
+                </div>
+            </div>
+            <div class="col-sm-0 col-lg-3 header3">
+                <div class="row">
+                <div class="col">
+                    <div class="row">
+                    <div class="col-3 py-2 " style="color:  #de546d;">
+                        <div class="fs-4"><i class="bi bi-telephone-fill"></i></div>
+                    </div>
+                    <div class="col-9">
+                        Tư vấn hỗ trợ <br>
+                        <strong style="color:  #de546d;">0364239807</strong>
+                    </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                    <div class="col-3 py-2 " style="color: #de546d;">
+                        <div class="fs-4"><i class="bi bi-person-circle"></i></div>
+                    </div>
+                    <div class="col-9 auth-links">
+                      <a href="../../../../../../../../../pages/auth/login.html" class="auth-button auth-button-login">Đăng nhập</a>
+                      <a href="../../../../../../../../../pages/auth/register.html" class="auth-button auth-button-register">Đăng ký</a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-2 header4">
+                <div class="row w-75 py-2" style="float: right; margin-right: 10px;">
+                <div class="col-3"><a href="#" class="position-relative"> 
+                    <span class="fs-4" style="color:  #de546d;"><i class="bi bi-geo-alt"></i></span>
+                    </a>
+                </div>
+                <div class="col-3"><a href="#" class="position-relative"></a>
+                    <span class="fs-4 " style="color:  #de546d;"><i class="bi bi-person-fill-gear"></i></span>
+                </a>
+                </div>
+                <div class="col-3">
+                    <a href="#" class="position-relative">
+                    <span class="fs-4 " style="color:  #de546d;"><i class="bi bi-heart"></i></span>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                        0
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                    </a>
+                </div>
+                <div class="col-3" id="cart">
+                    <a href="#" class="position-relative">
+                    <span class="fs-4 " style="color: #de546d;"><i class="bi bi-cart3"></i></span>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                        0
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                    </a>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!--thanh điều hướng-->
+    <div class="nav-banner" style="background-color:#f55371">
+        <div class="row">
+          <div class="col-2">
+            <div class="chat-button">
+              <i class="bi bi-egg-fried" style="color: #e03a61; font-size: 30px;"></i>
+            </div>
+          </div>
+          <div class="col-8">
+            <marquee behavior="scroll" direction="left" style="color: white;">
+              Chào mừng đến với Dahla Flower Shop, chúc các bạn có 1 trải nghiệm tốt khi đến với chúng tôi!
+            </marquee>    
+          </div>
+          <div class="col-2"></div>
+        </div>
+      </div>
+
+    <!--Menu-->
+    <div class="menu " style="background-color:#f06e86; height: 40px;">
+    <div class="container">
+        <div class="row">
+        <div class="col-lg-3 menu1 py-2 text-white" style="padding-left: 40px;">
+            <div class="menu1 "> <i class="bi bi-list"></i>Danh mục sản phẩm
+            <ul class="submenu">
+                <li><a href="#">Xuất xứ</a></li>
+                <li><a href="#">Chủng loại</a></li>
+                <li><a href="#">Dịp</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Tips</a></li>
+            </ul>
+            </div>
+        
+        </div>
+        <div class="col-lg-9 menu2 ">
+            <nav class="navbar navbar-expand-lg navbar-light " style=" height: 40px;">
+            <div class="container-fluid">
+                <a class="navbar-brand d-none" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item-mn1 px-4 dropdown">
+                    <a class="nav-link text-white dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Chủ đề
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Hoa sinh nhật</a></li>
+                        <li><a class="dropdown-item" href="#">Hoa cưới</a></li>
+                        <li><a class="dropdown-item" href="#">Hoa tốt nghiệp</a></li>
+                        <li><a class="dropdown-item" href="#">Lan hồ điệp</a></li>
+                        <li><a class="dropdown-item" href="#">Hoa khai trương</a></li>
+                        <li><a class="dropdown-item" href="#">Hoa tiệc</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                    </li>
+                    <li class="nav-item-mn2 px-4">
+                    <a class="nav-link text-white active " aria-current="page" href="#">Tuyển dụng</a>
+                    </li>
+                    <li class="nav-item-mn3 px-4">
+                    <a class="nav-link text-white active " aria-current="page" href="#">Tin tức</a>
+                    </li>
+                    <li class="nav-item-mn4 px-4 ">
+                    <a class="nav-link text-white active " aria-current="page" href="#">Blogs</a>
+                    </li>
+                    <li class="nav-item-mn5 px-4 ">
+                    <a class="nav-link text-white active " aria-current="page" href="#">Giới thiệu</a>
+                    </li>
+                    <li class="nav-item-mn5 px-4 ">
+                    <a class="nav-link text-white active " aria-current="page" href="#">Câu hỏi thường gặp</a>
+                    </li>
+                    
+                </ul>
+                
+                </div>
+            </div>
+            </nav>
+        </div>
+        </div>
+    </div>
+    <script>
+        
+    </script>
+    </div>
+
+    <!--main-->
+    <div class="container">
+        <div class="row dnhap" >
+            <section class="vh-100">
+                <div class="container-fluid h-custom">
+                  <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-md-9 col-lg-6 col-xl-5">
+                      <img src="../../../../../../../../../assets/images/products/noel.jpg"
+                        class="img-fluid" alt="Sample image">
+                    </div>
+                    <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                      <form ng-submit="Login()">
+                        <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                          <p class="lead fw-normal mb-0 me-3">Đăng nhập bằng</p>
+                          <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-floating mx-1" 
+                          style="color: #e44d69; font-size: 30px;">
+                            <i class="bi bi-facebook"></i>
+                          </button>
+              
+                          <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-floating mx-1" 
+                          style="color: #e44d69; font-size: 30px;">
+                            <i class="bi bi-messenger"></i>
+                          </button>
+              
+                          <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-floating mx-1" 
+                          style="color: #e44d69; font-size: 30px;">
+                            <i class="bi bi-google"></i>
+                          </button>
+                        </div>
+              
+                        <div class="divider d-flex align-items-center my-4">
+                          <p class="text-center fw-bold mx-3 mb-0">Hoặc</p>
+                        </div>
+              
+                        <!-- Email input -->
+                        <div data-mdb-input-init class="form-outline mb-4">
+                          <label class="form-label" for="form3Example3" style="font-size: 17px;"><b>Tên tài khoản:</b></label>
+                          <input type="text" class="form-control form-control-lg" style="font-size: 17px;"
+                            placeholder="Nhập vào tên tài khoản" id="tenTK" ng-model="loginData.tenTK" required/>
+                        </div>
+              
+                        <!-- Password input -->
+                        <div data-mdb-input-init class="form-outline mb-3">
+                          <label class="form-label" for="form3Example4" style="font-size: 17px;"><b>Mật khẩu:</b></label>
+                          <input type="password"  class="form-control form-control-lg" style="font-size: 17px;"
+                            placeholder="Nhập mật khẩu" id="matKhau" ng-model="loginData.matKhau" required/>
+                        </div>
+              
+                        <div class="d-flex justify-content-between align-items-center">
+                          <!-- Checkbox -->
+                          <div class="form-check mb-0">
+                            <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                            <label class="form-check-label" for="form2Example3">
+                              Đồng ý với điều khoản của shop
+                            </label>
+                          </div>
+                          <a href="#!" class="text-body">Quên mật khẩu?</a>
+                        </div>
+              
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                          <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg text-white" type="submit"
+                            style="padding-left: 2.5rem; padding-right: 2.5rem; background-color: #e44d69; margin-left: 130px;">Đăng nhập</button>
+                          <p class="small fw-bold mt-2 pt-1 mb-0">Bạn chưa có tài khoản? <a href="../../../../../../../../../pages/auth/register.html"
+                              class="link-danger">Đăng ký</a></p>
+                        </div>
+                      </form>
+                      <p>{{ loginMessage }}</p>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+        </div>
+    </div>
+
+
+    <!--Dòng ngăn cách-->
+    <div class="container " style="height: 1px; background-color: rgb(101, 27, 39);"></div>
+
+    <!--Footer-->
+    <div class="footer py-4 px-5" style="color:  rgb(101, 27, 39);">
+        <div class="row footer-1">
+        <div class="col-5 px-5 ">
+            <img src="../../../../../../../../../assets/images/icons/icon.jpg" alt="" class="w-25 px-6"> <br>
+            <b> Đặt hoa Online - Ưu đãi hấp dẫn</b>
+            <iframe width='100%' height="auto" src="https://www.youtube.com/embed/slv6L1Bzk14" title="Dahla.vn - website đặt hoa online hàng đầu Việt Nam" 
+            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><p class="lh-lg">    Shop hoa dalha là một trong những tiệm hoa uy tín nhất tại Hưng Yên. Dahla cung cấp dịch vụ đặt hoa online giao tận nơi tại Hưng Yên. Với hệ thống
+            cửa hàng hoa tươi liên kết rộng khắp các huyện trên địa bàn tỉnh, Dahla có thể giúp bạn gửi tặng hoa tươi cho người thân ở bất cứ nơi đâu. Cam kết 
+            mang đến cho bạn sản phẩm chất lượng cao, mức giá tốt nhất và dịch vụ chuyên nghiệp khi sử dụng dịch vụ.</p>
+            <br>
+
+        </div>
+        <div class="col-2 lh-lg">
+            <b >Chăm sóc khách hàng</b>
+            <br>
+            <a href="" class="text-decoration-none">Giới thiệu</a> <br>
+            <a href="" class="text-decoration-none">Liên hệ</a> <br>
+            <a href="" class="text-decoration-none">Chính sách vận chuyển</a> <br>
+            <a href="" class="text-decoration-none">Hình thức thanh toán</a> <br>
+            <a href="" class="text-decoration-none">Bảo mật thông tin</a> <br>
+            <a href="" class="text-decoration-none">Xử lý khiếu nại</a> <br>
+            <a href="" class="text-decoration-none">Chính sách hoàn tiền</a> <br>
+            <br>
+            <img src="../../../../../../../../../assets/images/icons/chungnhan.jpg" alt="" class="img-fluid w-75">
+        </div>
+        <div class="col-2 lh-lg">
+            <b >Kết nối với chúng tôi</b>
+            <br>
+            <a href="" class="text-decoration-none"><i class="bi bi-facebook"></i> Facebook</a> <br>
+            <a href="" class="text-decoration-none"><i class="bi bi-instagram"></i> Instagram</a> <br>
+            <a href="" class="text-decoration-none"><i class="bi bi-twitter"></i> Twitter</a> <br>
+            <a href="" class="text-decoration-none"><i class="bi bi-youtube"></i> Youtube</a> <br> <br>
+            <b >Về Dahla</b>
+            <br>
+            <a href="" class="text-decoration-none">Câu chuyện về Dahla</a> <br>
+            <a href="" class="text-decoration-none">Tuyển dụng</a> <br>
+            <a href="" class="text-decoration-none">Kinh doanh sỉ</a> <br>
+            <a href="" class="text-decoration-none">Hướng dẫn chọn hoa theo yêu cầu</a> <br>
+        </div>
+        <div class="col-3 lh-lg">
+            <b>Quan tâm Dahla</b>
+            <p>Địa chỉ: TTTM - Dân Tiến - Khoái Châu - Hưng Yên <br> SĐT: 0364239807 <br>CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ ZAS | Mã số thuế: 0313630426</p>
+            <b>Quan tâm qua Zalo</b>
+            <p>Nhận các thông tin ưu đãi hấp dẫn</p>
+            <img src="../../../../../../../../../assets/images/icons/zalu.jpg" alt="" class="img-fluid w-50">
+            
+        </div>
+        </div>
+    </div>
+          
+  </body>
+</html>
+

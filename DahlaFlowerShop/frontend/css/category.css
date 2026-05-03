@@ -1,0 +1,268 @@
+input[type="checkbox"] {
+    padding-top: 5px;
+    accent-color: red; /* Thay đổi màu của dấu tick */
+  }
+  label {
+    font-size: 14px;
+    color: red;
+  }
+
+  .product-image {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+    width: 400px;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    z-index: 10000;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+/*-------------------blog&tips-----------------------------*/
+.blog-valen{
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    color: rgb(75, 18, 30);
+    box-shadow: 0 5px 5px 0 #cccccc;
+    flex-wrap: nowrap;
+
+}
+.blog-valen button{
+    padding: 3px 6px;
+    border-radius: 5px;
+    background-color: rgba(246, 127, 151, 0.874);
+    float: right;
+    margin: 5px 10px;
+    border-color: antiquewhite;
+}
+.blog-valen button:hover{
+    background-color: lightcoral;
+    transform: scale3d(3px 3px 3px);
+}
+
+
+/*------------------content-valentine1----------------------*/
+.content-valentine1{
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px rgba(195, 84, 123, 0.248);
+    border-radius: 10px ;
+  }
+  
+  .btn-content-valentine1{
+      border-radius: 20px;
+  }
+  
+  .content-valentine1 img{
+      transition: transform 0.3s ease-in-out;
+  }
+
+  .content-valentine1:hover img{
+      transform: scale(1.02);
+      transition: transform linear 0.2s;
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      filter: brightness(0.8);
+  }
+  .content-valentine1:hover .overlay {
+      opacity: 1; 
+  }
+
+/*------------------content-valentine2----------------------*/
+.content-valentine2{
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px rgba(195, 84, 123, 0.248);
+    border-radius: 10px ;
+  }
+  
+  .btn-content-valentine2{
+      border-radius: 20px;
+  }
+  
+  .content-valentine2 img{
+      transition: transform 0.3s ease-in-out;
+  }
+
+  .content-valentine2:hover img{
+      transform: scale(1.02);
+      transition: transform linear 0.2s;
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      filter: brightness(0.8);
+  }
+  .content-valentine2:hover .overlay {
+      opacity: 1; 
+  }
+
+/*------------------content-valentine3----------------------*/
+.content-valentine3{
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px rgba(195, 84, 123, 0.248);
+    border-radius: 10px ;
+  }
+  
+  .btn-content-valentine3{
+      border-radius: 20px;
+  }
+  
+  .content-valentine3 img{
+      transition: transform 0.3s ease-in-out;
+  }
+
+  .content-valentine3:hover img{
+      transform: scale(1.02);
+      transition: transform linear 0.2s;
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      filter: brightness(0.8);
+  }
+  .content-valentine3:hover .overlay {
+      opacity: 1; 
+  }
+
+/*------------------content-valentine4----------------------*/
+.content-valentine4{
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px rgba(195, 84, 123, 0.248);
+    border-radius: 10px ;
+  }
+  
+  .btn-content-valentine4{
+      border-radius: 20px;
+  }
+  
+  .content-valentine4 img{
+      transition: transform 0.3s ease-in-out;
+  }
+
+  .content-valentine4:hover img{
+      transform: scale(1.02);
+      transition: transform linear 0.2s;
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      filter: brightness(0.8);
+  }
+  .content-valentine4:hover .overlay {
+      opacity: 1; 
+  }
+
+/*------------------content-valentine7----------------------*/
+.content-valentine7{
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px rgba(195, 84, 123, 0.248);
+    border-radius: 10px ;
+  }
+  
+  .btn-content-valentine7{
+      border-radius: 20px;
+  }
+  
+  .content-valentine7 img{
+      transition: transform 0.3s ease-in-out;
+  }
+
+  .content-valentine7:hover img{
+      transform: scale(1.02);
+      transition: transform linear 0.2s;
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      filter: brightness(0.8);
+  }
+  .content-valentine7:hover .overlay {
+      opacity: 1; 
+  }
+
+/*------------------content-valentine5----------------------*/
+.content-valentine5{
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px rgba(195, 84, 123, 0.248);
+    border-radius: 10px ;
+  }
+  
+  .btn-content-valentine5{
+      border-radius: 20px;
+  }
+  
+  .content-valentine5 img{
+      transition: transform 0.3s ease-in-out;
+  }
+
+  .content-valentine5:hover img{
+      transform: scale(1.02);
+      transition: transform linear 0.2s;
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      filter: brightness(0.8);
+  }
+  .content-valentine5:hover .overlay {
+      opacity: 1; 
+  }
+
+/*------------------content-valentine6----------------------*/
+.content-valentine6{
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px rgba(195, 84, 123, 0.248);
+    border-radius: 10px ;
+  }
+  
+  .btn-content-valentine6{
+      border-radius: 20px;
+  }
+  
+  .content-valentine6 img{
+      transition: transform 0.3s ease-in-out;
+  }
+
+  .content-valentine6:hover img{
+      transform: scale(1.02);
+      transition: transform linear 0.2s;
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      filter: brightness(0.8);
+  }
+  .content-valentine6:hover .overlay {
+      opacity: 1; 
+  }
+
+/*------------------content-valentine8----------------------*/
+.content-valentine8{
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px rgba(195, 84, 123, 0.248);
+    border-radius: 10px ;
+  }
+  
+  .btn-content-valentine8{
+      border-radius: 20px;
+  }
+  
+  .content-valentine8 img{
+      transition: transform 0.3s ease-in-out;
+  }
+
+  .content-valentine8:hover img{
+      transform: scale(1.02);
+      transition: transform linear 0.2s;
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      filter: brightness(0.8);
+  }
+  .content-valentine8:hover .overlay {
+      opacity: 1; 
+  }

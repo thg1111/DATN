@@ -1,0 +1,483 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="../../../../../../../../../css/main.css?v=20260430-3">
+        <link rel="stylesheet" href="../../../../../../../../../css/category.css">
+        <title>Gấu bông</title>
+        <script src="../../../../../../../../../js/jquery.min.js"></script>
+        <script src="../../../../../../../../../js/angular.min.js"></script>
+        <script src="../../../../../../../../../js/config.js"></script>
+        <script src="../../../../../../../../../js/app.js"></script>
+        <script src="../../../../../../../../../js/site-auth.js?v=20260430-3"></script>
+        <script >
+          $(document).ready(function () {
+    var DatHang = JSON.parse(localStorage.getItem("DatHang")) || {}; // Lấy giỏ hàng từ localStorage nếu có
+
+    // Kiểm tra nếu DatHang không phải là đối tượng hợp lệ
+    if (typeof DatHang !== 'object') {
+        DatHang = {}; // Khởi tạo giỏ hàng nếu dữ liệu không hợp lệ
+    }
+
+    $(".btn-cart").click(function () {
+        // Tìm container chứa sản phẩm hiện tại
+        var productContainer = $(this).closest(".vlt");
+
+        // Lấy thông tin sản phẩm từ container
+        var id = productContainer.find(".id-product").text().trim();
+        var photo = productContainer.find(".imgSP").attr("src");
+        var name = productContainer.find(".product-name").text().trim();
+        var price = productContainer.find(".product-price").text().trim();
+        var quantity = 1; // Số lượng mặc định là 1
+
+        // Kiểm tra nếu sản phẩm đã tồn tại trong giỏ hàng
+        if (DatHang.hasOwnProperty(id)) {
+            DatHang[id].quantity += quantity; // Tăng số lượng
+        } else {
+            // Thêm sản phẩm mới vào giỏ hàng
+            DatHang[id] = {
+                id: id,
+                photo: photo,
+                name: name,
+                price: price,
+                quantity: quantity
+            };
+        }
+
+        // Lưu giỏ hàng vào localStorage
+        localStorage.setItem("DatHang", JSON.stringify(DatHang));
+
+        // Cập nhật hiển thị số lượng sản phẩm trong giỏ hàng
+        var totalQuantity = Object.values(DatHang).reduce((sum, product) => sum + product.quantity, 0);
+        $(".badge").text(totalQuantity);
+
+        // Thông báo sản phẩm đã được thêm vào giỏ hàng
+        alert(`Đã thêm 1 sản phẩm "${name}" vào giỏ hàng!`);
+    });
+});
+
+        </script>
+    </head>
+    <body ng-app="userApp" ng-controller="trangchuCtrl">
+        <!--Header-->
+        <div class="header" style="z-index: 1000;" ng-controller="SanPhamCtrl">
+          <div class="container " style="padding-top: 15px;">
+            <div class="row">
+              <div class="col-sm-6 col-lg-2 header1"><!--p:padding, y: trục y(trên, dưới);3: kích thước-->
+                <a href="../../../../../../../../../index.html"><img src="../../../../../../../../../assets/images/icons/icon.jpg" alt="Logo"  class="img-fluid w-50 "></a>
+              </div>
+              <div class="col-sm-0 col-lg-5 header2">
+                <div class="input-group mb-3 py-1">
+                  <input type="text" class="form-control" placeholder="Từ khoá tìm kiếm.." 
+                        ng-model="searchQuery" ng-change="searchProducts()" 
+                        aria-label="Từ khoá tìm kiếm.." aria-describedby="basic-addon2">
+                  <span class="input-group-text" id="basic-addon2"><i class="bi bi-search-heart"></i></span>
+                </div>
+
+                <!-- Dropdown kết quả tìm kiếm -->
+                <div class="dropdown-menu" ng-if="filteredProducts.length > 0" style="display: block;">
+                  <div class="dropdown-item" ng-repeat="product in filteredProducts">
+                      <img ng-src="{{ product.anhSP }}" alt="{{ product.tenSanPham }}" class="product-image">
+                      <strong class="product-name1">{{ product.tenSanPham }}</strong><br>
+                      <span>{{ product.gia | currency }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-0 col-lg-3 header3">
+                <div class="row">
+                  <div class="col">
+                    <div class="row">
+                      <div class="col-3 py-2 " style="color:  #de546d;">
+                        <div class="fs-4"><i class="bi bi-telephone-fill"></i></div>
+                      </div>
+                      <div class="col-9">
+                        Tư vấn hỗ trợ <br>
+                        <strong style="color:  #de546d;">0364239807</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="row">
+                      <div class="col-3 py-2 " style="color: #de546d;">
+                        <div class="fs-4"><i class="bi bi-person-circle"></i></div>
+                      </div>
+                      <div class="col-9 auth-links">
+                        <a href="../../../../../../../../../pages/auth/login.html" class="auth-button auth-button-login">Đăng nhập</a>
+                        <a href="../../../../../../../../../pages/auth/register.html" class="auth-button auth-button-register">Đăng ký</a>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+              <div class="col-sm-6 col-lg-2 header4">
+                <div class="row w-75 py-2" style="float: right; margin-right: 10px;">
+                  <div class="col-3"><a href="#" class="position-relative"> 
+                      <span class="fs-4" style="color:  #de546d;"><i class="bi bi-geo-alt"></i></span>
+                    </a>
+                  </div>
+                  <div class="col-3"><a href="#" class="position-relative"></a>
+                    <span class="fs-4 " style="color:  #de546d;"><i class="bi bi-person-fill-gear"></i></span>
+                  </a>
+                  </div>
+                  <div class="col-3">
+                    <a href="#" class="position-relative">
+                      <span class="fs-4 " style="color:  #de546d;"><i class="bi bi-heart"></i></span>
+                      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                        0
+                        <span class="visually-hidden">unread messages</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="col-3" id="cart">
+                    <a href="../../../../../../../../../pages/cart.html" class="position-relative">
+                      <span class="fs-4 " style="color: #de546d;"><i class="bi bi-cart3"></i></span>
+                      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                        0
+                        <span class="visually-hidden">unread messages</span>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--thanh điều hướng-->
+        <div class="nav-banner" style="background-color:#f55371">
+          <div class="row">
+            <div class="col-2">
+              <div class="chat-button">
+                <i class="bi bi-egg-fried" style="color: #e03a61; font-size: 30px;"></i>
+              </div>
+            </div>
+            <div class="col-8">
+              <marquee behavior="scroll" direction="left" style="color: white;">
+                Chào mừng đến với Dahla Flower Shop, chúc các bạn có 1 trải nghiệm tốt khi đến với chúng tôi!
+              </marquee>    
+            </div>
+            <div class="col-2"></div>
+          </div>
+        </div>
+
+        <!--Menu-->
+        <div class="menu " style="background-color:#f06e86; height: 40px;">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-3 menu1 py-2 text-white" style="padding-left: 40px;">
+                <div class="menu1 "> <i class="bi bi-list"></i>Danh mục sản phẩm
+                  <ul class="submenu" style="width: 200px; text-align: center;" >
+                    <li><a href="../../../../../../../../../pages/products/wedding.html">Hoa cưới</a></li>
+                    <li><a href="../../../../../../../../../pages/products/teddy-bear.html"> Gấu bông</a></li>
+                    <li><a href="../../../../../../../../../pages/products/chocolate.html">Chocolate</a></li>
+                    <li><a href="../../../../../../../../../pages/products/fruit.html">Trái cây</a></li>
+                    <li><a href="../../../../../../../../../pages/products/candle.html">Nến thơm</a></li>
+                    <li><a href="../../../../../../../../../pages/products/cake.html">Bánh kem</a></li>
+                  </ul>
+                </div>
+            
+              </div>
+              <div class="col-lg-9 menu2 ">
+                <nav class="navbar navbar-expand-lg navbar-light " style=" height: 40px;">
+                  <div class="container-fluid">
+                    <a class="navbar-brand d-none" href="#">Navbar</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item-mn1 px-4 dropdown">
+                          <a class="nav-link text-white dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Chủ đề
+                          </a>
+                          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="../../../../../../../../../pages/products/birthday.html">Hoa sinh nhật</a></li>
+                            <li><a class="dropdown-item" href="../../../../../../../../../pages/products/wedding.html">Hoa cưới</a></li>
+                            <li><a class="dropdown-item" href="#">Hoa tốt nghiệp</a></li>
+                            <li><a class="dropdown-item" href="#">Lan hồ điệp</a></li>
+                            <li><a class="dropdown-item" href="#">Hoa khai trương</a></li>
+                            <li><a class="dropdown-item" href="../../../../../../../../../pages/products/christmas.html">Giáng sinh</a></li>
+                            <li><a class="dropdown-item" href="#">Hoa kỷ niệm ngày cưới</a></li>
+                          </ul>
+                        </li>
+                        <li class="nav-item-mn2 px-4">
+                          <a class="nav-link text-white active " aria-current="page" href="#">Tuyển dụng</a>
+                        </li>
+                        <li class="nav-item-mn3 px-4">
+                          <a class="nav-link text-white active " aria-current="page" href="#">Tin tức</a>
+                        </li>
+                        <li class="nav-item-mn4 px-4 ">
+                          <a class="nav-link text-white active " aria-current="page" href="#">Blogs</a>
+                        </li>
+                        <li class="nav-item-mn5 px-4 ">
+                          <a class="nav-link text-white active " aria-current="page" href="#">Giới thiệu</a>
+                        </li>
+                        <li class="nav-item-mn5 px-4 ">
+                          <a class="nav-link text-white active " aria-current="page" href="#">Câu hỏi thường gặp</a>
+                        </li>
+                       
+                      </ul>
+                      
+                    </div>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </div>
+          <script>
+            
+          </script>
+        </div>
+
+        <!--List product-->
+        <div class="container">
+            <div class="row text-center py-2">
+                <h4 style="font: bold; color: #e03a61; ">Trang chủ / <b id="tenDanhMuc" data-ten-danh-muc="Gấu bông">Gấu bông</b></b></h4>
+            </div>
+            
+            <!--bộ lọc-->
+            <div class="row" style="display: flex; margin-bottom: 0; align-items: center;color: rgb(64, 18, 27);">
+                <div class="col-10" style="padding-bottom: 0; "><p style="margin: 0px 0px; font-size: 15px;">Bộ lọc:</p></div>
+                <div class="col-2" style="padding-bottom: 0;"><p style="margin: 0px 0px ;font-size: 15pxs;">Sắp xếp:</p></div>
+            </div>
+            <div class="row py-2" >
+                <div class="col-10">
+                    <div class="bo-loc" >
+                      <select id="XuatXu" requied style="padding: 4px 6px; margin-right: 3px;">
+                        <option disabled selected>Xuất xứ</option>
+                        <option value="Hà Nội">Hà Nội</option>
+                        <option value="">Đà Lạt</option>
+                      </select>
+                      <select id="Gia" style="padding: 4px 6px; margin-right: 3px;" requied>
+                        <option disabled selected>Giá</option>
+                        <option value="">Dưới 500K</option>
+                        <option value="">500K-1.000K</option>
+                        <OPtion value="">Trên 1.000K</OPtion>
+                      </select>
+                      <select id="Mau"style="padding: 4px 6px; margin-right: 3px;" requied>
+                        <option disabled selected>Màu chủ đạo</option>
+                        <option value="">Hồng</option>
+                        <option value="">Trắng</option>
+                        <option value="">Xanh Mint</option>
+                        <option value="">Đỏ</option>
+                      </select>
+                      <select id="XuatXu" style="padding: 4px 6px; margin-right: 3px;" requied>
+                        <option disabled selected>Giới tính</option>
+                        <option value="">Nam</option>
+                        <option value="">Nữ</option>
+                      </select>
+                      <select id="BST" style="padding: 4px 6px; margin-right: 3px;" requied>
+                        <option disabled selected>Thiết kế</option>
+                        <option value="">Giỏ</option>
+                        <option value="">Lãng</option>
+                        <option value="">Cây</option>
+                        <option value="">Bó</option>
+                      </select>
+                      <select id="XuatXu" style="padding: 4px 6px; margin-right: 3px;" requied>
+                        <option disabled selected>Bảo quản</option>
+                        <option value="Hà Nội">2 ngày trở xuống</option>
+                        <option value="">2 ngày trở lên</option>
+                      </select>
+                      <input type="checkbox" id="giaohanghoatoc" />
+                      <label for="giaohanghoatoc">Giao hàng hỏa tốc</label>
+                      <input type="checkbox" id="khuyenmai" />
+                      <label for="khuyenmai">Khuyến mãi</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                  <div class="bo-loc">
+                    <button type="button" class="btn" data-bs-toggle="dropdown" style="border-color: rgba(113, 110, 110, 0.797); font-size: 13px; border-radius: 0%;
+                      padding: 3px 6px; color: rgb(55, 27, 35); margin-right: 5px;">Sản phẩm phổ biến nhất <i class="bi bi-chevron-down"></i></button>
+                  </div>
+                </div>
+            </div> <br>
+
+            <!--danh sách sp-->
+            <div class="row valentine">
+                <div class="col-3 text-center px-4 content-valentine1 vlt">
+                      <img src="../../../../../../../../../assets/images/products/gau1.jpg" alt="" class="img-fluid rounded imgSP">
+                    <div class="overlay">
+                      <button class="btn-spc1 btn-cart" ><i class="bi bi-cart4"></i></button>
+                      <button class="btn-spc1"><i class="bi bi-chat-text"></i></button>
+                      <a href="#"><button class="btn-spc1"><i class="bi bi-eye-fill"></i></button></a>
+                    </div>
+                      <b class="product-name">Cappybara tịnh tâm</b> <br> 
+                      <p class="product-price" style="color: #e03a61; font-size: 15px;">600000 VND</p> 
+                      <p>Mã SP: <b class="id-product">31</b></p>
+                      <b style="font-size: 13px; text-align: end; float: right;">4,6 <i class="bi bi-star-fill" style="color: yellow;"></i></b> <br>
+                </div>
+                <div class="col-3 text-center px-4 content-valentine2 vlt">
+                      <img src="../../../../../../../../../assets/images/products/gau9.jpg" alt="" class="img-fluid rounded imgSP">
+                    <div class="overlay">
+                      <button class="btn-spc1 btn-cart"><i class="bi bi-cart4"></i></button>
+                      <button class="btn-spc1"><i class="bi bi-chat-text"></i></button>
+                      <a href="../../../../../../../../../pages/products/product-detail.html"><button class="btn-spc1"><i class="bi bi-eye-fill"></i></button></a>
+                    </div>
+                      <b class="product-name">Lena nón chuột (40cm)</b> <br> 
+                      <p style="color: #e03a61; font-size: 15px;" class="product-price">320000 VND</p> 
+                      <p>Mã SP: <b class="id-product">32</b></p>
+                      <b style="font-size: 13px; text-align: end; float: right;">4,6 <i class="bi bi-star-fill" style="color: yellow;"></i></b> <br>
+                </div>
+                <div class="col-3 text-center px-4 content-valentine3 vlt">
+                    <img src="../../../../../../../../../assets/images/products/gau3.jpg" alt="" class="img-fluid rounded imgSP">
+                    <div class="overlay">
+                      <button class="btn-spc1 btn-cart"><i class="bi bi-cart4"></i></button>
+                      <button class="btn-spc1"><i class="bi bi-chat-text"></i></button>
+                      <a href="../../../../../../../../../pages/products/product-detail.html"><button class="btn-spc1"><i class="bi bi-eye-fill"></i></button></a>
+                    </div>
+                    <b class="product-name">Teddy</b> <br> 
+                    <p style="color: #e03a61; font-size: 15px;" class="product-price">450000 VND</p> 
+                    <p>Mã SP: <b class="id-product">33</b></p>
+                    <b style="font-size: 13px; text-align: end; float: right;">4,6 <i class="bi bi-star-fill" style="color: yellow;"></i></b> <br>
+                </div>
+                <div class="col-3 text-center px-4 content-valentine4 vlt">
+                    <img src="../../../../../../../../../assets/images/products/gau16.jpg" alt="" class="img-fluid rounded imgSP">
+                    <div class="overlay">
+                      <button class="btn-spc1 btn-cart"><i class="bi bi-cart4"></i></button>
+                      <button class="btn-spc1"><i class="bi bi-chat-text"></i></button>
+                      <a href="../../../../../../../../../pages/products/product-detail.html"><button class="btn-spc1"><i class="bi bi-eye-fill"></i></button></a>
+                    </div>
+                    <b class="product-name">Jullydoll</b> <br> 
+                    <p class="product-price" style="color: #e03a61; font-size: 15px;">1614000 VND</p> 
+                    <p> Mã SP: <b class="id-product">34</b></p>
+                    <b style="font-size: 13px; text-align: end; float: right;">4,6 <i class="bi bi-star-fill" style="color: yellow;"></i></b> <br>
+                </div>
+            </div>
+            <div class="row py-4">
+                <div class="col-3 text-center px-4 content-valentine5 vlt">
+                    <img src="../../../../../../../../../assets/images/products/gau11.jpg" alt="" class="img-fluid rounded imgSP">
+                    <div class="overlay">
+                      <button class="btn-spc1 btn-cart"><i class="bi bi-cart4"></i></button>
+                      <button class="btn-spc1"><i class="bi bi-chat-text"></i></button>
+                      <a href="../../../../../../../../../pages/products/product-detail.html"><button class="btn-spc1"><i class="bi bi-eye-fill"></i></button></a>
+                    </div>
+                    <b class="product-name">Kuromi</b> <br> 
+                    <p class="product-price" style="color: #e03a61; font-size: 15px;">650000 VND</p> 
+                    <p> Mã SP: <b class="id-product">35</b></p>
+                    <b style="font-size: 13px; text-align: end; float: right;">4,6 <i class="bi bi-star-fill" style="color: yellow;"></i></b> <br>
+                </div>
+                <div class="col-3 text-center px-4 content-valentine6 vlt">
+                    <img src="../../../../../../../../../assets/images/products/gau10.jpg" alt="" class="img-fluid rounded imgSP">
+                    <div class="overlay">
+                      <button class="btn-spc1 btn-cart"><i class="bi bi-cart4"></i></button>
+                      <button class="btn-spc1"><i class="bi bi-chat-text"></i></button>
+                      <a href="../../../../../../../../../pages/products/product-detail.html"><button class="btn-spc1"><i class="bi bi-eye-fill"></i></button></a>
+                    </div>
+                    <b class="product-name">BaybyThree Thỏ </b> <br> 
+                    <p class="product-price" style="color: #e03a61; font-size: 15px;">350000 VND</p> 
+                    <p> Mã SP: <b class="id-product">36</b></p>
+                    <b style="font-size: 13px; text-align: end; float: right;">4,6 <i class="bi bi-star-fill" style="color: yellow;"></i></b> <br>
+
+                </div>
+                <div class="col-3 text-center px-4 content-valentine7 vlt">
+                    <img src="../../../../../../../../../assets/images/products/gau12.jpg" alt="" class="img-fluid rounded imgSP">
+                    <div class="overlay">
+                      <button class="btn-spc1 btn-cart"><i class="bi bi-cart4"></i></button>
+                      <button class="btn-spc1"><i class="bi bi-chat-text"></i></button>
+                      <a href="../../../../../../../../../pages/products/product-detail.html"><button class="btn-spc1"><i class="bi bi-eye-fill"></i></button></a>
+                    </div>
+                    <b class="product-name">Vịt vàng cute</b> <br> 
+                    <p class="product-price" style="color: #e03a61; font-size: 15px;">310000 VND</p> 
+                    <p> Mã SP: <b class="id-product">37</b></p>
+                    <b style="font-size: 13px; text-align: end; float: right;">4,6 <i class="bi bi-star-fill" style="color: yellow;"></i></b> <br>
+
+                </div>
+                <div class="col-3 text-center px-4 content-valentine8 vlt">
+                    <img src="../../../../../../../../../assets/images/products/gau15.jpg" alt="" class="img-fluid rounded imgSP">
+                    <div class="overlay">
+                      <button class="btn-spc1 btn-cart"><i class="bi bi-cart4"></i></button>
+                      <button class="btn-spc1"><i class="bi bi-chat-text"></i></button>
+                      <a href="../../../../../../../../../pages/products/product-detail.html"><button class="btn-spc1"><i class="bi bi-eye-fill"></i></button></a>
+                    </div>
+                    <b class="product-name">Loopy</b> <br> 
+                    <p class="product-price" style="color: #e03a61; font-size: 15px;">1990000 VND</p> 
+                    <p> Mã SP: <b class="id-product">38</b></p>
+                    <b style="font-size: 13px; text-align: end; float: right;">4,6 <i class="bi bi-star-fill" style="color: yellow;"></i></b> <br>
+
+                </div>
+            </div>
+
+            <!--blog&tips-->
+            <div class="row text-center py-2"> <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 23px; color: #e03a61; font-weight: bold;">Blog & Tips</p></div>
+            <div class="row px-4">
+              <div class="col-6 blog-valen py-1 px-3" >
+                <b>Top 5 bó hoa đẹp chiếm chọn trái tim bạn gái dịp Valentine 2024</b>
+                <p>Đây sẽ là 5 bó hoa đẹp nhất được người dùng lựa chọn, phù hợp để tặng bạn gái, vợ vào dịp Valentine 2024 năm nay.</p> 
+                <button>Xem thêm</button>
+              </div>
+              <div class="col-1"></div>
+              <div class="col-5 blog-valen py-1 px-3">
+                <b>Những tips chọn hoa phù hợp với nàng thơ của bạn</b>
+                <p>Đây sẽ là những tips và kinh nghiệm được người bán và người mua giúp bạn lựa chọn bó hoa phù hợp với nàng.</p> 
+                <button>Xem thêm</button>
+              </div>
+            </div>
+            <br><br>
+        </div>
+
+
+
+        <!--Dòng ngăn cách-->
+        <div class="container " style="height: 1px; background-color: rgb(101, 27, 39);"></div>
+
+        <!--Footer-->
+        <div class="footer py-4 px-5" style="color:  rgb(101, 27, 39);">
+          <div class="row footer-1">
+            <div class="col-5 px-5 ">
+              <img src="../../../../../../../../../assets/images/icons/icon.jpg" alt="" class="w-25 px-6"> <br>
+              <b> Đặt hoa Online - Ưu đãi hấp dẫn</b>
+              <iframe width='100%' height="auto" src="https://www.youtube.com/embed/slv6L1Bzk14" title="Dahla.vn - website đặt hoa online hàng đầu Việt Nam" 
+              frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <br><p class="lh-lg">    Shop hoa dalha là một trong những tiệm hoa uy tín nhất tại Hưng Yên. Dahla cung cấp dịch vụ đặt hoa online giao tận nơi tại Hưng Yên. Với hệ thống
+                cửa hàng hoa tươi liên kết rộng khắp các huyện trên địa bàn tỉnh, Dahla có thể giúp bạn gửi tặng hoa tươi cho người thân ở bất cứ nơi đâu. Cam kết 
+                mang đến cho bạn sản phẩm chất lượng cao, mức giá tốt nhất và dịch vụ chuyên nghiệp khi sử dụng dịch vụ.</p>
+              <br>
+
+            </div>
+            <div class="col-2 lh-lg">
+              <b >Chăm sóc khách hàng</b>
+              <br>
+              <a href="" class="text-decoration-none">Giới thiệu</a> <br>
+              <a href="" class="text-decoration-none">Liên hệ</a> <br>
+              <a href="" class="text-decoration-none">Chính sách vận chuyển</a> <br>
+              <a href="" class="text-decoration-none">Hình thức thanh toán</a> <br>
+              <a href="" class="text-decoration-none">Bảo mật thông tin</a> <br>
+              <a href="" class="text-decoration-none">Xử lý khiếu nại</a> <br>
+              <a href="" class="text-decoration-none">Chính sách hoàn tiền</a> <br>
+              <br>
+              <img src="../../../../../../../../../assets/images/icons/chungnhan.jpg" alt="" class="img-fluid w-75">
+            </div>
+            <div class="col-2 lh-lg">
+              <b >Kết nối với chúng tôi</b>
+              <br>
+              <a href="" class="text-decoration-none"><i class="bi bi-facebook"></i> Facebook</a> <br>
+              <a href="" class="text-decoration-none"><i class="bi bi-instagram"></i> Instagram</a> <br>
+              <a href="" class="text-decoration-none"><i class="bi bi-twitter"></i> Twitter</a> <br>
+              <a href="" class="text-decoration-none"><i class="bi bi-youtube"></i> Youtube</a> <br> <br>
+              <b >Về Dahla</b>
+              <br>
+              <a href="" class="text-decoration-none">Câu chuyện về Dahla</a> <br>
+              <a href="" class="text-decoration-none">Tuyển dụng</a> <br>
+              <a href="" class="text-decoration-none">Kinh doanh sỉ</a> <br>
+              <a href="" class="text-decoration-none">Hướng dẫn chọn hoa theo yêu cầu</a> <br>
+            </div>
+            <div class="col-3 lh-lg">
+              <b>Quan tâm Dahla</b>
+              <p>Địa chỉ: TTTM - Dân Tiến - Khoái Châu - Hưng Yên <br> SĐT: 0364239807 <br>CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ ZAS | Mã số thuế: 0313630426</p>
+              <b>Quan tâm qua Zalo</b>
+              <p>Nhận các thông tin ưu đãi hấp dẫn</p>
+              <img src="../../../../../../../../../assets/images/icons/zalu.jpg" alt="" class="img-fluid w-50">
+              
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>
+

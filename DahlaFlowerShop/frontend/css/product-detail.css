@@ -1,0 +1,147 @@
+.product-image {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.dropdown-menu {
+  max-height: 300px;
+  overflow-y: auto;
+  width: 400px;
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  z-index: 10000;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.khuyen-mai {
+    text-align: center;
+    display: flex;
+}
+.sdt {
+    text-align: center;
+    display: flex;
+}
+
+.hop-khuyen-mai {
+    display: inline-block;
+    background-color: #f2c2c2d2;
+    border: 2px dashed #e28585;
+    padding: 0 5px;
+    white-space: nowrap;
+    margin-left: 17px;
+    color: #f42b49;
+    position: relative;
+    border-radius: 2px;
+}
+
+.hop-khuyen-mai:hover {
+    background-color: #f334776b;
+  }
+  
+  .popup {
+    display: none; /* Ẩn mặc định */
+    position: absolute;
+    top: 120%; /* Vị trí xuất hiện dưới thẻ */
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 200px; /* Đặt chiều rộng tối thiểu */
+    max-width: 400px; /* Đặt chiều rộng tối đa */
+    padding: 5px 10px ;
+    background-color: #ffe5e0;
+    color: #000;
+    border: 1px solid #ff6f61;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    z-index: 10; /* Đảm bảo popup ở trên các phần tử khác */
+    white-space: normal; /* Đảm bảo nội dung xuống dòng */
+    word-wrap: break-word; /* Bẻ dòng nếu cần */
+    overflow-wrap: break-word;
+    text-align: center; /* Căn trái nội dung */
+  }
+  
+  .hop-khuyen-mai:hover .popup {
+    display: block; /* Hiển thị khi hover */
+    animation: fadeIn 0.3s ease-in-out; /* Hiệu ứng mượt khi xuất hiện */
+  }
+  
+  /* Hiệu ứng xuất hiện */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+.sdt-hehe{
+    display: inline-block;
+    background-color: #f2c2c2d2;
+    padding: 0 5px;
+    padding-top: 3px;
+    white-space: nowrap;
+    margin-left: 17px;
+    color: #f42b49;
+    border-radius: 3px;
+}
+
+.btn-cart{
+    cursor: pointer;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    border: none;
+    background-color: #f06e86;
+    padding: 10px 60px;
+    border-radius: 9px;
+    margin-right: 20px;
+    font-size: 14px;
+    box-shadow: 4px gray;
+}
+
+.btn-cart:hover{
+    background-color: #ec3c56;
+    transform: translateY(-1px);
+    box-shadow: 4px 4px 4px rgb(0, 0, 0, 0.5);
+}
+
+.btn-nhanh{
+    cursor: pointer;
+    border-radius: 9px;
+    box-shadow: 4px gray;
+    font-weight: bold;
+    border: none;
+    background-color: #f06e86;
+}
+
+.btn-nhanh:hover{
+    background-color: #ec3c56;
+    transform: translateY(-1px);
+    box-shadow: 4px 4px 4px rgb(0, 0, 0, 0.5);
+}
+
+.cart{
+    padding-left: 0px;
+}
+
+.so-luong{
+    display: flex;
+    margin: 10px 10px;
+}

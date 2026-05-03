@@ -1,0 +1,10 @@
+﻿ci-reports-all.zip	343.6 KB
+jenkins-api-dashboard.html	14.7 KB
+local-web-logs.zip	2.2 KB
+newman-junit.xml	10.9 KB
+newman-report.html	633.2 KB
+newman-report.zip	338.4 KB
+newman-summary.json	2.9 MB
+service-logs.zip	2.7 KB
+test-types-report.html	7.9 KB
+test-types-report.json	11.9 KB

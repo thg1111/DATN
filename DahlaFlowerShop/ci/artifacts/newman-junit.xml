@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Dahla Gateway Validation Tests" tests="28" time="1.039">
+  <testsuite name="Gateway - User Categories" id="73edccf0-72f7-43ec-a776-51efaf05e5de" timestamp="2026-04-30T16:15:37.200Z" tests="3" failures="0" errors="0" time="0.401">
+    <testcase name="Status code is 200" time="0.401" classname="GatewayUserCategories"/>
+    <testcase name="Response body is a JSON array" time="0.401" classname="GatewayUserCategories"/>
+    <testcase name="Response time is below configured threshold" time="0.401" classname="GatewayUserCategories"/>
+  </testsuite>
+  <testsuite name="Gateway - User Category Search" id="ea93b1c5-40df-4d22-99f2-8f20a2085a5b" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.031">
+    <testcase name="Status code is 200" time="0.031" classname="GatewayUserCategorySearch"/>
+    <testcase name="Category search returns data" time="0.031" classname="GatewayUserCategorySearch"/>
+  </testsuite>
+  <testsuite name="Gateway - User Products" id="1cd72692-e9e4-4983-a325-2bb65d4d2c55" timestamp="2026-04-30T16:15:37.200Z" tests="3" failures="0" errors="0" time="0.158">
+    <testcase name="Status code is 200" time="0.158" classname="GatewayUserProducts"/>
+    <testcase name="Products response body is a JSON array" time="0.158" classname="GatewayUserProducts"/>
+    <testcase name="Response time is below configured threshold" time="0.158" classname="GatewayUserProducts"/>
+  </testsuite>
+  <testsuite name="Gateway - User Product By Id" id="f16fde7e-3211-4a63-a831-feacf9d643f9" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.027">
+    <testcase name="Status code is 200" time="0.027" classname="GatewayUserProductById"/>
+    <testcase name="Product detail returns a JSON object" time="0.027" classname="GatewayUserProductById"/>
+  </testsuite>
+  <testsuite name="Gateway - User Products By Category" id="3991dcc3-43af-49e6-8725-2c182a526f7f" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.008">
+    <testcase name="Status code is 200" time="0.008" classname="GatewayUserProductsByCategory"/>
+    <testcase name="Category product list returns data" time="0.008" classname="GatewayUserProductsByCategory"/>
+  </testsuite>
+  <testsuite name="Gateway - User Product Search" id="89359a2a-00ec-4e61-a146-f602e52279fe" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.008">
+    <testcase name="Status code is 200" time="0.008" classname="GatewayUserProductSearch"/>
+    <testcase name="Search response body is a JSON array" time="0.008" classname="GatewayUserProductSearch"/>
+  </testsuite>
+  <testsuite name="Gateway - User Cart" id="82e14e7e-1513-4567-ba02-af90a807648e" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.022">
+    <testcase name="Status code is 200" time="0.022" classname="GatewayUserCart"/>
+    <testcase name="Cart response body is a JSON array" time="0.022" classname="GatewayUserCart"/>
+  </testsuite>
+  <testsuite name="Gateway - User Feedback" id="9481bec1-caf6-49dd-96f4-7a1b868f8a00" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.017">
+    <testcase name="Status code is 200" time="0.017" classname="GatewayUserFeedback"/>
+    <testcase name="Feedback response body is a JSON array" time="0.017" classname="GatewayUserFeedback"/>
+  </testsuite>
+  <testsuite name="Gateway - User Orders" id="1fdc2d4d-d41b-41c8-9916-0f73e774db29" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.025">
+    <testcase name="Status code is 200" time="0.025" classname="GatewayUserOrders"/>
+    <testcase name="User orders response body is a JSON array" time="0.025" classname="GatewayUserOrders"/>
+  </testsuite>
+  <testsuite name="Gateway - User Order By Id" id="de40377d-e313-403a-b814-b121ea44fb9e" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.171">
+    <testcase name="Status code is 200" time="0.171" classname="GatewayUserOrderById"/>
+    <testcase name="User order detail returns a JSON object" time="0.171" classname="GatewayUserOrderById"/>
+  </testsuite>
+  <testsuite name="Gateway - Login With Seeded Admin" id="189ae183-3769-41ed-8171-fb845984e9e6" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.025">
+    <testcase name="Status code is 200" time="0.025" classname="GatewayLoginWithSeededAdmin"/>
+    <testcase name="Login response contains identity fields" time="0.025" classname="GatewayLoginWithSeededAdmin"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Categories" id="3f77c136-a803-4b47-ba3f-fe32692d2806" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.006">
+    <testcase name="Status code is 200" time="0.006" classname="GatewayAdminCategories"/>
+    <testcase name="Admin category list returns data" time="0.006" classname="GatewayAdminCategories"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Category Search" id="19a50a62-e4e4-441a-850d-93f9feec77a8" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.004">
+    <testcase name="Status code is 200" time="0.004" classname="GatewayAdminCategorySearch"/>
+    <testcase name="Admin category search returns data" time="0.004" classname="GatewayAdminCategorySearch"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Products" id="1978e8ae-049f-4ffa-852f-f2fca7a675f7" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.014">
+    <testcase name="Status code is 200" time="0.014" classname="GatewayAdminProducts"/>
+    <testcase name="Admin products response body is a JSON array" time="0.014" classname="GatewayAdminProducts"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Product By Id" id="6e4a8b42-6410-47dc-a703-22cdd2ce3210" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.007">
+    <testcase name="Status code is 200" time="0.007" classname="GatewayAdminProductById"/>
+    <testcase name="Admin product detail returns a JSON object" time="0.007" classname="GatewayAdminProductById"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Product Search" id="afc795a4-8a1b-4402-a5fe-2ce1fe556fdd" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.006">
+    <testcase name="Status code is 200" time="0.006" classname="GatewayAdminProductSearch"/>
+    <testcase name="Admin product search returns a JSON array" time="0.006" classname="GatewayAdminProductSearch"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Accounts" id="f22372c7-9707-4ca8-9bd3-5086c6fa518f" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.009">
+    <testcase name="Status code is 200" time="0.009" classname="GatewayAdminAccounts"/>
+    <testcase name="Accounts response body is a JSON array" time="0.009" classname="GatewayAdminAccounts"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Account By Id" id="d31bd479-4948-4618-b00e-e4c8cb51e184" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.007">
+    <testcase name="Status code is 200" time="0.007" classname="GatewayAdminAccountById"/>
+    <testcase name="Account detail returns a JSON object" time="0.007" classname="GatewayAdminAccountById"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Account Search" id="94a9e7bb-3187-4dbd-9af2-77ff3c116aa0" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.007">
+    <testcase name="Status code is 200" time="0.007" classname="GatewayAdminAccountSearch"/>
+    <testcase name="Account search returns a JSON array" time="0.007" classname="GatewayAdminAccountSearch"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Users" id="30396f24-da00-42c6-ba2b-a0241dfeb386" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.026">
+    <testcase name="Status code is 200" time="0.026" classname="GatewayAdminUsers"/>
+    <testcase name="Users response body is a JSON array" time="0.026" classname="GatewayAdminUsers"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin User By Id" id="9caa6fa9-cbb3-4011-a9ee-c80effdf181e" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.007">
+    <testcase name="Status code is 200" time="0.007" classname="GatewayAdminUserById"/>
+    <testcase name="User detail returns a JSON object" time="0.007" classname="GatewayAdminUserById"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin User Search" id="4c593472-4c75-4ee3-afe4-8fc350313fe8" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.005">
+    <testcase name="Status code is 200" time="0.005" classname="GatewayAdminUserSearch"/>
+    <testcase name="User search returns a JSON array" time="0.005" classname="GatewayAdminUserSearch"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Vouchers" id="8a2c0ed6-d59e-4aa4-a42b-aed6e495326a" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.010">
+    <testcase name="Status code is 200" time="0.010" classname="GatewayAdminVouchers"/>
+    <testcase name="Voucher response body is a JSON array" time="0.010" classname="GatewayAdminVouchers"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Voucher By Id" id="67ea0533-6f80-4637-90ea-53af0f1cdcbe" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.008">
+    <testcase name="Status code is 200" time="0.008" classname="GatewayAdminVoucherById"/>
+    <testcase name="Voucher detail returns a JSON object" time="0.008" classname="GatewayAdminVoucherById"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Voucher Search" id="5c35629a-7537-47cd-a2e6-1bb25c1b3c45" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.007">
+    <testcase name="Status code is 200" time="0.007" classname="GatewayAdminVoucherSearch"/>
+    <testcase name="Voucher search returns a JSON array" time="0.007" classname="GatewayAdminVoucherSearch"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Orders" id="c13111a1-cf67-454a-aae4-a0ffa88b94d2" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.006">
+    <testcase name="Status code is 200" time="0.006" classname="GatewayAdminOrders"/>
+    <testcase name="Orders response body is a JSON array" time="0.006" classname="GatewayAdminOrders"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Order By Id" id="d6a72bc3-bc54-46ab-a023-5cf2baf19e5d" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.004">
+    <testcase name="Status code is 200" time="0.004" classname="GatewayAdminOrderById"/>
+    <testcase name="Order detail returns a JSON object" time="0.004" classname="GatewayAdminOrderById"/>
+  </testsuite>
+  <testsuite name="Gateway - Admin Order Search" id="211c5cea-c724-4c40-84c2-923bb033f972" timestamp="2026-04-30T16:15:37.200Z" tests="2" failures="0" errors="0" time="0.013">
+    <testcase name="Status code is 200" time="0.013" classname="GatewayAdminOrderSearch"/>
+    <testcase name="Order search returns a paged payload" time="0.013" classname="GatewayAdminOrderSearch"/>
+  </testsuite>
+</testsuites>

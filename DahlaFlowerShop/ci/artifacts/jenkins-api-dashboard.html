@@ -1,0 +1,318 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dahla Jenkins API Dashboard</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --ink: #1f2430;
+      --muted: #667085;
+      --line: #e4e7ec;
+      --accent: #ec5a73;
+      --accent-soft: #fff1f4;
+      --ok: #18794e;
+      --ok-soft: #e8fff2;
+      --bad: #b42318;
+      --bad-soft: #fff2f0;
+      --warn: #b54708;
+      --shadow: 0 18px 40px rgba(16, 24, 40, 0.08);
+      --radius: 20px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 28px;
+      background: radial-gradient(circle at top left, #fff3f6 0%, var(--bg) 42%);
+      color: var(--ink);
+      font-family: Segoe UI, Arial, sans-serif;
+    }
+    .layout { max-width: 1320px; margin: 0 auto; display: grid; gap: 20px; }
+    .hero, .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero { padding: 28px; }
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.1;
+    }
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 760px;
+      line-height: 1.55;
+    }
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 76px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .status-ok { color: var(--ok); background: var(--ok-soft); }
+    .status-bad { color: var(--bad); background: var(--bad-soft); }
+    .status-miss { color: var(--warn); background: #fff7ed; }
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .metric-card {
+      padding: 18px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #fff 0%, #fff8fa 100%);
+      border: 1px solid #f5d7de;
+    }
+    .metric-label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .metric-card strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      color: #9f2f49;
+      margin-bottom: 6px;
+    }
+    .metric-note {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .link-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .link-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 10px 24px rgba(236, 90, 115, 0.18);
+    }
+    .link-pill-muted {
+      background: #d7dce5;
+      color: #475467;
+      box-shadow: none;
+    }
+    .grid-two {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+      gap: 20px;
+    }
+    .panel { padding: 22px; }
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 20px;
+    }
+    .panel-subtitle {
+      margin: -4px 0 16px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      color: #344054;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      background: #fcfcfd;
+    }
+    code {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 8px;
+      background: #f5f7fa;
+      color: #344054;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      word-break: break-word;
+    }
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 980px) {
+      body { padding: 18px; }
+      .grid-two { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <section class="hero">
+      <div class="hero-top">
+        <div>
+          <span class="status-chip status-ok">PASS</span>
+          <h1>Dahla Gateway API Dashboard</h1>
+          <p>Dashboard nÃ y gom nhanh káº¿t quáº£ Newman smoke qua gateway, cho tháº¥y route group nÃ o Ä‘Ã£ Ä‘Æ°á»£c cover, request nÃ o Ä‘Ã£ cháº¡y, response time, vÃ  link táº£i toÃ n bá»™ artifact/log cá»§a Jenkins.</p>
+        </div>
+        <div>
+          <div class="meta-row">
+            <span>Started: 2026-04-30 23:15:37</span>
+            <span>Completed: 2026-04-30 23:15:40</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-meta">
+        <div class="metric-card"><span class="metric-label">Requests</span><strong>28</strong><span class="metric-note">failed: 0</span></div>
+<div class="metric-card"><span class="metric-label">Assertions</span><strong>58</strong><span class="metric-note">failed: 0</span></div>
+<div class="metric-card"><span class="metric-label">Gateway Route Groups</span><strong>12 / 12</strong><span class="metric-note">covered through Newman</span></div>
+<div class="metric-card"><span class="metric-label">Response Time</span><strong>37 ms</strong><span class="metric-note">min 4 ms | max 401 ms</span></div>
+      </div>
+      <div class="link-grid">
+        <span class="link-pill link-pill-muted">Dashboard unavailable</span>
+<a class="link-pill" href="test-types-report.html">Test Types</a>
+<a class="link-pill" href="test-types-report.json">Test Types JSON</a>
+<a class="link-pill" href="newman-report.html">Newman HTML</a>
+<a class="link-pill" href="newman-summary.json">Newman JSON</a>
+<a class="link-pill" href="newman-junit.xml">JUnit XML</a>
+<a class="link-pill" href="newman-report.zip">Newman Zip</a>
+<a class="link-pill" href="service-logs.zip">Service Logs Zip</a>
+<a class="link-pill" href="local-web-logs.zip">Local Web Logs Zip</a>
+<a class="link-pill" href="ci-reports-all.zip">All Reports Zip</a>
+      </div>
+    </section>
+
+    <div class="grid-two">
+      <section class="panel">
+        <h2>Gateway Coverage</h2>
+        <p class="panel-subtitle">Má»—i dÃ²ng lÃ  má»™t route group upstream trong gateway. Má»¥c tiÃªu lÃ  nhÃ¬n nhanh Jenkins build nÃ y Ä‘Ã£ cháº¡m Ä‘Æ°á»£c bao nhiÃªu nhÃ³m API.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Route Group</th>
+              <th>Requests</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>api-admin/DanhMuc</td><td>2</td><td><span class="status-chip status-ok">Covered</span></td></tr>
+<tr><td>api-admin/SanPham</td><td>3</td><td><span class="status-chip status-ok">Covered</span></td></tr>
+<tr><td>api-admin/TaiKhoan</td><td>3</td><td><span class="status-chip status-ok">Covered</span></td></tr>
+<tr><td>api-admin/NguoiDung</td><td>3</td><td><span class="status-chip status-ok">Covered</span></td></tr>
+<tr><td>api-admin/Voucher</td><td>3</td><td><span class="status-chip status-ok">Covered</span></td></tr>
+<tr><td>api-admin/HoaDon</td><td>3</td><td><span class="status-chip status-ok">Covered</span></td></tr>
+<tr><td>api-user/DanhMuc</td><td>2</td><td><span class="status-chip status-ok">Covered</span></td></tr>
+<tr><td>api-user/TaiKhoan</td><td>1</td><td><span class="status-chip status-ok">Covered</span></td></tr>
+<tr><td>api-user/HoaDon</td><td>2</td><td><span class="status-chip status-ok">Covered</span></td></tr>
+<tr><td>api-user/SanPham</td><td>4</td><td><span class="status-chip status-ok">Covered</span></td></tr>
+<tr><td>api-user/GioHang</td><td>1</td><td><span class="status-chip status-ok">Covered</span></td></tr>
+<tr><td>api-user/Feedback</td><td>1</td><td><span class="status-chip status-ok">Covered</span></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="panel">
+        <h2>Request Execution</h2>
+        <p class="panel-subtitle">Tá»«ng request Ä‘Ã£ cháº¡y qua Newman, gá»“m method, route, HTTP status, response time vÃ  sá»‘ assertion gáº¯n vá»›i request Ä‘Ã³.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Request</th>
+              <th>Method</th>
+              <th>Route</th>
+              <th>Status</th>
+              <th>Time</th>
+              <th>Assertions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Gateway - User Categories</td><td>GET</td><td><code>/api-user/DanhMuc/get-all</code></td><td><span class="status-chip status-ok">200</span></td><td>401 ms</td><td>3</td></tr>
+<tr><td>Gateway - User Category Search</td><td>GET</td><td><code>/api-user/DanhMuc/search-DM/Valentine</code></td><td><span class="status-chip status-ok">200</span></td><td>31 ms</td><td>2</td></tr>
+<tr><td>Gateway - User Products</td><td>GET</td><td><code>/api-user/SanPham/get-all-sp</code></td><td><span class="status-chip status-ok">200</span></td><td>158 ms</td><td>3</td></tr>
+<tr><td>Gateway - User Product By Id</td><td>GET</td><td><code>/api-user/SanPham/get-by-id/101</code></td><td><span class="status-chip status-ok">200</span></td><td>27 ms</td><td>2</td></tr>
+<tr><td>Gateway - User Products By Category</td><td>GET</td><td><code>/api-user/SanPham/get-by-danh-muc/1</code></td><td><span class="status-chip status-ok">200</span></td><td>8 ms</td><td>2</td></tr>
+<tr><td>Gateway - User Product Search</td><td>GET</td><td><code>/api-user/SanPham/Search/hoa</code></td><td><span class="status-chip status-ok">200</span></td><td>8 ms</td><td>2</td></tr>
+<tr><td>Gateway - User Cart</td><td>GET</td><td><code>/api-user/GioHang/get-all-GioHang</code></td><td><span class="status-chip status-ok">200</span></td><td>22 ms</td><td>2</td></tr>
+<tr><td>Gateway - User Feedback</td><td>GET</td><td><code>/api-user/Feedback/get-all-feedback</code></td><td><span class="status-chip status-ok">200</span></td><td>17 ms</td><td>2</td></tr>
+<tr><td>Gateway - User Orders</td><td>GET</td><td><code>/api-user/HoaDon/get-all-hd</code></td><td><span class="status-chip status-ok">200</span></td><td>25 ms</td><td>2</td></tr>
+<tr><td>Gateway - User Order By Id</td><td>GET</td><td><code>/api-user/HoaDon/get-data-by-id/9001</code></td><td><span class="status-chip status-ok">200</span></td><td>171 ms</td><td>2</td></tr>
+<tr><td>Gateway - Login With Seeded Admin</td><td>POST</td><td><code>/api-user/TaiKhoan/CheckLogin</code></td><td><span class="status-chip status-ok">200</span></td><td>25 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Categories</td><td>GET</td><td><code>/api-admin/DanhMuc/get-all</code></td><td><span class="status-chip status-ok">200</span></td><td>6 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Category Search</td><td>GET</td><td><code>/api-admin/DanhMuc/search-DM/Valentine</code></td><td><span class="status-chip status-ok">200</span></td><td>4 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Products</td><td>GET</td><td><code>/api-admin/SanPham/get-all-sp</code></td><td><span class="status-chip status-ok">200</span></td><td>14 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Product By Id</td><td>GET</td><td><code>/api-admin/SanPham/get-by-id/101</code></td><td><span class="status-chip status-ok">200</span></td><td>7 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Product Search</td><td>GET</td><td><code>/api-admin/SanPham/Search/hoa</code></td><td><span class="status-chip status-ok">200</span></td><td>6 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Accounts</td><td>GET</td><td><code>/api-admin/TaiKhoan/get-all-tk</code></td><td><span class="status-chip status-ok">200</span></td><td>9 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Account By Id</td><td>GET</td><td><code>/api-admin/TaiKhoan/get-by-id/1</code></td><td><span class="status-chip status-ok">200</span></td><td>7 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Account Search</td><td>GET</td><td><code>/api-admin/TaiKhoan/Search/admin</code></td><td><span class="status-chip status-ok">200</span></td><td>7 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Users</td><td>GET</td><td><code>/api-admin/NguoiDung/get-all-nd</code></td><td><span class="status-chip status-ok">200</span></td><td>26 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin User By Id</td><td>GET</td><td><code>/api-admin/NguoiDung/get-by-id/1</code></td><td><span class="status-chip status-ok">200</span></td><td>7 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin User Search</td><td>GET</td><td><code>/api-admin/NguoiDung/Search/Trang</code></td><td><span class="status-chip status-ok">200</span></td><td>5 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Vouchers</td><td>GET</td><td><code>/api-admin/Voucher/get-all-voucher</code></td><td><span class="status-chip status-ok">200</span></td><td>10 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Voucher By Id</td><td>GET</td><td><code>/api-admin/Voucher/get-by-id/1</code></td><td><span class="status-chip status-ok">200</span></td><td>8 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Voucher Search</td><td>GET</td><td><code>/api-admin/Voucher/Search/Voucher</code></td><td><span class="status-chip status-ok">200</span></td><td>7 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Orders</td><td>GET</td><td><code>/api-admin/HoaDon/get-all-hd</code></td><td><span class="status-chip status-ok">200</span></td><td>6 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Order By Id</td><td>GET</td><td><code>/api-admin/HoaDon/get-data-by-id/9001</code></td><td><span class="status-chip status-ok">200</span></td><td>4 ms</td><td>2</td></tr>
+<tr><td>Gateway - Admin Order Search</td><td>POST</td><td><code>/api-admin/HoaDon/search-hd</code></td><td><span class="status-chip status-ok">200</span></td><td>13 ms</td><td>2</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <section class="panel">
+      <h2>Failure Detail</h2>
+      <p class="panel-subtitle">Náº¿u cÃ³ assertion hoáº·c request fail, pháº§n nÃ y giá»¯ láº¡i request nguá»“n, tÃªn assertion vÃ  message Ä‘á»ƒ Ä‘á»c ngay trÃªn Jenkins mÃ  khÃ´ng cáº§n má»Ÿ log console dÃ i.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Request</th>
+            <th>Assertion</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="3">No failures recorded.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</body>
+</html>

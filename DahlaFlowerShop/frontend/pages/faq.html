@@ -1,0 +1,343 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
+        sintegrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link rel="stylesheet" href="../../../../../../../../css/main.css?v=20260430-3">
+        <script src="../../../../../../../../js/site-auth.js?v=20260430-3"></script>
+        <title>Câu hỏi thường gặp</title>
+    </head>
+    <body>
+        <!--Header-->
+        <div class="header" style="z-index: 1000;">
+            <div class="container " style="padding-top: 15px;">
+              <div class="row">
+                <div class="col-sm-6 col-lg-2 header1"><!--p:padding, y: trục y(trên, dưới);3: kích thước-->
+                  <a href="../../../../../../../../index.html"><img src="../../../../../../../../assets/images/icons/icon.jpg" alt="Logo"  class="img-fluid w-50 "></a>
+                </div>
+                <div class="col-sm-0 col-lg-5 header2">
+                  <div class="input-group mb-3 py-1">
+                    <input type="text" class="form-control" placeholder="Từ khoá tìm kiếm.." aria-label="Từ khoá tìm kiếm.." aria-describedby="basic-addon2">
+                    <span class="input-group-text" id="basic-addon2"><i class="bi bi-search-heart"></i></span>
+                  </div>
+                </div>
+                <div class="col-sm-0 col-lg-3 header3">
+                  <div class="row">
+                    <div class="col">
+                      <div class="row">
+                        <div class="col-3 py-2 " style="color:  #de546d;">
+                          <div class="fs-4"><i class="bi bi-telephone-fill"></i></div>
+                        </div>
+                        <div class="col-9">
+                          Tư vấn hỗ trợ <br>
+                          <strong style="color:  #de546d;">0364239807</strong>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="row">
+                        <div class="col-3 py-2 " style="color: #de546d;">
+                          <div class="fs-4"><i class="bi bi-person-circle"></i></div>
+                        </div>
+                        <div class="col-9 auth-links">
+                          <a href="../../../../../../../../pages/auth/login.html" class="auth-button auth-button-login">Đăng nhập</a>
+                          <a href="../../../../../../../../pages/auth/register.html" class="auth-button auth-button-register">Đăng ký</a>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2 header4">
+                  <div class="row w-75 py-2" style="float: right; margin-right: 10px;">
+                    <div class="col-3"><a href="#" class="position-relative"> 
+                        <span class="fs-4" style="color:  #de546d;"><i class="bi bi-geo-alt"></i></span>
+                      </a>
+                    </div>
+                    <div class="col-3"><a href="#" class="position-relative"></a>
+                      <span class="fs-4 " style="color:  #de546d;"><i class="bi bi-person-fill-gear"></i></span>
+                    </a>
+                    </div>
+                    <div class="col-3">
+                      <a href="#" class="position-relative">
+                        <span class="fs-4 " style="color:  #de546d;"><i class="bi bi-heart"></i></span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                          0
+                          <span class="visually-hidden">unread messages</span>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-3" id="cart">
+                      <a href="../../../../../../../../pages/cart.html" class="position-relative">
+                        <span class="fs-4 " style="color: #de546d;"><i class="bi bi-cart3"></i></span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                          0
+                          <span class="visually-hidden">unread messages</span>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!--thanh điều hướng-->
+          <div class="nav-banner chatbot">
+            <div class="row">
+              <div class="col-2">
+                <div class="chat-button" onclick="toggleChat()">
+                  <i class="bi bi-egg-fried" style="color: #e03a61; font-size: 30px;"></i>
+                </div>
+              </div>
+              <div class="col-8">
+                <marquee behavior="scroll" direction="left" style="color: white;">
+                  Chào mừng đến với Dahla Flower Shop, chúc các bạn có 1 trải nghiệm tốt khi đến với chúng tôi!
+                </marquee>    
+              </div>
+              <div class="col-2"></div>
+            </div>
+          </div>
+  
+          <!-- Chat Form -->
+          <div class="chat-form" id="chatForm">
+            <div class="chat-header">
+              Dahla Flower Chatbot
+            </div>
+            <div class="chat-body" id="chatBody">
+              <!-- Chat messages will appear here -->
+            </div>
+            <div class="chat-footer">
+              <input type="text" id="userInput" placeholder="Hỏi gì đó..." />
+              <button onclick="sendMessage()">Gửi</button>
+            </div>
+          </div>
+          <script>
+            const chatResponses = {
+                "chào": "Chào bạn! Dahla Flower Shop có thể giúp gì cho bạn?",
+                "tôi muốn tư vấn hoa để tặng bạn gái": "Rất vui khi được tư vấn cho bạn, theo yêu cầu của bạn tôi có thể recomment cho bạn bó Kiêu xa, Ngọt ngào... bạn có thể tìm trên thành tìm kiếm của cửa hàng để tìm kiếm sản phẩm, hoặc ấn vào thanh danh mục sản phẩm nếu bạn muốn",
+                "giá hoa": "Hiện tại giá hoa bên mình dao động từ 100,000đ đến 500,000đ tùy loại.",
+                "địa chỉ": "Cửa hàng Dahla Flower nằm ở Sài Thị, Phùng Hưng, Khoái Châu, Hưng Yên",
+                "cảm ơn": "Rất vui được giúp bạn!",
+              };
+  
+              // Toggle chat form
+              function toggleChat() {
+                const chatForm = document.getElementById("chatForm");
+                chatForm.style.display = chatForm.style.display === "flex" ? "none" : "flex";
+              }
+  
+              // Handle user message
+              function sendMessage() {
+                const userInput = document.getElementById("userInput");
+                const chatBody = document.getElementById("chatBody");
+                const userMessage = userInput.value.trim();
+  
+                if (userMessage) {
+                  // Add user message
+                  chatBody.innerHTML += `<div class="chat-message user">${userMessage}</div>`;
+  
+                  // Get bot response
+                  const botResponse = chatResponses[userMessage.toLowerCase()] || "Xin lỗi, mình không hiểu câu hỏi của bạn.";
+                  chatBody.innerHTML += `<div class="chat-message bot">${botResponse}</div>`;
+  
+                  // Scroll to the bottom
+                  chatBody.scrollTop = chatBody.scrollHeight;
+  
+                  // Clear input
+                  userInput.value = "";
+                }
+              }
+          </script>
+  
+          <!--Menu-->
+          <div class="menu " style="background-color:#f06e86; height: 40px;">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-3 menu1 py-2 text-white" style="padding-left: 40px;">
+                  <div class="menu1 "> <i class="bi bi-list"></i>Danh mục sản phẩm
+                    <ul class="submenu">
+                      <li><a href="#">Xuất xứ</a></li>
+                      <li><a href="#">Chủng loại</a></li>
+                      <li><a href="#">Dịp</a></li>
+                      <li><a href="#">Blog</a></li>
+                      <li><a href="#">Tips</a></li>
+                    </ul>
+                  </div>
+              
+                </div>
+                <div class="col-lg-9 menu2 ">
+                  <nav class="navbar navbar-expand-lg navbar-light " style=" height: 40px;">
+                    <div class="container-fluid">
+                      <a class="navbar-brand d-none" href="#">Navbar</a>
+                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                          <li class="nav-item-mn1 px-4 dropdown">
+                            <a class="nav-link text-white dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Chủ đề
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <li><a class="dropdown-item" href="#">Hoa sinh nhật</a></li>
+                              <li><a class="dropdown-item" href="#">Hoa cưới</a></li>
+                              <li><a class="dropdown-item" href="#">Hoa tốt nghiệp</a></li>
+                              <li><a class="dropdown-item" href="#">Lan hồ điệp</a></li>
+                              <li><a class="dropdown-item" href="#">Hoa khai trương</a></li>
+                              <li><a class="dropdown-item" href="#">Hoa tiệc</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                          </li>
+                          <li class="nav-item-mn2 px-4">
+                            <a class="nav-link text-white active " aria-current="page" href="#">Tuyển dụng</a>
+                          </li>
+                          <li class="nav-item-mn3 px-4">
+                            <a class="nav-link text-white active " aria-current="page" href="#">Tin tức</a>
+                          </li>
+                          <li class="nav-item-mn4 px-4 ">
+                            <a class="nav-link text-white active " aria-current="page" href="../../../../../../../../pages/blog/index.html">Blogs</a>
+                          </li>
+                          <li class="nav-item-mn5 px-4 ">
+                            <a class="nav-link text-white active " aria-current="page" href="#">Giới thiệu</a>
+                          </li>
+                          <li class="nav-item-mn5 px-4 ">
+                            <a class="nav-link text-white active " aria-current="page" href="#">Câu hỏi thường gặp</a>
+                          </li>
+                         
+                        </ul>
+                        
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+              </div>
+            </div>
+            <script>
+              
+            </script>
+          </div>
+
+          <!--main-->
+          <div class="container">
+            <div class="row  text-center">
+                <b style="color: red;">ĐẶT HOA ONLINE - GIAO HOA MIỄN PHÍ HƯNG YÊN - GỌI NGAY 0364239807</b>
+            </div>
+            <div class="row py-2 px-4" style="line-height: 30px;">
+                <h3>Câu hỏi thường gặp</h3>
+                <p>Dưới đây là 1 số câu hỏi thường gặp của khách hàng Dahla Flower, nếu thắc mắc của bạn 
+                không nằm trong số các câu hỏi và trả lời dưới đây xin vui lòng liên hệ với Dahla Flower để được giải đáp. </p>
+                <h4>Các câu hỏi phổ biến:</h4>
+                <p>Dahla Flower chuyên cung cấp các sản phẩm hoa tươi từ nông trại và sản phẩm quà tặng chất lượng cao. Để biết
+                thêm về lịch sử hình thành, thông tin về công ty các bạn có thể xem thêm trên website để nhận thấy sự khác
+                 biệt về chất lượng dịch vụ và sản phẩm của Dahla Flower với các nhà cung cấp khác.</p>
+                <h4>Khoảng thời gian của đơn hàng không được đảm bảo là gì?</h4>
+                <p>NẾU BẠN LỰA CHỌN GIAO HÀNG NGAY TRONG NGÀY ĐẶT:</p>
+                <p>Đối với thời gian từ Thứ 2 đến Thứ 6:</p>
+                <p>- Chúng tôi sẽ chấp nhận các đơn hàng giao trong ngày nhưng việc giao hàng không được chắc 
+                chắn hoàn toàn tùy theo địa điểm giao hàng và các yếu tố khách quan khác.</p>
+                <p>Vào các ngày đặc biệt như lễ tết ngày của mẹ, lễ tình thân, giáng sinh v..v… 
+                bạn có thể tham khảo thêm thông tin về chính sách giao hàng tại thông tin trên website. </p>
+                <p>Các địa điểm xa:</p>
+                <p>Đối với các khu vực xa nội thành đơn hàng giao hàng trong ngày sẽ không được đảm bảo. Việc giao hàng tại các 
+                địa điểm lân cận thành phố, hay quá xa Dahla Flower sẽ cố gắng hoàn thành sớm nhất có thể để hàng được giao
+                đến đúng thời gian bạn mong muốn.</p>
+                <p>Đa số các đơn hàng giao gấp cần khoảng 3 giờ để thực hiện. Dahla Flower sẽ cố gắng hết sức để  đơn hàng của 
+                bạn được giao sớm tuy nhiên chúng tôi không thể cam kết hoàn toàn với đơn hàng giao đến bệnh viên, tòa nhà lớn, chung cư.v.v.. </p>
+                <p>Tuy nhiên trong các trường hợp giao sau giờ được yêu cầu Dahla Flower sẽ liên lạc với bạn để tham khảo ý kiến và cập nhật tình trạng đơn hàng.</p>
+                <h4>Dahla có giao hàng đến bệnh viện không?</h4>
+                <p>Đa số các đơn hàng hoa không thể gửi tận nơi người nhận vì quy định này của bệnh viện và đối với trường hợp này, đơn hàng hoa
+                có thể được gửi đến y tá, bác sĩ và gửi đến người nhận sau đó.</p>
+                <p>Hoa lily và bong bóng cũng bị cấm tại số số bệnh viện vì khả năng gây dị ứng và không đảm bảo an toàn.</p>
+                <p>Vui lòng kiểm tra độ an toàn tại một cơ sở y tế trước khi đặt hàng các sản phẩm đến bệnh viện.</p>
+                <h4>Có những phụ phí gì khi đặt hàng?</h4>
+                <p>Thông thường là phí giao hàng và phí giữ hàng sẽ bằng không tuy nhiên có thể được tính thêm vào một số đơn hàng đối với một số trường hợp 
+                sai địa chỉ giao hàng do phía người đặt như bạn điền sai địa chỉ, số điện thoại. Phụ phí có thể được tinh thêm tùy trường hợp từ 80.000vnd .</p>
+                <h4>Tôi có thể gửi thức ăn hoặc quà tặng khác kèm với đơn hàng được không?</h4>
+                <p>Được. Dahla Flower có một số sản phẩm thức ăn hay các món quà khác. Chúng tôi sẽ cố gắng để hoàn thành đơn hàng theo yêu cầu. 
+                Tuy nhiên, chúng tôi không cam kết chắc chắn và sẽ thay thế khi cần thiết.</p>
+                <p>Vui lòng xem kĩ hình ảnh sản phẩm bạn chọn để biết chi tiết có những gì bao gồm trong giỏ. Bạn không thể tăng giá hoặc thêm sản phẩm vào giỏ:
+                giỏ quà tặng sẽ gồm các sản phẩm như trong hình). Nếu bạn muốn gửi hoa, và ngày hôm sau gửi giỏ quà, bạn nên đặt hàng
+                 thành hai đơn hàng riêng biệt, một cho hoa và một cho giỏ quà tặng.</p>
+                <h4>Làm thế nào để đặt hàng:</h4>
+                <p>1. Chọn sản phẩm:</p>
+                <p>Đặt hàng tại Dahla Flower rất đơn giản! Bạn hãy tìm kiếm sản phẩm qua trang web của chúng tôi.</p>
+                <p>2. Đặt hàng:</p>
+                <p>Sau khi chọn được sản phẩm ưng ý cùng các quà tặng kèm, hãy thêm sản phẩm đó vào giỏ hàng. Bạn sẽ được chuyển đến trang giỏ hàng.
+                Nếu bạn có mã giảm giá hãy điền và sử dụng để được giảm giá. Tiếp theo hãy chọn thanh toán.</p>
+                <p>3. Tiến hành thanh toán:</p>
+                <p>Điền đầy đủ các thông tin người gửi – người mua hàng.</p>
+                <p>Điền thông tin người nhận.</p>
+                <p>Chọn ngày giờ giao hàng, điền lời nhắn cho người nhận và lưu ý cho Flower Corner.</p>
+                <p>Sau khi điền đủ thông tin, * là thông tin bắt buộc phải có. Nếu bạn cần thay đổi sản phẩm, bạn có thể bấm “trở lại” để chỉnh sửa. 
+                Sau khi xem xét đơn đặt hàng và kiểm tra tất cả mọi thứ, bạn chọn phương thức thanh toán và bấm hoàn thành đơn hàng.</p>
+                <h4>Flower Corner có thể nhắc tôi nhớ những dịp quan trọng, như ngày kỉ niệm của tôi không?</h4>
+                <p>Được. Chúng tôi có hệ thống nhắc nhở để giúp bạn nhớ những dịp quan trọng.</p> <br><br>
+            </div>
+          </div>
+
+        <!--Dòng ngăn cách-->
+        <div class="container " style="height: 1px; background-color: rgb(101, 27, 39);"></div>
+
+        <!--Footer-->
+        <div class="footer py-4 px-5" style="color:  rgb(101, 27, 39);">
+        <div class="row footer-1">
+            <div class="col-5 px-5 ">
+            <img src="../../../../../../../../assets/images/icons/icon.jpg" alt="" class="w-25 px-6"> <br>
+            <b> Đặt hoa Online - Ưu đãi hấp dẫn</b>
+            <iframe width='100%' height="auto" src="https://www.youtube.com/embed/slv6L1Bzk14" title="Dahla.vn - website đặt hoa online hàng đầu Việt Nam" 
+            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><p class="lh-lg">    Shop hoa dalha là một trong những tiệm hoa uy tín nhất tại Hưng Yên. Dahla cung cấp dịch vụ đặt hoa online giao tận nơi tại Hưng Yên. Với hệ thống
+                cửa hàng hoa tươi liên kết rộng khắp các huyện trên địa bàn tỉnh, Dahla có thể giúp bạn gửi tặng hoa tươi cho người thân ở bất cứ nơi đâu. Cam kết 
+                mang đến cho bạn sản phẩm chất lượng cao, mức giá tốt nhất và dịch vụ chuyên nghiệp khi sử dụng dịch vụ.</p>
+            <br>
+
+            </div>
+            <div class="col-2 lh-lg">
+            <b >Chăm sóc khách hàng</b>
+            <br>
+            <a href="" class="text-decoration-none">Giới thiệu</a> <br>
+            <a href="" class="text-decoration-none">Liên hệ</a> <br>
+            <a href="" class="text-decoration-none">Chính sách vận chuyển</a> <br>
+            <a href="" class="text-decoration-none">Hình thức thanh toán</a> <br>
+            <a href="" class="text-decoration-none">Bảo mật thông tin</a> <br>
+            <a href="" class="text-decoration-none">Xử lý khiếu nại</a> <br>
+            <a href="" class="text-decoration-none">Chính sách hoàn tiền</a> <br>
+            <br>
+            <img src="../../../../../../../../assets/images/icons/chungnhan.jpg" alt="" class="img-fluid w-75">
+            </div>
+            <div class="col-2 lh-lg">
+            <b >Kết nối với chúng tôi</b>
+            <br>
+            <a href="" class="text-decoration-none"><i class="bi bi-facebook"></i> Facebook</a> <br>
+            <a href="" class="text-decoration-none"><i class="bi bi-instagram"></i> Instagram</a> <br>
+            <a href="" class="text-decoration-none"><i class="bi bi-twitter"></i> Twitter</a> <br>
+            <a href="" class="text-decoration-none"><i class="bi bi-youtube"></i> Youtube</a> <br> <br>
+            <b >Về Dahla</b>
+            <br>
+            <a href="" class="text-decoration-none">Câu chuyện về Dahla</a> <br>
+            <a href="" class="text-decoration-none">Tuyển dụng</a> <br>
+            <a href="" class="text-decoration-none">Kinh doanh sỉ</a> <br>
+            <a href="" class="text-decoration-none">Hướng dẫn chọn hoa theo yêu cầu</a> <br>
+            </div>
+            <div class="col-3 lh-lg">
+            <b>Quan tâm Dahla</b>
+            <p>Địa chỉ: TTTM - Dân Tiến - Khoái Châu - Hưng Yên <br> SĐT: 0364239807 <br>CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ ZAS | Mã số thuế: 0313630426</p>
+            <b>Quan tâm qua Zalo</b>
+            <p>Nhận các thông tin ưu đãi hấp dẫn</p>
+            <img src="../../../../../../../../assets/images/icons/zalu.jpg" alt="" class="img-fluid w-50">
+            
+            </div>
+        </div>
+        </div>
+
+      </body>
+</html>
+

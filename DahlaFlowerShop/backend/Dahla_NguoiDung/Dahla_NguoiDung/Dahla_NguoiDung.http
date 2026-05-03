@@ -1,0 +1,6 @@
+@Dahla_NguoiDung_HostAddress = http://localhost:5193
+
+GET {{Dahla_NguoiDung_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
