@@ -492,7 +492,10 @@ app.controller('NguoiDungCtrl', function($scope, $http){
     }
 
     $scope.getNguoiDungImageUrl = function(anh) {
-        const fallbackImage = '../../assets/images/customers/avt.jpg';
+        const imageVersion = '20260504';
+        const frontendOrigin = window.location.origin || '';
+        const customersImageRoot = frontendOrigin + '/assets/images/customers/';
+        const fallbackImage = customersImageRoot + 'avt.jpg?v=' + imageVersion;
         if (!anh) {
             return fallbackImage;
         }
@@ -513,7 +516,7 @@ app.controller('NguoiDungCtrl', function($scope, $http){
             'avatar4.jpg': 'kh9.jpg'
         };
         const fileName = avatarMap[imageValue.toLowerCase()] || imageValue;
-        return '../../assets/images/customers/' + encodeURIComponent(fileName);
+        return customersImageRoot + encodeURIComponent(fileName) + '?v=' + imageVersion;
     };
 
     $scope.getNguoiDung();
@@ -712,5 +715,4 @@ app.controller('HoaDonCtrl',function($scope,$http){
 
 
 })
-
 
