@@ -1,6 +1,6 @@
 # 🌸 Dahla Flower Shop
 
-Website thương mại điện tử bán hoa - Đồ án 2
+Website thương mại điện tử bán hoa - Đồ án tốt nghiệp
 
 ## 📁 Cấu trúc project
 
