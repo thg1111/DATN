@@ -254,10 +254,10 @@ try {
         Push-Location $PSScriptRoot
         try {
             if (Test-Path (Join-Path $PSScriptRoot "package-lock.json")) {
-                & npm.cmd ci
+                & npm.cmd ci --no-audit --no-fund --loglevel=error
             }
             else {
-                & npm.cmd install
+                & npm.cmd install --no-audit --no-fund --loglevel=error
             }
         }
         finally {

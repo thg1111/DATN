@@ -108,8 +108,12 @@ async function bodyText(driver) {
 
 async function captureScreenshot(driver, fileName) {
   const screenshotPath = path.join(reportsDir, fileName);
-  fs.writeFileSync(screenshotPath, await driver.takeScreenshot(), 'base64');
-  return fileName;
+  const base64 = await driver.takeScreenshot();
+  fs.writeFileSync(screenshotPath, base64, 'base64');
+  return {
+    fileName,
+    dataUri: `data:image/png;base64,${base64}`
+  };
 }
 
 function createStepRecorder(steps) {
@@ -337,11 +341,14 @@ async function run() {
       const step = createStepRecorder(steps);
       const testStartedAt = Date.now();
       let screenshotName = '';
+      let screenshotDataUri = '';
 
       try {
         await clearClientState(driver);
         await item.fn(driver, step);
-        screenshotName = await captureScreenshot(driver, `${slug(item.name)}-passed.png`);
+        const screenshot = await captureScreenshot(driver, `${slug(item.name)}-passed.png`);
+        screenshotName = screenshot.fileName;
+        screenshotDataUri = screenshot.dataUri;
         results.push({
           name: item.name,
           area: item.area,
@@ -350,13 +357,16 @@ async function run() {
           url: await driver.getCurrentUrl(),
           title: await driver.getTitle(),
           steps,
-          screenshotName
+          screenshotName,
+          screenshotDataUri
         });
         console.log(`PASS ${item.name}`);
       }
       catch (error) {
         try {
-          screenshotName = await captureScreenshot(driver, `${slug(item.name)}-failed.png`);
+          const screenshot = await captureScreenshot(driver, `${slug(item.name)}-failed.png`);
+          screenshotName = screenshot.fileName;
+          screenshotDataUri = screenshot.dataUri;
         }
         catch {
           // Preserve the original failure if screenshot capture fails.
@@ -371,7 +381,8 @@ async function run() {
           title: await driver.getTitle().catch(() => ''),
           steps,
           error,
-          screenshotName
+          screenshotName,
+          screenshotDataUri
         });
         console.error(`FAIL ${item.name}`);
         console.error(error.stack || error.message || error);
@@ -410,8 +421,8 @@ async function run() {
         <span class="step-time">${step.time.toFixed(3)}s</span>
         ${step.details ? `<div class="step-details">${escapeXml(step.details)}</div>` : ''}
       </li>`).join('');
-    const screenshot = item.screenshotName
-      ? `<a href="./${escapeXml(item.screenshotName)}"><img src="./${escapeXml(item.screenshotName)}" alt="${escapeXml(item.name)} screenshot"></a>`
+    const screenshot = item.screenshotDataUri
+      ? `<a href="./${escapeXml(item.screenshotName)}"><img src="${item.screenshotDataUri}" alt="${escapeXml(item.name)} screenshot"></a>`
       : '<span class="muted">No screenshot</span>';
     const error = item.error ? `<pre>${escapeXml(item.error.stack || item.error.message || item.error)}</pre>` : '';
 

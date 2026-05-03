@@ -13,10 +13,10 @@ if (-not (Test-Path $seleniumPackage)) {
     Push-Location $PSScriptRoot
     try {
         if (Test-Path (Join-Path $PSScriptRoot "package-lock.json")) {
-            & npm.cmd ci
+            & npm.cmd ci --no-audit --no-fund --loglevel=error
         }
         else {
-            & npm.cmd install
+            & npm.cmd install --no-audit --no-fund --loglevel=error
         }
     }
     finally {
@@ -30,10 +30,11 @@ if (-not (Test-Path $seleniumPackage)) {
 
 $env:FRONTEND_BASE_URL = $FrontendBaseUrl
 $env:API_BASE_URL = $ApiBaseUrl
+$env:NODE_NO_WARNINGS = "1"
 
 Push-Location $PSScriptRoot
 try {
-    & node .\selenium\dahla-web-smoke.js
+    & node --no-warnings .\selenium\dahla-web-smoke.js
 }
 finally {
     Pop-Location
