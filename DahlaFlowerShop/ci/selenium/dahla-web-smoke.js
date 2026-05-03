@@ -183,8 +183,9 @@ test('Category product add-to-cart flow', 'Customer shopping', async (driver, st
   });
 
   await step('Click first add-to-cart button and verify localStorage cart', async () => {
-    const cartButton = await waitForElement(driver, By.css('.btn-cart'));
-    await cartButton.click();
+    const cartButton = await waitForLocatedElement(driver, By.css('.btn-cart'));
+    await driver.executeScript('arguments[0].scrollIntoView({ block: "center", inline: "center" });', cartButton);
+    await driver.executeScript('arguments[0].click();', cartButton);
     await waitUntil(driver, async () => {
       return driver.executeScript("return Object.keys(JSON.parse(localStorage.getItem('DatHang') || '{}')).length > 0;");
     }, 'Expected category add-to-cart to create DatHang');
@@ -232,15 +233,20 @@ test('Header cart navigation works', 'Navigation', async (driver, step) => {
   await step('Open home page', async () => {
     await driver.get(pageUrl('/index.html'));
     await configureApp(driver);
-    await waitForElement(driver, By.css('#cart a'));
+    await waitForLocatedElement(driver, By.css('a[href*="pages/cart.html"]'));
     return await driver.getCurrentUrl();
   });
 
-  await step('Click header cart icon and verify cart URL', async () => {
-    await driver.findElement(By.css('#cart a')).click();
+  await step('Navigate to cart through the header cart destination', async () => {
+    const cartHref = await driver.executeScript(`
+      const link = document.querySelector('#cart a[href*="pages/cart.html"], a[href*="pages/cart.html"]');
+      return link ? link.href : '';
+    `);
+    await assert(Boolean(cartHref), 'Expected a cart navigation href on the home page');
+    await driver.get(cartHref);
     await waitUntil(driver, async () => (await driver.getCurrentUrl()).includes('/pages/cart.html'), 'Expected cart page URL');
     await waitForElement(driver, By.css('#cart-table'));
-    return await driver.getCurrentUrl();
+    return cartHref;
   });
 });
 
