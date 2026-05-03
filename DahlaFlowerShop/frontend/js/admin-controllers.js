@@ -491,11 +491,13 @@ app.controller('NguoiDungCtrl', function($scope, $http){
         });
     }
 
-    $scope.getNguoiDungImageUrl = function(anh) {
+    $scope.getNguoiDungImageUrl = function(item) {
+        const anh = item && item.anh;
+        const avatarData = window.DahlaAdminAvatarData || {};
         const imageVersion = '20260504';
         const frontendOrigin = window.location.origin || '';
         const customersImageRoot = frontendOrigin + '/assets/images/customers/';
-        const fallbackImage = customersImageRoot + 'avt.jpg?v=' + imageVersion;
+        const fallbackImage = avatarData['avt.jpg'] || customersImageRoot + 'avt.jpg?v=' + imageVersion;
         if (!anh) {
             return fallbackImage;
         }
@@ -515,7 +517,15 @@ app.controller('NguoiDungCtrl', function($scope, $http){
             'avatar3.jpg': 'kh8.jpg',
             'avatar4.jpg': 'kh9.jpg'
         };
+        if (item && item.maND === 2 && avatarData['dinh-thien-truong.jpg']) {
+            return avatarData['dinh-thien-truong.jpg'];
+        }
+
         const fileName = avatarMap[imageValue.toLowerCase()] || imageValue;
+        if (avatarData[fileName]) {
+            return avatarData[fileName];
+        }
+
         return customersImageRoot + encodeURIComponent(fileName) + '?v=' + imageVersion;
     };
 
@@ -715,4 +725,3 @@ app.controller('HoaDonCtrl',function($scope,$http){
 
 
 })
-
