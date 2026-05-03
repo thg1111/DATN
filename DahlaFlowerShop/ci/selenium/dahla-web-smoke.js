@@ -348,12 +348,14 @@ test('Admin dashboard exposes management tabs', 'Admin management', async (drive
     const imageInfo = await driver.executeScript(() => {
       return Array.from(document.querySelectorAll('#BangNguoiDung tbody img')).map((image) => ({
         src: image.getAttribute('src') || '',
+        naturalWidth: image.naturalWidth,
+        naturalHeight: image.naturalHeight,
         width: image.getBoundingClientRect().width,
         height: image.getBoundingClientRect().height
       }));
     });
 
-    if (!imageInfo.length || imageInfo.some((image) => !image.src || image.width < 20 || image.height < 20)) {
+    if (!imageInfo.length || imageInfo.some((image) => !image.src || image.naturalWidth < 1 || image.naturalHeight < 1 || image.width < 20 || image.height < 20)) {
       throw new Error(`User avatar images are not rendered: ${JSON.stringify(imageInfo)}`);
     }
 

@@ -492,16 +492,17 @@ app.controller('NguoiDungCtrl', function($scope, $http){
     }
 
     $scope.getNguoiDungImageUrl = function(anh) {
+        const fallbackImage = '../../assets/images/customers/avt.jpg';
         if (!anh) {
-            return '/assets/images/customers/avt.jpg';
+            return fallbackImage;
         }
 
         let imageValue = String(anh).trim();
         if (!imageValue) {
-            return '/assets/images/customers/avt.jpg';
+            return fallbackImage;
         }
 
-        if (/^data:image\//i.test(imageValue) || /^https?:\/\//i.test(imageValue) || imageValue.charAt(0) === '/') {
+        if (/^data:image\//i.test(imageValue) || /^https?:\/\//i.test(imageValue)) {
             return imageValue;
         }
 
@@ -512,7 +513,7 @@ app.controller('NguoiDungCtrl', function($scope, $http){
             'avatar4.jpg': 'kh9.jpg'
         };
         const fileName = avatarMap[imageValue.toLowerCase()] || imageValue;
-        return '/assets/images/customers/' + encodeURIComponent(fileName);
+        return '../../assets/images/customers/' + encodeURIComponent(fileName);
     };
 
     $scope.getNguoiDung();
@@ -711,6 +712,5 @@ app.controller('HoaDonCtrl',function($scope,$http){
 
 
 })
-
 
 
