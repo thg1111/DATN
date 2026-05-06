@@ -339,6 +339,12 @@ h2 {
     min-width: 0;
 }
 
+.header-account-card[data-auth-state="guest"] {
+    flex: 0 0 auto;
+    width: max-content;
+    max-width: max-content;
+}
+
 .header-support-icon {
     display: inline-flex;
     align-items: center;
@@ -388,6 +394,20 @@ h2 {
     flex-wrap: nowrap;
     justify-content: flex-start;
     gap: 8px;
+}
+
+.header-account-card[data-auth-state="guest"] .auth-links {
+    width: auto;
+}
+
+.header-utility-shell .header-account-card:not([data-auth-state="signed-in"]) {
+    flex: 0 0 auto !important;
+    width: max-content !important;
+    max-width: max-content !important;
+}
+
+.header-utility-shell .header-account-card:not([data-auth-state="signed-in"]) .auth-links {
+    width: auto !important;
 }
 
 .auth-user-shell {
@@ -1336,4 +1356,14 @@ h2 {
     min-height: 48px !important;
     padding-top: 6px !important;
     padding-bottom: 6px !important;
+}
+
+.header .header-account-card[data-auth-state="guest"] {
+    flex: 0 0 auto !important;
+    width: max-content !important;
+    max-width: max-content !important;
+}
+
+.header .header-account-card[data-auth-state="guest"] .auth-links {
+    width: auto !important;
 }

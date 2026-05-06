@@ -19,9 +19,11 @@ namespace API_Dahla.Controllers
     public class TaiKhoanConTroller:ControllerBase
     {
         private bll_TaiKhoan tkBus;
-        public TaiKhoanConTroller(bll_TaiKhoan taikhoan)
+        private bll_NguoiDung ndBus;
+        public TaiKhoanConTroller(bll_TaiKhoan taikhoan, bll_NguoiDung nguoiDung)
         {
             tkBus = taikhoan;
+            ndBus = nguoiDung;
         }
         [Route("tk-create")]
         [HttpPost]
@@ -99,6 +101,50 @@ namespace API_Dahla.Controllers
                 email = tk.Email,
                 maND = tk.MaTK
             });
+        }
+
+        [AllowAnonymous]
+        [Route("reset-password")]
+        [HttpPost]
+        public IActionResult ResetPassword([FromBody] ForgotPasswordRequest_Model request)
+        {
+            if (request == null)
+            {
+                return BadRequest(new { message = "Vui lòng nhập thông tin khôi phục mật khẩu." });
+            }
+
+            var userId = request.UserId?.Trim();
+            var email = request.Email?.Trim();
+            var phoneDigits = new string((request.Phone ?? string.Empty).Where(char.IsDigit).ToArray());
+            var newPassword = request.NewPassword ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(phoneDigits) || string.IsNullOrWhiteSpace(newPassword))
+            {
+                return BadRequest(new { message = "Vui lòng nhập tên đăng nhập, email, số điện thoại và mật khẩu mới." });
+            }
+
+            var allTK = tkBus.GetDataAll();
+            var tk = allTK.FirstOrDefault(t => string.Equals(t.TenTK?.Trim(), userId, StringComparison.OrdinalIgnoreCase));
+            var nd = tk == null ? null : ndBus.GetNDbyID(tk.MaTK.ToString());
+
+            if (tk == null || nd == null)
+            {
+                return NotFound(new { message = "Không tìm thấy tài khoản phù hợp với tên đăng nhập." });
+            }
+
+            var registeredPhone = nd.SDT.ToString().PadLeft(10, '0');
+            var phoneMatched = string.Equals(registeredPhone, phoneDigits.PadLeft(10, '0'), StringComparison.Ordinal);
+            var emailMatched = string.Equals(tk.Email?.Trim(), email, StringComparison.OrdinalIgnoreCase);
+
+            if (!emailMatched || !phoneMatched)
+            {
+                return Unauthorized(new { message = "Tên đăng nhập, email hoặc số điện thoại không khớp với thông tin đăng ký." });
+            }
+
+            tk.MatKhau = newPassword;
+            tkBus.Update(tk);
+
+            return Ok(new { message = "Đổi mật khẩu thành công. Bạn có thể đăng nhập bằng mật khẩu mới." });
         }
     }
 }

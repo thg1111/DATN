@@ -175,7 +175,18 @@ function Start-DotnetService {
 function Start-Frontend {
     $existing = Get-ListeningProcess -Port $FrontendPort
     if ($existing) {
-        Write-Host "Frontend port $FrontendPort already used by PID $($existing.ProcessId). Reusing it."
+        $frontendProbeUrl = "http://127.0.0.1:$FrontendPort/js/site-auth.js?probe=$([guid]::NewGuid().ToString('N'))"
+        try {
+            $probe = Invoke-WebRequest -Uri $frontendProbeUrl -UseBasicParsing -TimeoutSec 5
+            if ($probe.Content -notmatch "accountCard\.style\.flex") {
+                throw "The running frontend does not expose the expected Dahla header fix."
+            }
+        }
+        catch {
+            throw "Frontend port $FrontendPort is already used by PID $($existing.ProcessId), but it does not look like the current Dahla frontend. Stop it or run with a different -FrontendPort. Details: $($_.Exception.Message)"
+        }
+
+        Write-Host "Frontend port $FrontendPort already used by PID $($existing.ProcessId). Reusing verified Dahla frontend."
         return
     }
 
@@ -200,7 +211,9 @@ if ((-not $ReuseRunning) -and (Test-Path $pidFile)) {
     & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot "stop-local-web.ps1")
 }
 
-Get-ChildItem $reportsDir -File -ErrorAction SilentlyContinue | Remove-Item -Force
+if (-not $ReuseRunning) {
+    Get-ChildItem $reportsDir -File -ErrorAction SilentlyContinue | Remove-Item -Force
+}
 
 if (-not $SkipDbSetup) {
     Write-Step "[1/6] Preparing LocalDB"

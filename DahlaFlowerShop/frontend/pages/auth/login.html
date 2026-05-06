@@ -9,14 +9,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../../../../../../../../../css/main.css?v=20260430-3">
-    <link rel="stylesheet" href="../../../../../../../../../css/auth.css">
+    <link rel="stylesheet" href="../../../../../../../../../css/main.css?v=20260507-4">
+    <link rel="stylesheet" href="../../../../../../../../../css/auth.css?v=20260507-2">
     <title>Đăng nhập</title>
     <script src="../../../../../../../../../js/jquery.min.js"></script>
     <script src="../../../../../../../../../js/angular.min.js"></script>
     <script src="../../../../../../../../../js/config.js?v=20260429-4"></script>
     <script src="../../../../../../../../../js/app.js?v=20260429-4"></script>
-    <script src="../../../../../../../../../js/site-auth.js?v=20260430-3"></script>
+    <script src="../../../../../../../../../js/site-auth.js?v=20260507-5"></script>
 </head>
 <body ng-controller="trangchuCtrl" >
     <!--Header-->
@@ -234,7 +234,7 @@
                               Đồng ý với điều khoản của shop
                             </label>
                           </div>
-                          <a href="#!" class="text-body">Quên mật khẩu?</a>
+                          <a href="#forgotPasswordModal" class="text-body" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal" data-forgot-password-trigger>Quên mật khẩu?</a>
                         </div>
               
                         <div class="text-center text-lg-start mt-4 pt-2">
@@ -251,6 +251,46 @@
                 </div>
               </section>
         </div>
+    </div>
+
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content forgot-password-modal">
+          <form id="forgotPasswordForm">
+            <div class="modal-header">
+              <h5 class="modal-title" id="forgotPasswordModalLabel">Quên mật khẩu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="forgotUserId" class="form-label">Tên đăng nhập</label>
+                <input type="text" class="form-control" id="forgotUserId" required placeholder="VD: son123_1">
+              </div>
+              <div class="mb-3">
+                <label for="forgotEmail" class="form-label">Email đăng ký</label>
+                <input type="email" class="form-control" id="forgotEmail" required placeholder="Nhập email đăng ký">
+              </div>
+              <div class="mb-3">
+                <label for="forgotPhone" class="form-label">Số điện thoại đăng ký</label>
+                <input type="tel" class="form-control" id="forgotPhone" required pattern="^0[0-9]{9}$" maxlength="10" placeholder="VD: 0364239807">
+              </div>
+              <div class="mb-3">
+                <label for="forgotNewPassword" class="form-label">Mật khẩu mới</label>
+                <input type="password" class="form-control" id="forgotNewPassword" required placeholder="Nhập mật khẩu mới">
+              </div>
+              <div class="mb-3">
+                <label for="forgotConfirmPassword" class="form-label">Nhập lại mật khẩu mới</label>
+                <input type="password" class="form-control" id="forgotConfirmPassword" required placeholder="Nhập lại mật khẩu">
+              </div>
+              <div class="forgot-password-message" id="forgotPasswordMessage" aria-live="polite"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy</button>
+              <button type="submit" class="btn forgot-password-submit" id="forgotPasswordSubmit">Đổi mật khẩu</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
 
 

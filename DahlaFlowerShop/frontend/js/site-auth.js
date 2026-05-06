@@ -340,6 +340,15 @@
         }
 
         containers.forEach(function (container) {
+            var accountCard = container.closest('.header-account-card');
+            container.dataset.authState = session ? 'signed-in' : 'guest';
+            if (accountCard) {
+                accountCard.dataset.authState = session ? 'signed-in' : 'guest';
+                accountCard.style.flex = session ? '1 1 auto' : '0 0 auto';
+                accountCard.style.width = session ? 'auto' : 'max-content';
+                accountCard.style.maxWidth = session ? '' : 'max-content';
+            }
+            container.style.width = session ? '100%' : 'auto';
             container.innerHTML = session ? getSignedInAuthMarkup(session) : getGuestAuthMarkup();
         });
 
@@ -596,8 +605,136 @@
                 })
                 .catch(function (error) {
                     setLoginMessage(error.message || '\u0110\u0103ng nh\u1eadp th\u1ea5t b\u1ea1i. Vui l\u00f2ng ki\u1ec3m tra l\u1ea1i t\u00ean \u0111\u0103ng nh\u1eadp v\u00e0 m\u1eadt kh\u1ea9u.', false);
-                });
+            });
         }, true);
+    }
+
+    function setForgotPasswordMessage(message, tone) {
+        var messageNode = document.getElementById('forgotPasswordMessage');
+        if (!messageNode) {
+            return;
+        }
+
+        messageNode.textContent = message || '';
+        messageNode.classList.remove('is-success', 'is-error');
+        if (tone) {
+            messageNode.classList.add(tone === 'success' ? 'is-success' : 'is-error');
+        }
+    }
+
+    function getResponseMessage(result, fallback) {
+        var body = result && result.body;
+        if (!body) {
+            return fallback;
+        }
+
+        if (typeof body === 'string') {
+            return body || fallback;
+        }
+
+        return body.message || body.title || fallback;
+    }
+
+    function handleForgotPasswordForm() {
+        var form = document.getElementById('forgotPasswordForm');
+        if (!form) {
+            return;
+        }
+
+        document.querySelectorAll('[data-forgot-password-trigger]').forEach(function (trigger) {
+            if (trigger.dataset.forgotPasswordReady === '1') {
+                return;
+            }
+
+            trigger.dataset.forgotPasswordReady = '1';
+            trigger.addEventListener('click', function (event) {
+                var modalElement = document.getElementById('forgotPasswordModal');
+                if (!modalElement) {
+                    return;
+                }
+
+                event.preventDefault();
+                if (window.bootstrap && window.bootstrap.Modal) {
+                    window.bootstrap.Modal.getOrCreateInstance(modalElement).show();
+                    return;
+                }
+
+                modalElement.classList.add('show');
+                modalElement.style.display = 'block';
+                modalElement.removeAttribute('aria-hidden');
+                modalElement.setAttribute('aria-modal', 'true');
+                document.body.classList.add('modal-open');
+            });
+        });
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var submitButton = document.getElementById('forgotPasswordSubmit');
+            var payload = {
+                userId: normalizeWhitespace(document.getElementById('forgotUserId')?.value),
+                email: normalizeWhitespace(document.getElementById('forgotEmail')?.value),
+                phone: normalizeWhitespace(document.getElementById('forgotPhone')?.value),
+                newPassword: document.getElementById('forgotNewPassword')?.value || ''
+            };
+            var confirmPassword = document.getElementById('forgotConfirmPassword')?.value || '';
+
+            if (!payload.userId || !payload.email || !payload.phone || !payload.newPassword) {
+                setForgotPasswordMessage('Vui lòng nhập đầy đủ tên đăng nhập, email, số điện thoại và mật khẩu mới.', 'error');
+                return;
+            }
+
+            if (!/^0[0-9]{9}$/.test(payload.phone)) {
+                setForgotPasswordMessage('Số điện thoại phải gồm 10 số và bắt đầu bằng 0.', 'error');
+                return;
+            }
+
+            if (payload.newPassword !== confirmPassword) {
+                setForgotPasswordMessage('Mật khẩu nhập lại không khớp.', 'error');
+                return;
+            }
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Đang đổi...';
+            }
+            setForgotPasswordMessage('', '');
+
+            fetch(buildApiUrl('/api-user/TaiKhoan/reset-password'), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+                .then(function (response) {
+                    return response.json().catch(function () {
+                        return {};
+                    }).then(function (body) {
+                        return {
+                            ok: response.ok,
+                            body: body
+                        };
+                    });
+                })
+                .then(function (result) {
+                    if (!result.ok) {
+                        throw new Error(getResponseMessage(result, 'Không thể đổi mật khẩu. Vui lòng kiểm tra lại thông tin.'));
+                    }
+
+                    setForgotPasswordMessage(getResponseMessage(result, 'Đổi mật khẩu thành công.'), 'success');
+                    form.reset();
+                })
+                .catch(function (error) {
+                    setForgotPasswordMessage(error.message || 'Không thể đổi mật khẩu. Vui lòng kiểm tra lại thông tin.', 'error');
+                })
+                .finally(function () {
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Đổi mật khẩu';
+                    }
+                });
+        });
     }
 
     function handleRegisterForm() {
@@ -808,8 +945,8 @@
                 '<a class="header-support-phone" style="display:block;white-space:nowrap;" href="tel:', SUPPORT_PHONE_RAW, '">', SUPPORT_PHONE_DISPLAY, '</a>',
                 '</div>',
                 '</div>',
-                '<div class="header-account-card">',
-                '<div class="auth-links">', getGuestAuthMarkup(), '</div>',
+                '<div class="header-account-card" data-auth-state="guest" style="flex:0 0 auto;width:max-content;max-width:max-content;">',
+                '<div class="auth-links" data-auth-state="guest" style="width:auto;">', getGuestAuthMarkup(), '</div>',
                 '</div>',
                 '</div>'
             ].join('');
@@ -956,6 +1093,7 @@
         decorateNavigationLinks();
         rewritePlaceholderLinks();
         handleLoginForm();
+        handleForgotPasswordForm();
         handleRegisterForm();
         handleDocumentClicks();
         renderInterface();
