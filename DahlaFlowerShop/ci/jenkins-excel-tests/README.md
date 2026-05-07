@@ -15,11 +15,11 @@ Pipeline se:
 
 1. Clone source.
 2. Cai dependency Node trong `ci`.
-3. Start local web bang `ci/run-local-web.ps1`.
+3. Start hoac reuse local web bang `ci/run-local-web.ps1`.
 4. Chay `test/data-driven/auth-data-driven.test.js`.
 5. Chay `test/keyword-driven/website-keyword-driven.test.js`.
 6. Archive Excel test data va JSON reports trong `test/reports`.
-7. Stop local web services o `post`, tru khi `KEEP_SERVICES=true`.
+7. Giu local web services o `post` theo mac dinh `KEEP_SERVICES=true`.
 
 ## Luu y khi chay tren Jenkins
 
@@ -27,5 +27,7 @@ Jenkins chay non-interactive nen khong bam duoc popup `dotnet dev-certs https --
 
 - `SKIP_CERT_TRUST=true`
 - `REUSE_RUNNING_WEB=true`
+- `KEEP_SERVICES=true`
 
 Neu ban da start web san bang `run-local-web.bat`, Jenkins se dung lai service dang chay tren port tuong ung thay vi stop/start lai tu dau.
+Trong Jenkinsfile, `-SkipCertTrust -ReuseRunning` duoc truyen truc tiep vao `ci/run-local-web.ps1` de tranh loi popup trust certificate tren Jenkins.

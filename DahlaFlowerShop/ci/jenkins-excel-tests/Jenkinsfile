@@ -16,7 +16,7 @@ pipeline {
         booleanParam(name: 'SKIP_DB_SETUP', defaultValue: false, description: 'Bo qua setup LocalDB neu database da san sang.')
         booleanParam(name: 'SKIP_CERT_TRUST', defaultValue: true, description: 'Bo qua buoc trust ASP.NET HTTPS dev certificate. Jenkins nen de true vi khong bam duoc popup trust certificate.')
         booleanParam(name: 'REUSE_RUNNING_WEB', defaultValue: true, description: 'Dung lai web/API dang chay san neu port da mo, phu hop khi da start web thu cong truoc.')
-        booleanParam(name: 'KEEP_SERVICES', defaultValue: false, description: 'Giu service chay sau khi test xong.')
+        booleanParam(name: 'KEEP_SERVICES', defaultValue: true, description: 'Giu service chay sau khi test xong. Mac dinh true vi pipeline thuong reuse web/API dang start san.')
     }
 
     environment {
@@ -114,19 +114,17 @@ exit /b %ERRORLEVEL%
             }
         }
 
-        stage('Start Local Web') {
+        stage('Start Or Reuse Local Web') {
             steps {
                 bat '''
 @echo off
 chcp 65001>nul
 cd /d "%EFFECTIVE_REPO_ROOT%"
 
-set "WEB_ARGS=-FrontendPort %EFFECTIVE_FRONTEND_PORT% -NoBrowser"
+set "WEB_ARGS=-FrontendPort %EFFECTIVE_FRONTEND_PORT% -NoBrowser -SkipCertTrust -ReuseRunning"
 if /I "%SKIP_DB_SETUP%"=="true" set "WEB_ARGS=%WEB_ARGS% -SkipDbSetup"
-if /I "%SKIP_CERT_TRUST%"=="true" set "WEB_ARGS=%WEB_ARGS% -SkipCertTrust"
-if /I "%REUSE_RUNNING_WEB%"=="true" set "WEB_ARGS=%WEB_ARGS% -ReuseRunning"
 
-echo Starting local web:
+echo Starting or reusing local web:
 echo powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\run-local-web.ps1" %WEB_ARGS%
 powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\run-local-web.ps1" %WEB_ARGS%
 exit /b %ERRORLEVEL%
