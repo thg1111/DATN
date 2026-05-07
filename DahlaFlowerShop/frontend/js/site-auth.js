@@ -31,6 +31,14 @@
         wishlist: '/pages/wishlist.html',
         profile: '/pages/account/profile.html'
     };
+    var PRODUCT_TOPIC_LINKS = [
+        { label: 'Hoa sinh nh\u1eadt', path: APP_PATHS.birthday },
+        { label: 'Hoa c\u01b0\u1edbi', path: APP_PATHS.weddingBlog },
+        { label: 'Hoa t\u1ed1t nghi\u1ec7p', path: APP_PATHS.category },
+        { label: 'Lan h\u1ed3 \u0111i\u1ec7p', path: APP_PATHS.category },
+        { label: 'Hoa khai tr\u01b0\u01a1ng', path: APP_PATHS.category },
+        { label: 'Hoa ti\u1ec7c', path: APP_PATHS.category }
+    ];
 
     function parseJson(value, fallback) {
         if (!value) {
@@ -976,6 +984,24 @@
         });
     }
 
+    function renderProductTopicMenu(menu) {
+        if (!menu) {
+            return;
+        }
+
+        menu.removeAttribute('style');
+        menu.classList.add('product-topic-submenu');
+        menu.innerHTML = PRODUCT_TOPIC_LINKS.map(function (item) {
+            return '<li><a href="' + resolveAppUrl(item.path) + '">' + escapeHtml(item.label) + '</a></li>';
+        }).join('');
+    }
+
+    function enhanceProductCategoryMenus() {
+        document.querySelectorAll('.menu1 .submenu').forEach(function (menu) {
+            renderProductTopicMenu(menu);
+        });
+    }
+
     function decorateNavigationLinks() {
         var textLinkMap = {
             'Xuất xứ': APP_PATHS.about + '#origin',
@@ -1090,6 +1116,7 @@
 
     function init() {
         enhanceHeaderShell();
+        enhanceProductCategoryMenus();
         decorateNavigationLinks();
         rewritePlaceholderLinks();
         handleLoginForm();

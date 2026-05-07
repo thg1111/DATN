@@ -1,0 +1,196 @@
+pipeline {
+    agent any
+
+    options {
+        timestamps()
+        buildDiscarder(logRotator(numToKeepStr: '20'))
+        skipDefaultCheckout(true)
+    }
+
+    parameters {
+        string(name: 'GIT_URL', defaultValue: 'https://github.com/thg1111/DATN.git', description: 'Git repository URL de Jenkins clone source.')
+        string(name: 'GIT_BRANCH', defaultValue: 'dev', description: 'Nhanh can clone de chay test.')
+        string(name: 'REPO_ROOT', defaultValue: '', description: 'Override repo root neu can. Mac dinh la %WORKSPACE%\\DahlaFlowerShop sau khi clone DATN.')
+        string(name: 'FRONTEND_PORT', defaultValue: '5500', description: 'Port frontend static server cho Selenium.')
+        string(name: 'API_BASE_URL', defaultValue: 'https://localhost:7114', description: 'Base URL cua gateway/API de frontend goi test.')
+        booleanParam(name: 'SKIP_DB_SETUP', defaultValue: false, description: 'Bo qua setup LocalDB neu database da san sang.')
+        booleanParam(name: 'SKIP_CERT_TRUST', defaultValue: false, description: 'Bo qua buoc trust ASP.NET HTTPS dev certificate.')
+        booleanParam(name: 'KEEP_SERVICES', defaultValue: false, description: 'Giu service chay sau khi test xong.')
+    }
+
+    environment {
+        DOTNET_CLI_TELEMETRY_OPTOUT = '1'
+        DOTNET_NOLOGO = '1'
+        DEFAULT_GIT_URL = 'https://github.com/thg1111/DATN.git'
+        DEFAULT_GIT_BRANCH = 'dev'
+    }
+
+    stages {
+        stage('Checkout Source') {
+            steps {
+                script {
+                    env.EFFECTIVE_GIT_URL = params.GIT_URL?.trim() ? params.GIT_URL.trim() : env.DEFAULT_GIT_URL
+                    env.EFFECTIVE_GIT_BRANCH = params.GIT_BRANCH?.trim() ? params.GIT_BRANCH.trim() : env.DEFAULT_GIT_BRANCH
+
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "*/${env.EFFECTIVE_GIT_BRANCH}"]],
+                        userRemoteConfigs: [[url: env.EFFECTIVE_GIT_URL]],
+                        extensions: [
+                            [$class: 'CleanBeforeCheckout']
+                        ]
+                    ])
+                }
+                bat '''
+@echo off
+chcp 65001>nul
+echo Checked out %EFFECTIVE_GIT_URL%
+echo Branch: %EFFECTIVE_GIT_BRANCH%
+'''
+            }
+        }
+
+        stage('Resolve Paths') {
+            steps {
+                script {
+                    env.EFFECTIVE_REPO_ROOT = params.REPO_ROOT?.trim() ? params.REPO_ROOT.trim() : "${env.WORKSPACE}\\DahlaFlowerShop"
+                    env.EFFECTIVE_FRONTEND_PORT = params.FRONTEND_PORT?.trim() ? params.FRONTEND_PORT.trim() : '5500'
+                    env.EFFECTIVE_FRONTEND_BASE_URL = "http://127.0.0.1:${env.EFFECTIVE_FRONTEND_PORT}"
+                    env.EFFECTIVE_API_BASE_URL = params.API_BASE_URL?.trim() ? params.API_BASE_URL.trim() : 'https://localhost:7114'
+                }
+                bat '''
+@echo off
+chcp 65001>nul
+echo Workspace             : %WORKSPACE%
+echo Repo root             : %EFFECTIVE_REPO_ROOT%
+echo Frontend base URL     : %EFFECTIVE_FRONTEND_BASE_URL%
+echo API base URL          : %EFFECTIVE_API_BASE_URL%
+'''
+            }
+        }
+
+        stage('Check Environment') {
+            steps {
+                bat '''
+@echo off
+chcp 65001>nul
+if not exist "%EFFECTIVE_REPO_ROOT%" (
+    echo Source path not found: %EFFECTIVE_REPO_ROOT%
+    exit /b 1
+)
+if not exist "%EFFECTIVE_REPO_ROOT%\\ci\\run-local-web.ps1" (
+    echo Missing ci\\run-local-web.ps1
+    exit /b 1
+)
+if not exist "%EFFECTIVE_REPO_ROOT%\\test\\data-driven\\auth-data-driven.test.js" (
+    echo Missing data-driven test script
+    exit /b 1
+)
+if not exist "%EFFECTIVE_REPO_ROOT%\\test\\keyword-driven\\website-keyword-driven.test.js" (
+    echo Missing keyword-driven test script
+    exit /b 1
+)
+where dotnet
+dotnet --version
+where node
+node --version
+where npm
+'''
+            }
+        }
+
+        stage('Install Node Dependencies') {
+            steps {
+                bat '''
+@echo off
+chcp 65001>nul
+cd /d "%EFFECTIVE_REPO_ROOT%\\ci"
+call npm.cmd install
+exit /b %ERRORLEVEL%
+'''
+            }
+        }
+
+        stage('Start Local Web') {
+            steps {
+                bat '''
+@echo off
+chcp 65001>nul
+cd /d "%EFFECTIVE_REPO_ROOT%"
+
+set "WEB_ARGS=-FrontendPort %EFFECTIVE_FRONTEND_PORT% -NoBrowser"
+if /I "%SKIP_DB_SETUP%"=="true" set "WEB_ARGS=%WEB_ARGS% -SkipDbSetup"
+if /I "%SKIP_CERT_TRUST%"=="true" set "WEB_ARGS=%WEB_ARGS% -SkipCertTrust"
+
+echo Starting local web:
+echo powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\run-local-web.ps1" %WEB_ARGS%
+powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\run-local-web.ps1" %WEB_ARGS%
+exit /b %ERRORLEVEL%
+'''
+            }
+        }
+
+        stage('Run Data Driven Auth Tests') {
+            steps {
+                bat '''
+@echo off
+chcp 65001>nul
+cd /d "%EFFECTIVE_REPO_ROOT%"
+set "FRONTEND_BASE_URL=%EFFECTIVE_FRONTEND_BASE_URL%"
+set "API_BASE_URL=%EFFECTIVE_API_BASE_URL%"
+node .\\test\\data-driven\\auth-data-driven.test.js
+exit /b %ERRORLEVEL%
+'''
+            }
+        }
+
+        stage('Run Keyword Driven Website Tests') {
+            steps {
+                bat '''
+@echo off
+chcp 65001>nul
+cd /d "%EFFECTIVE_REPO_ROOT%"
+set "FRONTEND_BASE_URL=%EFFECTIVE_FRONTEND_BASE_URL%"
+set "API_BASE_URL=%EFFECTIVE_API_BASE_URL%"
+node .\\test\\keyword-driven\\website-keyword-driven.test.js
+exit /b %ERRORLEVEL%
+'''
+            }
+        }
+
+        stage('Sync Test Reports') {
+            steps {
+                bat '''
+@echo off
+chcp 65001>nul
+if not exist "%EFFECTIVE_REPO_ROOT%\\test\\reports" (
+    echo No test report folder found.
+    exit /b 0
+)
+if not exist "%WORKSPACE%\\test\\reports" mkdir "%WORKSPACE%\\test\\reports"
+robocopy "%EFFECTIVE_REPO_ROOT%\\test\\reports" "%WORKSPACE%\\test\\reports" /E /NFL /NDL /NJH /NJS /NC /NS
+if %ERRORLEVEL% LEQ 7 exit /b 0
+exit /b %ERRORLEVEL%
+'''
+            }
+        }
+    }
+
+    post {
+        always {
+            bat '''
+@echo off
+chcp 65001>nul
+if /I "%KEEP_SERVICES%"=="true" (
+    echo KEEP_SERVICES=true, skip stopping local web services.
+    exit /b 0
+)
+if exist "%EFFECTIVE_REPO_ROOT%\\ci\\stop-local-web.ps1" (
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\stop-local-web.ps1"
+)
+exit /b 0
+'''
+            archiveArtifacts allowEmptyArchive: true, fingerprint: true, artifacts: 'test/reports/**/*,DahlaFlowerShop/test/reports/**/*,DahlaFlowerShop/test/**/*.xlsx'
+        }
+    }
+}

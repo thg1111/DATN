@@ -1367,3 +1367,20 @@ h2 {
 .header .header-account-card[data-auth-state="guest"] .auth-links {
     width: auto !important;
 }
+
+.product-topic-submenu,
+.menu1 .submenu {
+    min-width: 220px;
+    padding: 6px 0 !important;
+    background-color: #fff !important;
+}
+
+.product-topic-submenu li,
+.menu1 .submenu li {
+    padding: 0 !important;
+}
+
+.product-topic-submenu a,
+.menu1 .submenu a {
+    padding: 10px 18px;
+}
