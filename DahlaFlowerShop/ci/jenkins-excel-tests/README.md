@@ -20,3 +20,12 @@ Pipeline se:
 5. Chay `test/keyword-driven/website-keyword-driven.test.js`.
 6. Archive Excel test data va JSON reports trong `test/reports`.
 7. Stop local web services o `post`, tru khi `KEEP_SERVICES=true`.
+
+## Luu y khi chay tren Jenkins
+
+Jenkins chay non-interactive nen khong bam duoc popup `dotnet dev-certs https --trust`. Pipeline nay mac dinh:
+
+- `SKIP_CERT_TRUST=true`
+- `REUSE_RUNNING_WEB=true`
+
+Neu ban da start web san bang `run-local-web.bat`, Jenkins se dung lai service dang chay tren port tuong ung thay vi stop/start lai tu dau.

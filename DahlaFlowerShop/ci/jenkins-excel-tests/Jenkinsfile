@@ -14,7 +14,8 @@ pipeline {
         string(name: 'FRONTEND_PORT', defaultValue: '5500', description: 'Port frontend static server cho Selenium.')
         string(name: 'API_BASE_URL', defaultValue: 'https://localhost:7114', description: 'Base URL cua gateway/API de frontend goi test.')
         booleanParam(name: 'SKIP_DB_SETUP', defaultValue: false, description: 'Bo qua setup LocalDB neu database da san sang.')
-        booleanParam(name: 'SKIP_CERT_TRUST', defaultValue: false, description: 'Bo qua buoc trust ASP.NET HTTPS dev certificate.')
+        booleanParam(name: 'SKIP_CERT_TRUST', defaultValue: true, description: 'Bo qua buoc trust ASP.NET HTTPS dev certificate. Jenkins nen de true vi khong bam duoc popup trust certificate.')
+        booleanParam(name: 'REUSE_RUNNING_WEB', defaultValue: true, description: 'Dung lai web/API dang chay san neu port da mo, phu hop khi da start web thu cong truoc.')
         booleanParam(name: 'KEEP_SERVICES', defaultValue: false, description: 'Giu service chay sau khi test xong.')
     }
 
@@ -65,6 +66,8 @@ echo Workspace             : %WORKSPACE%
 echo Repo root             : %EFFECTIVE_REPO_ROOT%
 echo Frontend base URL     : %EFFECTIVE_FRONTEND_BASE_URL%
 echo API base URL          : %EFFECTIVE_API_BASE_URL%
+echo SKIP_CERT_TRUST       : %SKIP_CERT_TRUST%
+echo REUSE_RUNNING_WEB     : %REUSE_RUNNING_WEB%
 '''
             }
         }
@@ -121,6 +124,7 @@ cd /d "%EFFECTIVE_REPO_ROOT%"
 set "WEB_ARGS=-FrontendPort %EFFECTIVE_FRONTEND_PORT% -NoBrowser"
 if /I "%SKIP_DB_SETUP%"=="true" set "WEB_ARGS=%WEB_ARGS% -SkipDbSetup"
 if /I "%SKIP_CERT_TRUST%"=="true" set "WEB_ARGS=%WEB_ARGS% -SkipCertTrust"
+if /I "%REUSE_RUNNING_WEB%"=="true" set "WEB_ARGS=%WEB_ARGS% -ReuseRunning"
 
 echo Starting local web:
 echo powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\run-local-web.ps1" %WEB_ARGS%
