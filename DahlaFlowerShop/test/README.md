@@ -6,7 +6,7 @@ Thu muc nay chua cac kich ban kiem thu bo sung cho website Dahla Flower Shop.
 
 - `data-driven/`: kiem thu huong du lieu cho chuc nang dang nhap va dang ky, doc tu Excel.
 - `keyword-driven/`: kiem thu huong tu khoa cho cac luong thao tac tren website, doc tu Excel.
-- `reports/`: noi sinh bao cao JSON sau khi chay test.
+- `reports/`: noi sinh bao cao HTML va JSON sau khi chay test.
 
 ## Dieu kien chay
 

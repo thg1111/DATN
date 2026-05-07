@@ -18,7 +18,7 @@ Pipeline se:
 3. Start hoac reuse local web bang root wrapper `run-local-web.bat`.
 4. Chay `test/data-driven/auth-data-driven.test.js`.
 5. Chay `test/keyword-driven/website-keyword-driven.test.js`.
-6. Archive Excel test data va JSON reports trong `test/reports`.
+6. Archive Excel test data, HTML reports va JSON reports trong `test/reports`.
 7. Giu local web services o `post` theo mac dinh `KEEP_SERVICES=true`.
 
 ## Luu y khi chay tren Jenkins

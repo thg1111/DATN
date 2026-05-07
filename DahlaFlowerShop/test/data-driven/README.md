@@ -45,8 +45,9 @@ Chay:
 node .\test\data-driven\auth-data-driven.test.js
 ```
 
-Bao cao JSON duoc ghi vao:
+Bao cao duoc ghi vao:
 
 ```text
+test/reports/data-driven-auth-report.html
 test/reports/data-driven-auth-report.json
 ```

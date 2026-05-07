@@ -76,7 +76,20 @@ class ActionKeywords {
     const element = await this.visibleElement(object.value);
     await this.driver.executeScript('arguments[0].scrollIntoView({ block: "center", inline: "center" });', element);
     await this.driver.executeScript('arguments[0].click();', element);
+    await this.acceptAlertIfPresent();
     return object.value;
+  }
+
+  async acceptAlertIfPresent() {
+    try {
+      const alert = await this.driver.wait(until.alertIsPresent(), 1000);
+      const text = await alert.getText().catch(() => '');
+      await alert.accept();
+      return text;
+    }
+    catch {
+      return '';
+    }
   }
 
   async assertValue(objectName, expectedValue) {
@@ -110,14 +123,18 @@ class ActionKeywords {
     const object = this.resolveObject(objectName);
     const storageKey = object.value || objectName;
     await this.driver.wait(async () => {
+      await this.acceptAlertIfPresent();
       return this.driver.executeScript(`
         const raw = localStorage.getItem(arguments[0]);
         if (!raw) return false;
         try {
-          return Object.keys(JSON.parse(raw)).length > 0;
+          const value = JSON.parse(raw);
+          if (Array.isArray(value)) return value.length > 0;
+          if (value && typeof value === 'object') return Object.keys(value).length > 0;
+          return Boolean(value);
         }
         catch {
-          return false;
+          return raw.length > 0;
         }
       `, storageKey);
     }, 10000, `Expected localStorage object ${storageKey} to contain data.`);

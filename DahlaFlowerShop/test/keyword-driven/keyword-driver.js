@@ -14,6 +14,7 @@ const { Builder } = requireDependency('selenium-webdriver');
 const chrome = requireDependency('selenium-webdriver/chrome');
 const XLSX = requireDependency('xlsx');
 const { ActionKeywords } = require('./action-keywords');
+const { writeHtmlReport } = require('../report-utils');
 const objectRepository = require('./object-repository.json');
 
 const supportedKeywords = new Set([
@@ -140,7 +141,13 @@ async function runCase(driver, actionKeywords, frontendBaseUrl, testCase) {
     };
   }
   catch (error) {
+    const failedStep = testCase.steps[stepResults.length] || {};
     stepResults.push({
+      stepOrder: failedStep.stepOrder,
+      keyword: failedStep.keyword,
+      objectName: failedStep.objectName,
+      testData: failedStep.testData,
+      description: failedStep.description,
       status: 'failed',
       error: error.message
     });
@@ -175,6 +182,13 @@ async function runKeywordDrivenTests(options) {
       const result = await runCase(driver, actionKeywords, options.frontendBaseUrl, testCase);
       results.push(result);
       console.log(`${result.status.toUpperCase()} ${result.id} ${result.name}`);
+      if (result.status === 'failed') {
+        console.error(`FAILED DETAIL ${result.id}: ${result.error}`);
+        const failedStep = result.steps.find((step) => step.status === 'failed');
+        if (failedStep) {
+          console.error(`FAILED STEP ${result.id}.${failedStep.stepOrder}: ${failedStep.keyword} ${failedStep.objectName || ''} ${failedStep.testData || ''}`);
+        }
+      }
     }
   }
   finally {
@@ -200,6 +214,14 @@ async function runKeywordDrivenTests(options) {
   };
 
   fs.writeFileSync(options.reportPath, JSON.stringify(summary, null, 2));
+  if (options.htmlReportPath) {
+    writeHtmlReport(options.htmlReportPath, {
+      title: 'Dahla Keyword-Driven Website Report',
+      subtitle: 'Website automation scenarios loaded from Excel TestSteps and executed through ActionKeywords.',
+      framework: 'keyword-driven',
+      summary
+    });
+  }
 
   if (summary.failed > 0) {
     process.exitCode = 1;

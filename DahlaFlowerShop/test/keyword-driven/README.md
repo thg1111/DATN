@@ -54,8 +54,9 @@ Chay:
 node .\test\keyword-driven\website-keyword-driven.test.js
 ```
 
-Bao cao JSON duoc ghi vao:
+Bao cao duoc ghi vao:
 
 ```text
+test/reports/keyword-driven-website-report.html
 test/reports/keyword-driven-website-report.json
 ```

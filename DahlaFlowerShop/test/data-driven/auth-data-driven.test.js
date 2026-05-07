@@ -13,11 +13,13 @@ function requireDependency(name) {
 const { Builder, By, until } = requireDependency('selenium-webdriver');
 const chrome = requireDependency('selenium-webdriver/chrome');
 const XLSX = requireDependency('xlsx');
+const { writeHtmlReport } = require('../report-utils');
 
 const frontendBaseUrl = process.env.FRONTEND_BASE_URL || 'http://127.0.0.1:5500';
 const apiBaseUrl = process.env.API_BASE_URL || 'https://localhost:7114';
 const reportsDir = path.join(__dirname, '..', 'reports');
 const reportPath = path.join(reportsDir, 'data-driven-auth-report.json');
+const htmlReportPath = path.join(reportsDir, 'data-driven-auth-report.html');
 const testDataPath = path.join(__dirname, 'auth-test-data-styled.xlsx');
 const loginRequiredColumns = ['id', 'name', 'username', 'password', 'expected'];
 const registerRequiredColumns = ['id', 'name', 'tenTK', 'matKhau', 'email', 'tenND', 'sdt', 'expected'];
@@ -271,6 +273,12 @@ async function run() {
   };
 
   fs.writeFileSync(reportPath, JSON.stringify(summary, null, 2));
+  writeHtmlReport(htmlReportPath, {
+    title: 'Dahla Data-Driven Auth Report',
+    subtitle: 'Login and register test cases loaded from Excel.',
+    framework: 'data-driven',
+    summary
+  });
 
   if (summary.failed > 0) {
     process.exit(1);
