@@ -38,6 +38,10 @@ class ActionKeywords {
     return element;
   }
 
+  async locatedElement(selector) {
+    return this.driver.wait(until.elementLocated(By.css(selector)), 10000);
+  }
+
   async open(objectName) {
     const object = this.resolveObject(objectName);
     if (object.type !== 'url') {
@@ -73,7 +77,7 @@ class ActionKeywords {
 
   async click(objectName) {
     const object = this.resolveObject(objectName);
-    const element = await this.visibleElement(object.value);
+    const element = await this.locatedElement(object.value);
     await this.driver.executeScript('arguments[0].scrollIntoView({ block: "center", inline: "center" });', element);
     await this.driver.executeScript('arguments[0].click();', element);
     await this.acceptAlertIfPresent();
