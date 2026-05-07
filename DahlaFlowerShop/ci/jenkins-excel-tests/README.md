@@ -3,7 +3,7 @@
 Thu muc nay chua Jenkinsfile rieng de chay bo test moi trong `test/`:
 
 - Data-driven auth tests doc Excel `test/data-driven/auth-test-data-styled.xlsx`
-- Keyword-driven website tests doc Excel `test/keyword-driven/website-keywords-styled.xlsx`
+- Keyword-driven website tests doc Excel `test/keyword-driven/website-keywords-framework.xlsx`
 
 Trong Jenkins, tao Pipeline moi va tro `Script Path` toi:
 

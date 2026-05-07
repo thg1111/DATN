@@ -1,0 +1,50 @@
+{
+  "homePage": {
+    "type": "url",
+    "value": "/index.html"
+  },
+  "categoryPage": {
+    "type": "url",
+    "value": "/pages/products/category.html"
+  },
+  "loginPage": {
+    "type": "url",
+    "value": "/pages/auth/login.html"
+  },
+  "siteHeader": {
+    "type": "css",
+    "value": ".header"
+  },
+  "siteMenu": {
+    "type": "css",
+    "value": ".menu"
+  },
+  "homeSearchInput": {
+    "type": "css",
+    "value": "input[ng-model=\"searchQuery\"]"
+  },
+  "categoryProductCard": {
+    "type": "css",
+    "value": ".vlt"
+  },
+  "categoryAddToCartButton": {
+    "type": "css",
+    "value": ".btn-cart"
+  },
+  "cartStorage": {
+    "type": "storage",
+    "value": "DatHang"
+  },
+  "loginUsernameInput": {
+    "type": "css",
+    "value": "#tenTK"
+  },
+  "loginPasswordInput": {
+    "type": "css",
+    "value": "#matKhau"
+  },
+  "loginSubmitButton": {
+    "type": "css",
+    "value": "button[type=\"submit\"]"
+  }
+}
