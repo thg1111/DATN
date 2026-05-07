@@ -192,15 +192,44 @@ function Start-Frontend {
 
     $stdout = Join-Path $reportsDir "frontend.out.log"
     $stderr = Join-Path $reportsDir "frontend.err.log"
+    $python = Get-Command python -ErrorAction SilentlyContinue
+    $py = Get-Command py -ErrorAction SilentlyContinue
+    $node = Get-Command node -ErrorAction SilentlyContinue
+    $nodeStaticServer = Join-Path $PSScriptRoot "static-server.js"
 
     Write-Host "Starting frontend static server on http://127.0.0.1:$FrontendPort"
-    $process = Start-Process -FilePath "python" `
-        -ArgumentList @("-m", "http.server", "$FrontendPort", "--bind", "127.0.0.1") `
-        -WorkingDirectory $frontendRoot `
-        -RedirectStandardOutput $stdout `
-        -RedirectStandardError $stderr `
-        -PassThru `
-        -WindowStyle Hidden
+
+    if ($python) {
+        $process = Start-Process -FilePath $python.Source `
+            -ArgumentList @("-m", "http.server", "$FrontendPort", "--bind", "127.0.0.1") `
+            -WorkingDirectory $frontendRoot `
+            -RedirectStandardOutput $stdout `
+            -RedirectStandardError $stderr `
+            -PassThru `
+            -WindowStyle Hidden
+    }
+    elseif ($py) {
+        $process = Start-Process -FilePath $py.Source `
+            -ArgumentList @("-3", "-m", "http.server", "$FrontendPort", "--bind", "127.0.0.1") `
+            -WorkingDirectory $frontendRoot `
+            -RedirectStandardOutput $stdout `
+            -RedirectStandardError $stderr `
+            -PassThru `
+            -WindowStyle Hidden
+    }
+    elseif ($node -and (Test-Path $nodeStaticServer)) {
+        Write-Host "Python was not found. Starting frontend with Node static server."
+        $process = Start-Process -FilePath $node.Source `
+            -ArgumentList @("`"$nodeStaticServer`"", "`"$frontendRoot`"", "$FrontendPort", "127.0.0.1") `
+            -WorkingDirectory $repoRoot `
+            -RedirectStandardOutput $stdout `
+            -RedirectStandardError $stderr `
+            -PassThru `
+            -WindowStyle Hidden
+    }
+    else {
+        throw "Could not start frontend static server because neither Python nor Node.js static server is available."
+    }
 
     Add-ManagedProcess -Name "Dahla Frontend" -ProcessId $process.Id -Ports @($FrontendPort)
 }

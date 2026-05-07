@@ -81,8 +81,8 @@ if not exist "%EFFECTIVE_REPO_ROOT%" (
     echo Source path not found: %EFFECTIVE_REPO_ROOT%
     exit /b 1
 )
-if not exist "%EFFECTIVE_REPO_ROOT%\\ci\\run-local-web.ps1" (
-    echo Missing ci\\run-local-web.ps1
+if not exist "%EFFECTIVE_REPO_ROOT%\\run-local-web.bat" (
+    echo Missing run-local-web.bat
     exit /b 1
 )
 if not exist "%EFFECTIVE_REPO_ROOT%\\test\\data-driven\\auth-data-driven.test.js" (
@@ -125,8 +125,8 @@ set "WEB_ARGS=-FrontendPort %EFFECTIVE_FRONTEND_PORT% -NoBrowser -SkipCertTrust 
 if /I "%SKIP_DB_SETUP%"=="true" set "WEB_ARGS=%WEB_ARGS% -SkipDbSetup"
 
 echo Starting or reusing local web:
-echo powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\run-local-web.ps1" %WEB_ARGS%
-powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\run-local-web.ps1" %WEB_ARGS%
+echo call "%EFFECTIVE_REPO_ROOT%\\run-local-web.bat" %WEB_ARGS%
+call "%EFFECTIVE_REPO_ROOT%\\run-local-web.bat" %WEB_ARGS%
 exit /b %ERRORLEVEL%
 '''
             }
