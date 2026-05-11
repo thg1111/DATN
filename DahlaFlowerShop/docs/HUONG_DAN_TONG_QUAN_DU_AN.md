@@ -14,7 +14,7 @@ Ve ky thuat, du an chia thanh 5 phan lon:
 | Backend API | `backend/` | Cac Web API .NET xu ly du lieu va nghiep vu |
 | Database | `database/` | File SQL tao bang, du lieu mau va stored procedure |
 | CI | `ci/` va `Jenkinsfile` | Script tu dong build, chay web, chay test va dong goi bao cao |
-| Test | `test/` va `ci/selenium`, `ci/newman` | Kiem thu website/API bang Selenium, Excel va Newman |
+| Test | `test/AutomationFramework/`, `ci/selenium`, `ci/newman` | Kiem thu website/API bang Python Selenium, Excel va Newman |
 
 ## 2. Giai thich cau truc thu muc
 
@@ -41,9 +41,12 @@ DahlaFlowerShop/
 |   |-- jenkins-excel-tests/  Jenkinsfile rieng cho test Excel
 |
 |-- test/
-|   |-- data-driven/          Test doc du lieu tu Excel
-|   |-- keyword-driven/       Test doc keyword tu Excel
-|   |-- reports/              Bao cao sinh ra sau khi chay test
+|   |-- AutomationFramework/  Framework kiem thu Python + Selenium + Excel
+|       |-- tests/             test_login, test_checkout, test_keyword_driven
+|       |-- pages/             Page Object Model (base, login, home, checkout)
+|       |-- utils/             driver_factory, excel_reader, action_keywords...
+|       |-- testdata/          File Excel input (test_data.xlsx, keyword_steps.xlsx)
+|       |-- reports/           Bao cao sinh ra sau khi chay test
 |
 |-- docs/                     Tai lieu do an
 |-- run-local-web.bat         Lenh nhanh de start web local
@@ -399,7 +402,7 @@ Script nay la trai tim cua smoke pipeline:
 
 ## 9. Pipeline Excel: `ci/jenkins-excel-tests/Jenkinsfile`
 
-Pipeline nay tap trung vao 2 bo test nam trong `test/`.
+Pipeline nay tap trung vao 2 bo test nam trong `test/AutomationFramework/`.
 
 ### 9.1 Muc dich
 
@@ -407,8 +410,8 @@ Dung khi muon chung minh 2 ky thuat test:
 
 | Ky thuat | Thu muc | Giai thich ngan |
 |---|---|---|
-| Data-driven testing | `test/data-driven/` | Du lieu test nam trong Excel, script lap qua tung dong |
-| Keyword-driven testing | `test/keyword-driven/` | Moi dong Excel la mot buoc thao tac co keyword |
+| Data-driven testing | `test/AutomationFramework/` | Du lieu test nam trong Excel, Pytest tu doc va chay tung dong |
+| Keyword-driven testing | `test/AutomationFramework/` | Moi dong Excel la mot buoc thao tac co keyword |
 
 ### 9.2 Cac stage
 
@@ -417,11 +420,11 @@ Dung khi muon chung minh 2 ky thuat test:
 | `Checkout Source` | Clone repo |
 | `Resolve Paths` | Tinh repo root, frontend URL, API URL |
 | `Check Environment` | Kiem tra file bat buoc, `dotnet`, `node`, `npm` |
-| `Install Node Dependencies` | Chay `npm install` trong `ci` |
+| `Install Dependencies` | Cai Python dependencies bang `pip install -r requirements.txt` |
 | `Start Or Reuse Local Web` | Goi `run-local-web.bat` de start/reuse web |
-| `Run Data Driven Auth Tests` | Chay `auth-data-driven.test.js` |
-| `Run Keyword Driven Website Tests` | Chay `website-keyword-driven.test.js` |
-| `Sync Test Reports` | Copy `test/reports` ve workspace |
+| `Run Data Driven Tests` | Chay `pytest tests/test_login.py tests/test_checkout.py -v` |
+| `Run Keyword Driven Tests` | Chay `pytest tests/test_keyword_driven.py -v` |
+| `Sync Test Reports` | Copy `test/AutomationFramework/reports` ve workspace |
 | `post always` | Archive report va file Excel; stop service neu `KEEP_SERVICES=false` |
 
 ### 9.3 Vi sao pipeline nay co `SKIP_CERT_TRUST=true`?
@@ -440,8 +443,8 @@ Du an co 4 nhom test:
 |---|---|---|
 | Newman API smoke | `ci/newman/` | Newman/Postman |
 | Selenium smoke | `ci/selenium/dahla-web-smoke.js` | Selenium WebDriver |
-| Data-driven Excel | `test/data-driven/` | Excel + Selenium |
-| Keyword-driven Excel | `test/keyword-driven/` | Excel + Selenium |
+| Data-driven Excel | `test/AutomationFramework/` | Python + Pytest + Selenium + Excel |
+| Keyword-driven Excel | `test/AutomationFramework/` | Python + Pytest + Selenium + Excel |
 
 ## 11. Newman API smoke test
 
@@ -503,16 +506,18 @@ ci/reports/selenium/selenium-junit.xml
 Thu muc:
 
 ```text
-test/data-driven/
+test/AutomationFramework/
 ```
 
 File quan trong:
 
 | File | Vai tro |
 |---|---|
-| `auth-test-data-styled.xlsx` | Excel chua du lieu test |
-| `auth-data-driven.test.js` | Script doc Excel va chay Selenium |
-| `README.md` | Huong dan them test case |
+| `testdata/test_data.xlsx` | Excel chua du lieu test (3 sheet: Login, Register, Checkout) |
+| `testdata/auth-test-data-styled.xlsx` | File Excel goc (luu tham khao) |
+| `tests/test_login.py` | Test dang nhap doc du lieu tu Excel |
+| `tests/test_checkout.py` | Test dat hang doc du lieu tu Excel |
+| `utils/excel_reader.py` | Doc va parse file Excel |
 
 ### 13.1 Data-driven la gi?
 
@@ -568,7 +573,10 @@ html5-invalid
 Can start web truoc, sau do chay:
 
 ```powershell
-node .\test\data-driven\auth-data-driven.test.js
+cd test\AutomationFramework
+pip install -r requirements.txt
+pytest tests/test_login.py -v
+pytest tests/test_checkout.py -v
 ```
 
 Co the truyen URL:
@@ -576,14 +584,15 @@ Co the truyen URL:
 ```powershell
 $env:FRONTEND_BASE_URL="http://127.0.0.1:5500"
 $env:API_BASE_URL="https://localhost:7114"
-node .\test\data-driven\auth-data-driven.test.js
+pytest tests/test_login.py -v
 ```
 
 Report:
 
 ```text
-test/reports/data-driven-auth-report.html
-test/reports/data-driven-auth-report.json
+test/AutomationFramework/reports/report.html
+# Hoac xuat HTML:
+pytest --html=reports/report.html --self-contained-html
 ```
 
 ## 14. Keyword-driven testing
@@ -591,18 +600,19 @@ test/reports/data-driven-auth-report.json
 Thu muc:
 
 ```text
-test/keyword-driven/
+test/AutomationFramework/
 ```
 
 File quan trong:
 
 | File | Vai tro |
 |---|---|
-| `website-keywords-framework.xlsx` | Excel chua cac buoc test |
-| `object-repository.json` | Dat ten cho selector/URL |
-| `action-keywords.js` | Thu vien keyword, moi keyword la mot ham |
-| `keyword-driver.js` | Doc Excel, gom step va goi keyword |
-| `website-keyword-driven.test.js` | Entry point de chay test |
+| `testdata/keyword_steps.xlsx` | Excel chua cac buoc test (28 steps, 5 test cases) |
+| `testdata/website-keywords-framework.xlsx` | File Excel keyword goc (luu tham khao) |
+| `testdata/object-repository.json` | Dat ten cho selector/URL |
+| `utils/action_keywords.py` | Thu vien keyword, moi keyword la mot ham Python |
+| `utils/excel_reader.py` | Doc Excel, nhom step theo test case |
+| `tests/test_keyword_driven.py` | Pytest runner chay keyword-driven |
 
 ### 14.1 Keyword-driven la gi?
 
@@ -665,14 +675,16 @@ Neu sau nay HTML doi id/class, chi can sua `object-repository.json`, khong can s
 ### 14.4 Chay keyword-driven test
 
 ```powershell
-node .\test\keyword-driven\website-keyword-driven.test.js
+cd test\AutomationFramework
+pytest tests/test_keyword_driven.py -v
 ```
 
 Report:
 
 ```text
-test/reports/keyword-driven-website-report.html
-test/reports/keyword-driven-website-report.json
+test/AutomationFramework/reports/report.html
+# Hoac xuat HTML:
+pytest --html=reports/report.html --self-contained-html
 ```
 
 ## 15. Report va artifact
@@ -685,8 +697,7 @@ Sau khi chay test, du an tao nhieu loai report:
 | Newman JUnit | `ci/reports/newman/newman-junit.xml` |
 | Selenium | `ci/reports/selenium/selenium-report.html` |
 | Selenium JUnit | `ci/reports/selenium/selenium-junit.xml` |
-| Data-driven | `test/reports/data-driven-auth-report.html` |
-| Keyword-driven | `test/reports/keyword-driven-website-report.html` |
+| Data-driven/Keyword | `test/AutomationFramework/reports/report.html` |
 | Artifact dong goi | `ci/artifacts/` |
 
 `ci/package-artifacts.ps1` gom cac report nay thanh dashboard/artifact de Jenkins archive.
@@ -737,16 +748,19 @@ powershell -ExecutionPolicy Bypass -File .\ci\run-newman.ps1 -BaseUrl https://lo
 powershell -ExecutionPolicy Bypass -File .\ci\run-selenium.ps1 -FrontendBaseUrl http://127.0.0.1:5500 -ApiBaseUrl https://localhost:7114
 ```
 
-### Chay data-driven Excel test
+### Chay data-driven va keyword-driven test (Python)
 
 ```powershell
-node .\test\data-driven\auth-data-driven.test.js
+cd test\AutomationFramework
+pytest -v
 ```
 
-### Chay keyword-driven Excel test
+### Chay rieng tung loai test
 
 ```powershell
-node .\test\keyword-driven\website-keyword-driven.test.js
+pytest tests/test_login.py -v          # Data-driven dang nhap
+pytest tests/test_checkout.py -v       # Data-driven dat hang
+pytest tests/test_keyword_driven.py -v # Keyword-driven
 ```
 
 ### Dung local web
@@ -841,5 +855,5 @@ Thu tu de hieu nhanh:
 9. `database/API_Dahla.sql` de hieu bang va stored procedure.
 10. `ci/run-local-web.ps1` de hieu cach start he thong.
 11. `ci/run-local-smoke.ps1` va `Jenkinsfile` de hieu CI.
-12. `test/data-driven/README.md` va `test/keyword-driven/README.md` de hieu test Excel.
+12. `test/AutomationFramework/README.md` de hieu cach chay test Excel.
 

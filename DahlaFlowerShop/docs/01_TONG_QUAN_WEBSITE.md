@@ -24,7 +24,11 @@ DahlaFlowerShop/
 │   └── API_Dahla.sql      → Tạo DB, bảng, stored procedures, dữ liệu mẫu
 │
 ├── ci/                    → CI/CD scripts, Newman, Selenium tests
-├── test/                  → Test bổ sung (data-driven, keyword-driven)
+├── test/AutomationFramework/  → Kiem thu tu dong (Python + Selenium + Excel)
+│   ├── tests/             → test_login, test_checkout, test_keyword_driven
+│   ├── pages/             → Page Object Model (base, login, home, checkout)
+│   ├── utils/             → driver_factory, excel_reader, action_keywords...
+│   └── testdata/          → File Excel input (test_data.xlsx, keyword_steps.xlsx)
 ├── docs/                  → Tài liệu đồ án
 ├── Jenkinsfile            → Pipeline CI/CD chính
 ├── setup-local-env.bat    → Script cài đặt môi trường
@@ -42,7 +46,7 @@ DahlaFlowerShop/
 | **Gateway** | Ocelot API Gateway - điều hướng request tới đúng API |
 | **Database** | SQL Server, Stored Procedures |
 | **CI/CD** | Jenkins Pipeline, Newman (Postman), Selenium WebDriver |
-| **Testing** | Data-driven (Excel), Keyword-driven (Excel), Smoke tests |
+| **Testing** | Python Pytest, Selenium, Page Object Model, Data-driven (Excel), Keyword-driven (Excel) |
 
 ## 4. Frontend - Giao diện người dùng
 
