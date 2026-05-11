@@ -29,7 +29,8 @@
         news: '/pages/news.html',
         careers: '/pages/careers.html',
         wishlist: '/pages/wishlist.html',
-        profile: '/pages/account/profile.html'
+        profile: '/pages/account/profile.html',
+        orders: '/pages/account/orders.html'
     };
     var PRODUCT_TOPIC_LINKS = [
         { label: 'Hoa sinh nh\u1eadt', path: APP_PATHS.birthday },
@@ -334,6 +335,7 @@
             '</div>',
             '</a>',
             '<div class="auth-user-actions">',
+            '<a href="', resolveAppUrl(APP_PATHS.orders), '" class="auth-button">\u0110\u01a1n h\u00e0ng</a>',
             '<button type="button" class="auth-button auth-button-logout" data-auth-logout="true">\u0110\u0103ng xu\u1ea5t</button>',
             '</div>',
             '</div>'
@@ -907,12 +909,14 @@
             }
         });
 
-        document.querySelectorAll('button.btn-cart').forEach(function (button) {
+        document.querySelectorAll('button.btn-quick-order, button.btn-cart').forEach(function (button) {
             var label = normalizeWhitespace(button.textContent).toLowerCase();
-            if (label === 'dat nhanh' && button.dataset.quickOrderReady !== '1') {
+            if ((button.classList.contains('btn-quick-order') || label === 'dat nhanh') && button.dataset.quickOrderReady !== '1') {
                 button.dataset.quickOrderReady = '1';
                 button.type = 'button';
-                button.addEventListener('click', function () {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
                     window.location.href = 'tel:' + SUPPORT_PHONE_RAW;
                 });
             }

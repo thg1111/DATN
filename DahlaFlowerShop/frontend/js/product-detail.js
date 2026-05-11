@@ -8,13 +8,16 @@ $(document).ready(function(){
 
     var count = 0;
 
-    $(".main").find(".btn-cart").click(function(){
+    $(".main").find(".btn-add-cart").click(function(){
         var id = $(".Item2").find(".id-product").text();
         var photo = $(".Item1").find(".imgSP").attr("src");
         var name = $(".Item2").find(".product-name").text();
         var price = $(".Item2").find(".product-price").text();
         var quantityInput = $("#input-quantity").val(); // Lấy số lượng từ ô nhập liệu
         var quantity = parseInt(quantityInput, 10); // Chuyển sang kiểu số nguyên
+        if (!Number.isFinite(quantity) || quantity < 1) {
+            quantity = 1;
+        }
 
         // Kiểm tra nếu sản phẩm đã tồn tại trong giỏ hàng thì tăng số lượng
         if (DatHang.hasOwnProperty(id)) {

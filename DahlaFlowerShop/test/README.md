@@ -16,28 +16,26 @@ Chay local web truoc:
 .\run-local-web.bat -NoBrowser
 ```
 
-Neu chua cai Node dependency trong `ci`, chay:
+Neu chua cai Python dependency, chay:
 
 ```powershell
-cd .\ci
-npm install
-cd ..
+py -m pip install -r .\test\requirements.txt
 ```
 
-Script can package `xlsx` trong `ci/package.json` de doc file Excel.
+Script Python dung `openpyxl` de doc Excel va `selenium` de dieu khien Chrome.
 
 ## Lenh chay
 
 Data-driven:
 
 ```powershell
-node .\test\data-driven\auth-data-driven.test.js
+py .\test\data-driven\auth_data_driven_test.py
 ```
 
 Keyword-driven:
 
 ```powershell
-node .\test\keyword-driven\website-keyword-driven.test.js
+py .\test\keyword-driven\website_keyword_driven_test.py
 ```
 
 Co the doi URL bang bien moi truong:

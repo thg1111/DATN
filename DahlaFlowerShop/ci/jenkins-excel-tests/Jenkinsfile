@@ -85,11 +85,11 @@ if not exist "%EFFECTIVE_REPO_ROOT%\\run-local-web.bat" (
     echo Missing run-local-web.bat
     exit /b 1
 )
-if not exist "%EFFECTIVE_REPO_ROOT%\\test\\data-driven\\auth-data-driven.test.js" (
+if not exist "%EFFECTIVE_REPO_ROOT%\\test\\data-driven\\auth_data_driven_test.py" (
     echo Missing data-driven test script
     exit /b 1
 )
-if not exist "%EFFECTIVE_REPO_ROOT%\\test\\keyword-driven\\website-keyword-driven.test.js" (
+if not exist "%EFFECTIVE_REPO_ROOT%\\test\\keyword-driven\\website_keyword_driven_test.py" (
     echo Missing keyword-driven test script
     exit /b 1
 )
@@ -97,18 +97,19 @@ where dotnet
 dotnet --version
 where node
 node --version
-where npm
+where python
+python --version
 '''
             }
         }
 
-        stage('Install Node Dependencies') {
+        stage('Install Python Dependencies') {
             steps {
                 bat '''
 @echo off
 chcp 65001>nul
-cd /d "%EFFECTIVE_REPO_ROOT%\\ci"
-call npm.cmd install
+cd /d "%EFFECTIVE_REPO_ROOT%"
+python -m pip install -r .\\test\\requirements.txt
 exit /b %ERRORLEVEL%
 '''
             }
@@ -140,7 +141,7 @@ chcp 65001>nul
 cd /d "%EFFECTIVE_REPO_ROOT%"
 set "FRONTEND_BASE_URL=%EFFECTIVE_FRONTEND_BASE_URL%"
 set "API_BASE_URL=%EFFECTIVE_API_BASE_URL%"
-node .\\test\\data-driven\\auth-data-driven.test.js
+python .\\test\\data-driven\\auth_data_driven_test.py
 exit /b %ERRORLEVEL%
 '''
             }
@@ -154,7 +155,7 @@ chcp 65001>nul
 cd /d "%EFFECTIVE_REPO_ROOT%"
 set "FRONTEND_BASE_URL=%EFFECTIVE_FRONTEND_BASE_URL%"
 set "API_BASE_URL=%EFFECTIVE_API_BASE_URL%"
-node .\\test\\keyword-driven\\website-keyword-driven.test.js
+python .\\test\\keyword-driven\\website_keyword_driven_test.py
 exit /b %ERRORLEVEL%
 '''
             }

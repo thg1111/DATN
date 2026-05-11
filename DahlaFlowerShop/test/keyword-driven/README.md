@@ -6,9 +6,9 @@ Keyword-driven testing con duoc goi la table-driven testing hoac action-word bas
 
 - `website-keywords-framework.xlsx`: Excel Test Steps, noi tester khai bao scenario bang bang.
 - `object-repository.json`: Object Repository, luu ten doi tuong va locator/URL.
-- `action-keywords.js`: Function Library, chua cac ham ung voi tung keyword.
-- `keyword-driver.js`: Driver Script, doc Excel, gom step thanh test case, goi Action Keyword tuong ung.
-- `website-keyword-driven.test.js`: entrypoint de Jenkins/local chay framework.
+- `action_keywords.py`: Function Library, chua cac ham ung voi tung keyword.
+- `keyword_driver.py`: Driver Script, doc Excel, gom step thanh test case, goi Action Keyword tuong ung.
+- `website_keyword_driven_test.py`: entrypoint de Jenkins/local chay framework.
 - Selenium WebDriver: mo browser va thao tac website.
 
 ## Cach Excel hoat dong
@@ -51,7 +51,7 @@ Tester co the them scenario moi bang cach them dong vao Excel va dung cac keywor
 Chay:
 
 ```powershell
-node .\test\keyword-driven\website-keyword-driven.test.js
+py .\test\keyword-driven\website_keyword_driven_test.py
 ```
 
 Bao cao duoc ghi vao:

@@ -7,6 +7,19 @@ $(document).ready(function () {
         DatHang = {}; // Khởi tạo lại nếu dữ liệu không hợp lệ
     }
 
+    function parseMoney(value) {
+        if (typeof value === 'number') {
+            return value;
+        }
+
+        var digits = String(value || '').replace(/[^\d]/g, '');
+        return Number(digits) || 0;
+    }
+
+    function formatMoney(value) {
+        return (Number(value) || 0).toLocaleString('vi-VN') + ' VND';
+    }
+
     // Hàm để hiển thị giỏ hàng
     function renderCart() {
         // Xóa nội dung cũ của #content
@@ -33,7 +46,9 @@ $(document).ready(function () {
         // Duyệt qua từng sản phẩm trong DatHang
         $.each(DatHang, function (id, product) {
             const { photo, name, price, quantity } = product;
-            const itemTotal = parseFloat(price) * quantity; // Tổng giá trị sản phẩm
+            const itemPrice = parseMoney(price);
+            const itemQuantity = parseInt(quantity, 10) || 1;
+            const itemTotal = itemPrice * itemQuantity; // Tổng giá trị sản phẩm
             total += itemTotal;
 
             // Thêm hàng sản phẩm vào bảng
@@ -41,9 +56,9 @@ $(document).ready(function () {
                 <tr>
                     <td><img src="${photo}" alt="${name}" style="width: 50px; height: 50px;"></td>
                     <td>${name}</td>
-                    <td>${price} VND</td>
-                    <td>${quantity}</td>
-                    <td>${itemTotal.toFixed(2)} VND</td>
+                    <td>${formatMoney(itemPrice)}</td>
+                    <td>${itemQuantity}</td>
+                    <td>${formatMoney(itemTotal)}</td>
                     <td><button class="btn-delete" data-id="${id}">Xóa</button></td>
                 </tr>
             `;
@@ -53,7 +68,7 @@ $(document).ready(function () {
                 </tbody>
             </table>
             <div id="cart-total" style="text-align: right; font-weight: bold; margin-top: 10px;">
-                Tổng cộng: ${total.toFixed(2)} VND
+                Tổng cộng: ${formatMoney(total)}
             </div>
         `;
 

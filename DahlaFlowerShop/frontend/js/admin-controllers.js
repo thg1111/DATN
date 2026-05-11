@@ -676,6 +676,7 @@ app.controller('NguoiDungCtrl', function($scope, $http){
 //Hoá đơn
 app.controller('HoaDonCtrl',function($scope,$http){
     $scope.hoaDonItem = [];
+    $scope.hdChiTiet = {};
     $scope.maHD = "";
     $scope.tongTien="";
     $scope.trangThai="";
@@ -702,11 +703,33 @@ app.controller('HoaDonCtrl',function($scope,$http){
     $scope.CTHDitem = [];
 
 
+    function normalizeInvoiceDetails(invoice) {
+        if (!invoice) {
+            return [];
+        }
+
+        var details = invoice.listjson_chitiet || invoice.listjson_ChiTiet || invoice.listJsonChiTiet || invoice.chiTietHD || [];
+        if (typeof details === 'string') {
+            try {
+                details = JSON.parse(details);
+            } catch (error) {
+                details = [];
+            }
+        }
+
+        return Array.isArray(details) ? details : [];
+    }
+
     $scope.getCTHoaDon = function (maHD) {
+        $scope.hdChiTiet = ($scope.hoaDonItem || []).find(function (item) {
+            return String(item.maHD) === String(maHD);
+        }) || {};
+        $scope.CTHDitem = normalizeInvoiceDetails($scope.hdChiTiet);
+
         $http.get(apiUrl('/api-admin/HoaDon/get-data-by-id/' + maHD))
             .then(function (response) {
                 $scope.hdChiTiet = response.data || {};
-                $scope.CTHDitem = Array.isArray($scope.hdChiTiet.listjson_chitiet) ? $scope.hdChiTiet.listjson_chitiet : [];
+                $scope.CTHDitem = normalizeInvoiceDetails($scope.hdChiTiet);
                 const formElement = document.getElementById("editFormHD");
                 if (formElement) {
                     formElement.style.display = "flex";
@@ -714,7 +737,11 @@ app.controller('HoaDonCtrl',function($scope,$http){
                     console.error("Không tìm thấy phần tử với id 'editFormHD'");
                 }
             }, function (error) {
-                console.error("Lỗi khi lấy thông tin tài khoản:", error);
+                console.error("Lỗi khi lấy chi tiết hoá đơn:", error);
+                const formElement = document.getElementById("editFormHD");
+                if (formElement) {
+                    formElement.style.display = "flex";
+                }
             });
     };
     // Đóng form sửa

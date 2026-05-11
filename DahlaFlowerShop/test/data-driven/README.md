@@ -42,7 +42,7 @@ Co the them bao nhieu dong tuy y. Script tu dong doc tat ca dong co du lieu va b
 Chay:
 
 ```powershell
-node .\test\data-driven\auth-data-driven.test.js
+py .\test\data-driven\auth_data_driven_test.py
 ```
 
 Bao cao duoc ghi vao:

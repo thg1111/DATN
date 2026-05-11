@@ -17,7 +17,7 @@
         <script src="../../../../../../../../../js/config.js"></script>
         <script src="../../../../../../../../../js/admin.js" defer></script>
         <script src="../../../../../../../../../js/admin-avatar-data.js"></script>
-        <script src="../../../../../../../../../js/admin-controllers.js" defer></script>
+        <script src="../../../../../../../../../js/admin-controllers.js?v=20260510-hd-detail1" defer></script>
         <script src="../../../../../../../../../js/angular.min.js"></script>
 
     </head>
@@ -75,7 +75,7 @@
                     <main>
                         <div class="header">
                             <div class="left">
-                                <h1>Hello Dinh Huyen Trang🌷</h1>
+                                <h1>Hello Lưu Hoài Thương🌷</h1>
                                 <ul class="breadcrumb">
                                     <li><a href="#">
                                             Admin
@@ -928,7 +928,7 @@
                                         <button class="btn-delete">
                                             <i class="bx bxs-trash"></i>
                                         </button>
-                                        <button class="btn-seen" onclick="openEditFormHD()" >
+                                        <button class="btn-seen" type="button" ng-click="getCTHoaDon(item.maHD)">
                                             <i class='bx bxs-book-open'></i>
                                         </button>
                                     </td>
@@ -940,7 +940,7 @@
                             <!-- Form sửa -->
                             <div id="editFormHD" class="form-overlay" style="display: none;">
                                 <div class="form-container edits" style="width: 800px;">
-                                    <b style="text-align: center;">Sửa thông tin sản phẩm</b>
+                                    <b style="text-align: center;">Chi tiết hoá đơn</b>
                                     <div class="row">
                                         <table id="BangHoaDon" class="table table-bordered">
                                             <thead>
@@ -956,24 +956,14 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="item in hoaDonItem" >
-                                                    <td>{{item.maHD}}</td>
-                                                    <td>{{item.ngayMua }}</td>
-                                                    <td>{{item.tongTien }}</td>
-                                                    <td>{{item.trangThai }}</td>
-                                                    <td>{{item.diaChiGiao }}</td>
-                                                    <td>{{item.maND }}</td>
-                                                    <td>
-                                                        <button class="btn-edit">
-                                                            <i class="bx bx-edit"></i>
-                                                        </button>
-                                                        <button class="btn-delete">
-                                                            <i class="bx bxs-trash"></i>
-                                                        </button>
-                                                        <button class="btn-seen" onclick="openEditFormHD()" ng-click="getCTHoaDon(item.maHD)">
-                                                            <i class='bx bxs-book-open'></i>
-                                                        </button>
-                                                    </td>
+                                                <tr>
+                                                    <td>{{hdChiTiet.maHD}}</td>
+                                                    <td>{{hdChiTiet.ngayMua }}</td>
+                                                    <td>{{hdChiTiet.tongTien }}</td>
+                                                    <td>{{hdChiTiet.trangThai }}</td>
+                                                    <td>{{hdChiTiet.diaChiGiao }}</td>
+                                                    <td>{{hdChiTiet.maND }}</td>
+                                                    <td>Đang xem</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -999,6 +989,9 @@
                                                     <td>{{item.maSanPham }}</td>
                                                     <td>{{item.maVoucher }}</td>
                                                 </tr>
+                                                <tr ng-if="CTHDitem.length === 0">
+                                                    <td colspan="6" class="text-center">Chưa có dữ liệu chi tiết hoá đơn</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -1008,11 +1001,11 @@
                                 </div>
                             <script>
                                 function openEditFormHD() {
-                                document.getElementById("editFormND").style.display = "flex";
+                                document.getElementById("editFormHD").style.display = "flex";
                                 }
     
                                 function closeEditFormHD() {
-                                document.getElementById("editFormND").style.display = "none";
+                                document.getElementById("editFormHD").style.display = "none";
                                 }
     
                             </script>
