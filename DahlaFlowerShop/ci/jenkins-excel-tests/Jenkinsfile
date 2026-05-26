@@ -14,9 +14,7 @@ pipeline {
         string(name: 'FRONTEND_PORT', defaultValue: '5500', description: 'Port frontend static server cho Selenium.')
         string(name: 'API_BASE_URL', defaultValue: 'https://localhost:7114', description: 'Base URL cua gateway/API de frontend goi test.')
         booleanParam(name: 'SKIP_DB_SETUP', defaultValue: false, description: 'Bo qua setup LocalDB neu database da san sang.')
-        booleanParam(name: 'SKIP_CERT_TRUST', defaultValue: true, description: 'Bo qua buoc trust ASP.NET HTTPS dev certificate. Jenkins nen de true vi khong bam duoc popup trust certificate.')
-        booleanParam(name: 'REUSE_RUNNING_WEB', defaultValue: true, description: 'Dung lai web/API dang chay san neu port da mo, phu hop khi da start web thu cong truoc.')
-        booleanParam(name: 'KEEP_SERVICES', defaultValue: true, description: 'Giu service chay sau khi test xong. Mac dinh true vi pipeline thuong reuse web/API dang start san.')
+        booleanParam(name: 'KEEP_SERVICES', defaultValue: true, description: 'Giu service chay sau khi test xong.')
     }
 
     environment {
@@ -37,9 +35,7 @@ pipeline {
                         $class: 'GitSCM',
                         branches: [[name: "*/${env.EFFECTIVE_GIT_BRANCH}"]],
                         userRemoteConfigs: [[url: env.EFFECTIVE_GIT_URL]],
-                        extensions: [
-                            [$class: 'CleanBeforeCheckout']
-                        ]
+                        extensions: [[$class: 'CleanBeforeCheckout']]
                     ])
                 }
                 bat '''
@@ -55,6 +51,7 @@ echo Branch: %EFFECTIVE_GIT_BRANCH%
             steps {
                 script {
                     env.EFFECTIVE_REPO_ROOT = params.REPO_ROOT?.trim() ? params.REPO_ROOT.trim() : "${env.WORKSPACE}\\DahlaFlowerShop"
+                    env.EFFECTIVE_FRAMEWORK_ROOT = "${env.EFFECTIVE_REPO_ROOT}\\test\\AutomationFramework"
                     env.EFFECTIVE_FRONTEND_PORT = params.FRONTEND_PORT?.trim() ? params.FRONTEND_PORT.trim() : '5500'
                     env.EFFECTIVE_FRONTEND_BASE_URL = "http://127.0.0.1:${env.EFFECTIVE_FRONTEND_PORT}"
                     env.EFFECTIVE_API_BASE_URL = params.API_BASE_URL?.trim() ? params.API_BASE_URL.trim() : 'https://localhost:7114'
@@ -62,12 +59,11 @@ echo Branch: %EFFECTIVE_GIT_BRANCH%
                 bat '''
 @echo off
 chcp 65001>nul
-echo Workspace             : %WORKSPACE%
-echo Repo root             : %EFFECTIVE_REPO_ROOT%
-echo Frontend base URL     : %EFFECTIVE_FRONTEND_BASE_URL%
-echo API base URL          : %EFFECTIVE_API_BASE_URL%
-echo SKIP_CERT_TRUST       : %SKIP_CERT_TRUST%
-echo REUSE_RUNNING_WEB     : %REUSE_RUNNING_WEB%
+echo Workspace         : %WORKSPACE%
+echo Repo root         : %EFFECTIVE_REPO_ROOT%
+echo Framework root    : %EFFECTIVE_FRAMEWORK_ROOT%
+echo Frontend base URL : %EFFECTIVE_FRONTEND_BASE_URL%
+echo API base URL      : %EFFECTIVE_API_BASE_URL%
 '''
             }
         }
@@ -85,20 +81,33 @@ if not exist "%EFFECTIVE_REPO_ROOT%\\run-local-web.bat" (
     echo Missing run-local-web.bat
     exit /b 1
 )
-if not exist "%EFFECTIVE_REPO_ROOT%\\test\\data-driven\\auth_data_driven_test.py" (
-    echo Missing data-driven test script
+if not exist "%EFFECTIVE_FRAMEWORK_ROOT%\\pytest.ini" (
+    echo Missing AutomationFramework pytest.ini
     exit /b 1
 )
-if not exist "%EFFECTIVE_REPO_ROOT%\\test\\keyword-driven\\website_keyword_driven_test.py" (
-    echo Missing keyword-driven test script
+if not exist "%EFFECTIVE_FRAMEWORK_ROOT%\\requirements.txt" (
+    echo Missing AutomationFramework requirements.txt
+    exit /b 1
+)
+if not exist "%EFFECTIVE_FRAMEWORK_ROOT%\\tests\\test_login.py" (
+    echo Missing tests\\test_login.py
+    exit /b 1
+)
+if not exist "%EFFECTIVE_FRAMEWORK_ROOT%\\tests\\test_keyword_driven.py" (
+    echo Missing tests\\test_keyword_driven.py
     exit /b 1
 )
 where dotnet
 dotnet --version
 where node
 node --version
-where python
-python --version
+where py >nul 2>nul
+if %ERRORLEVEL% EQU 0 (
+    py -3 --version
+) else (
+    where python
+    python --version
+)
 '''
             }
         }
@@ -108,8 +117,16 @@ python --version
                 bat '''
 @echo off
 chcp 65001>nul
-cd /d "%EFFECTIVE_REPO_ROOT%"
-python -m pip install -r .\\test\\requirements.txt
+cd /d "%EFFECTIVE_FRAMEWORK_ROOT%"
+
+where py >nul 2>nul
+if %ERRORLEVEL% EQU 0 (
+    set "PYTHON_CMD=py -3"
+) else (
+    set "PYTHON_CMD=python"
+)
+
+%PYTHON_CMD% -m pip install -r requirements.txt
 exit /b %ERRORLEVEL%
 '''
             }
@@ -125,7 +142,6 @@ cd /d "%EFFECTIVE_REPO_ROOT%"
 set "WEB_ARGS=-FrontendPort %EFFECTIVE_FRONTEND_PORT% -NoBrowser -SkipCertTrust -ReuseRunning"
 if /I "%SKIP_DB_SETUP%"=="true" set "WEB_ARGS=%WEB_ARGS% -SkipDbSetup"
 
-echo Starting or reusing local web:
 echo call "%EFFECTIVE_REPO_ROOT%\\run-local-web.bat" %WEB_ARGS%
 call "%EFFECTIVE_REPO_ROOT%\\run-local-web.bat" %WEB_ARGS%
 exit /b %ERRORLEVEL%
@@ -138,10 +154,19 @@ exit /b %ERRORLEVEL%
                 bat '''
 @echo off
 chcp 65001>nul
-cd /d "%EFFECTIVE_REPO_ROOT%"
+cd /d "%EFFECTIVE_FRAMEWORK_ROOT%"
 set "FRONTEND_BASE_URL=%EFFECTIVE_FRONTEND_BASE_URL%"
 set "API_BASE_URL=%EFFECTIVE_API_BASE_URL%"
-python .\\test\\data-driven\\auth_data_driven_test.py
+
+where py >nul 2>nul
+if %ERRORLEVEL% EQU 0 (
+    set "PYTHON_CMD=py -3"
+) else (
+    set "PYTHON_CMD=python"
+)
+
+if not exist reports mkdir reports
+%PYTHON_CMD% -m pytest tests\\test_login.py -v --html=reports\\data-driven-auth-report.html --self-contained-html
 exit /b %ERRORLEVEL%
 '''
             }
@@ -152,26 +177,35 @@ exit /b %ERRORLEVEL%
                 bat '''
 @echo off
 chcp 65001>nul
-cd /d "%EFFECTIVE_REPO_ROOT%"
+cd /d "%EFFECTIVE_FRAMEWORK_ROOT%"
 set "FRONTEND_BASE_URL=%EFFECTIVE_FRONTEND_BASE_URL%"
 set "API_BASE_URL=%EFFECTIVE_API_BASE_URL%"
-python .\\test\\keyword-driven\\website_keyword_driven_test.py
+
+where py >nul 2>nul
+if %ERRORLEVEL% EQU 0 (
+    set "PYTHON_CMD=py -3"
+) else (
+    set "PYTHON_CMD=python"
+)
+
+if not exist reports mkdir reports
+%PYTHON_CMD% -m pytest tests\\test_keyword_driven.py -v --html=reports\\keyword-driven-website-report.html --self-contained-html
 exit /b %ERRORLEVEL%
 '''
             }
         }
 
-        stage('Sync Test Reports') {
+        stage('Sync HTML Reports') {
             steps {
                 bat '''
 @echo off
 chcp 65001>nul
-if not exist "%EFFECTIVE_REPO_ROOT%\\test\\reports" (
-    echo No test report folder found.
+if not exist "%EFFECTIVE_FRAMEWORK_ROOT%\\reports" (
+    echo No HTML report folder found.
     exit /b 0
 )
 if not exist "%WORKSPACE%\\test\\reports" mkdir "%WORKSPACE%\\test\\reports"
-robocopy "%EFFECTIVE_REPO_ROOT%\\test\\reports" "%WORKSPACE%\\test\\reports" /E /NFL /NDL /NJH /NJS /NC /NS
+robocopy "%EFFECTIVE_FRAMEWORK_ROOT%\\reports" "%WORKSPACE%\\test\\reports" *.html /NFL /NDL /NJH /NJS /NC /NS
 if %ERRORLEVEL% LEQ 7 exit /b 0
 exit /b %ERRORLEVEL%
 '''
@@ -193,7 +227,7 @@ if exist "%EFFECTIVE_REPO_ROOT%\\ci\\stop-local-web.ps1" (
 )
 exit /b 0
 '''
-            archiveArtifacts allowEmptyArchive: true, fingerprint: true, artifacts: 'test/reports/**/*,DahlaFlowerShop/test/reports/**/*,DahlaFlowerShop/test/**/*.xlsx'
+            archiveArtifacts allowEmptyArchive: true, fingerprint: true, artifacts: 'test/reports/**/*.html,DahlaFlowerShop/test/AutomationFramework/reports/**/*.html,DahlaFlowerShop/test/AutomationFramework/testdata/**/*.xlsx'
         }
     }
 }
