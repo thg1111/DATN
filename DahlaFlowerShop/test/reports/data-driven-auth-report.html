@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dahla Data-Driven Auth Report</title>
+  <style>
+    :root { --bg:#f5f7fb; --panel:#fff; --ink:#1f2937; --muted:#667085; --line:#d9e2ec; --brand:#e44d69; --ok:#137333; --bad:#b3261e; --ok-bg:#e8f5ec; --bad-bg:#fdebea; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 28px; background: var(--bg); color: var(--ink); font-family: Segoe UI, Arial, sans-serif; }
+    .layout { max-width: 1280px; margin: 0 auto; display: grid; gap: 18px; }
+    header, section { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+    header { padding: 24px; }
+    h1 { margin: 10px 0 8px; font-size: 28px; }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    p { margin: 0; color: var(--muted); line-height: 1.5; }
+    .status { display: inline-flex; padding: 6px 10px; border-radius: 999px; font-weight: 700; text-transform: uppercase; font-size: 12px; }
+    .status.passed { color: var(--ok); background: var(--ok-bg); }
+    .status.failed { color: var(--bad); background: var(--bad-bg); }
+    .metrics { display: grid; grid-template-columns: repeat(4, minmax(140px, 1fr)); gap: 12px; margin-top: 18px; }
+    .metric { border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: #fcfdff; }
+    .metric span { display: block; color: var(--muted); font-size: 12px; text-transform: uppercase; font-weight: 700; }
+    .metric strong { display: block; font-size: 28px; margin-top: 6px; }
+    section { padding: 18px; overflow: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 11px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: #f8fafc; color: #344054; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+    code { background: #f1f5f9; padding: 2px 5px; border-radius: 4px; word-break: break-word; }
+    pre { margin: 0; white-space: pre-wrap; word-break: break-word; }
+    details summary { cursor: pointer; font-weight: 700; color: var(--brand); }
+    .step-table { margin-top: 10px; font-size: 13px; }
+    .pill { display: inline-flex; min-width: 64px; justify-content: center; padding: 4px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    .pill.passed { color: var(--ok); background: var(--ok-bg); }
+    .pill.failed { color: var(--bad); background: var(--bad-bg); }
+    .muted { color: var(--muted); }
+    .env { display: grid; grid-template-columns: repeat(2, minmax(260px, 1fr)); gap: 8px 18px; margin-top: 14px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 800px) { body { padding: 16px; } .metrics, .env { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <header>
+      <span class="status passed">passed</span>
+      <h1>Dahla Data-Driven Auth Report</h1>
+      <p>Login and register test cases loaded from Excel.</p>
+      <div class="metrics">
+        <div class="metric"><span>Total</span><strong>6</strong></div>
+        <div class="metric"><span>Passed</span><strong>6</strong></div>
+        <div class="metric"><span>Failed</span><strong>0</strong></div>
+        <div class="metric"><span>Pass Rate</span><strong>100%</strong></div>
+      </div>
+      <div class="env">
+        <div><strong>Generated:</strong> 2026-05-10T09:16:11.076Z</div>
+        <div><strong>Frontend:</strong> http://127.0.0.1:5500</div>
+        <div><strong>API:</strong> https://localhost:7114</div>
+        <div><strong>Framework:</strong> data-driven</div>
+      </div>
+    </header>
+    <section>
+      <h2>Test Cases</h2>
+      <table>
+        <thead><tr><th>ID</th><th>Group</th><th>Name</th><th>Status</th><th>Expected</th><th>Time</th><th>Detail</th></tr></thead>
+        <tbody>
+      <tr>
+        <td>LGN_001</td>
+        <td>login</td>
+        <td>Dang nhap thanh cong voi tai khoan admin</td>
+        <td><span class="pill passed">passed</span></td>
+        <td>success</td>
+        <td>5.45 s</td>
+        <td><pre>{
+  &quot;actual&quot;: &quot;success&quot;,
+  &quot;sessionName&quot;: &quot;admin&quot;
+}</pre></td>
+      </tr>
+      <tr>
+        <td>LGN_002</td>
+        <td>login</td>
+        <td>Dang nhap that bai khi thieu mat khau</td>
+        <td><span class="pill passed">passed</span></td>
+        <td>html5-invalid</td>
+        <td>3.83 s</td>
+        <td><pre>{
+  &quot;actual&quot;: &quot;html5-invalid&quot;
+}</pre></td>
+      </tr>
+      <tr>
+        <td>LGN_003</td>
+        <td>login</td>
+        <td>Dang nhap that bai khi thieu ten tai khoan</td>
+        <td><span class="pill passed">passed</span></td>
+        <td>html5-invalid</td>
+        <td>733 ms</td>
+        <td><pre>{
+  &quot;actual&quot;: &quot;html5-invalid&quot;
+}</pre></td>
+      </tr>
+      <tr>
+        <td>REG_001</td>
+        <td>register</td>
+        <td>Form dang ky hop le voi day du du lieu bat buoc</td>
+        <td><span class="pill passed">passed</span></td>
+        <td>valid-form</td>
+        <td>7.08 s</td>
+        <td><pre>{
+  &quot;actual&quot;: &quot;valid-form&quot;
+}</pre></td>
+      </tr>
+      <tr>
+        <td>REG_002</td>
+        <td>register</td>
+        <td>Form dang ky khong hop le khi email sai dinh dang</td>
+        <td><span class="pill passed">passed</span></td>
+        <td>html5-invalid</td>
+        <td>9.70 s</td>
+        <td><pre>{
+  &quot;actual&quot;: &quot;html5-invalid&quot;
+}</pre></td>
+      </tr>
+      <tr>
+        <td>REG_003</td>
+        <td>register</td>
+        <td>Form dang ky khong hop le khi so dien thoai sai dinh dang</td>
+        <td><span class="pill passed">passed</span></td>
+        <td>html5-invalid</td>
+        <td>7.99 s</td>
+        <td><pre>{
+  &quot;actual&quot;: &quot;html5-invalid&quot;
+}</pre></td>
+      </tr></tbody>
+      </table>
+    </section>
+  </div>
+</body>
+</html>

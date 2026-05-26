@@ -1,0 +1,77 @@
+{
+  "generatedAt": "2026-05-10T09:16:11.076Z",
+  "frontendBaseUrl": "http://127.0.0.1:5500",
+  "apiBaseUrl": "https://localhost:7114",
+  "total": 6,
+  "passed": 6,
+  "failed": 0,
+  "results": [
+    {
+      "id": "LGN_001",
+      "group": "login",
+      "name": "Dang nhap thanh cong voi tai khoan admin",
+      "status": "passed",
+      "expected": "success",
+      "detail": {
+        "actual": "success",
+        "sessionName": "admin"
+      },
+      "timeMs": 5454
+    },
+    {
+      "id": "LGN_002",
+      "group": "login",
+      "name": "Dang nhap that bai khi thieu mat khau",
+      "status": "passed",
+      "expected": "html5-invalid",
+      "detail": {
+        "actual": "html5-invalid"
+      },
+      "timeMs": 3828
+    },
+    {
+      "id": "LGN_003",
+      "group": "login",
+      "name": "Dang nhap that bai khi thieu ten tai khoan",
+      "status": "passed",
+      "expected": "html5-invalid",
+      "detail": {
+        "actual": "html5-invalid"
+      },
+      "timeMs": 733
+    },
+    {
+      "id": "REG_001",
+      "group": "register",
+      "name": "Form dang ky hop le voi day du du lieu bat buoc",
+      "status": "passed",
+      "expected": "valid-form",
+      "detail": {
+        "actual": "valid-form"
+      },
+      "timeMs": 7077
+    },
+    {
+      "id": "REG_002",
+      "group": "register",
+      "name": "Form dang ky khong hop le khi email sai dinh dang",
+      "status": "passed",
+      "expected": "html5-invalid",
+      "detail": {
+        "actual": "html5-invalid"
+      },
+      "timeMs": 9700
+    },
+    {
+      "id": "REG_003",
+      "group": "register",
+      "name": "Form dang ky khong hop le khi so dien thoai sai dinh dang",
+      "status": "passed",
+      "expected": "html5-invalid",
+      "detail": {
+        "actual": "html5-invalid"
+      },
+      "timeMs": 7987
+    }
+  ]
+}

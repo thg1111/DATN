@@ -1,0 +1,202 @@
+{
+  "generatedAt": "2026-05-10T09:20:04.868Z",
+  "framework": "keyword-driven",
+  "components": {
+    "excel": "test\\keyword-driven\\website-keywords-framework.xlsx",
+    "objectRepository": "test\\keyword-driven\\object-repository.json",
+    "functionLibrary": "test\\keyword-driven\\action-keywords.js",
+    "driverScript": "test\\keyword-driven\\keyword-driver.js",
+    "selenium": "selenium-webdriver"
+  },
+  "frontendBaseUrl": "http://127.0.0.1:5500",
+  "apiBaseUrl": "https://localhost:7114",
+  "total": 3,
+  "passed": 3,
+  "failed": 0,
+  "results": [
+    {
+      "id": "KWD_001",
+      "name": "Mo trang chu va tim kiem san pham",
+      "status": "passed",
+      "steps": [
+        {
+          "stepOrder": 1,
+          "keyword": "open",
+          "objectName": "homePage",
+          "testData": "",
+          "description": "Open browser and navigate to home page",
+          "status": "passed",
+          "detail": "http://127.0.0.1:5500/index.html",
+          "timeMs": 876
+        },
+        {
+          "stepOrder": 2,
+          "keyword": "configureApi",
+          "objectName": "",
+          "testData": "",
+          "description": "Inject API base URL for frontend calls",
+          "status": "passed",
+          "detail": "https://localhost:7114",
+          "timeMs": 6
+        },
+        {
+          "stepOrder": 3,
+          "keyword": "waitVisible",
+          "objectName": "siteHeader",
+          "testData": "",
+          "description": "Verify header is visible",
+          "status": "passed",
+          "detail": ".header",
+          "timeMs": 48
+        },
+        {
+          "stepOrder": 4,
+          "keyword": "waitVisible",
+          "objectName": "siteMenu",
+          "testData": "",
+          "description": "Verify menu is visible",
+          "status": "passed",
+          "detail": ".menu",
+          "timeMs": 36
+        },
+        {
+          "stepOrder": 5,
+          "keyword": "type",
+          "objectName": "homeSearchInput",
+          "testData": "hoa",
+          "description": "Enter product search keyword",
+          "status": "passed",
+          "detail": "homeSearchInput=hoa",
+          "timeMs": 563
+        },
+        {
+          "stepOrder": 6,
+          "keyword": "assertValue",
+          "objectName": "homeSearchInput",
+          "testData": "hoa",
+          "description": "Verify search keyword is entered",
+          "status": "passed",
+          "detail": "hoa",
+          "timeMs": 187
+        }
+      ],
+      "timeMs": 4487
+    },
+    {
+      "id": "KWD_002",
+      "name": "Mo danh muc va them san pham vao gio hang",
+      "status": "passed",
+      "steps": [
+        {
+          "stepOrder": 1,
+          "keyword": "open",
+          "objectName": "categoryPage",
+          "testData": "",
+          "description": "Navigate to category page",
+          "status": "passed",
+          "detail": "http://127.0.0.1:5500/pages/products/category.html",
+          "timeMs": 502
+        },
+        {
+          "stepOrder": 2,
+          "keyword": "configureApi",
+          "objectName": "",
+          "testData": "",
+          "description": "Inject API base URL",
+          "status": "passed",
+          "detail": "https://localhost:7114",
+          "timeMs": 4
+        },
+        {
+          "stepOrder": 3,
+          "keyword": "waitVisible",
+          "objectName": "categoryProductCard",
+          "testData": "",
+          "description": "Verify product card is visible",
+          "status": "passed",
+          "detail": ".vlt",
+          "timeMs": 34
+        },
+        {
+          "stepOrder": 4,
+          "keyword": "click",
+          "objectName": "categoryAddToCartButton",
+          "testData": "",
+          "description": "Click add-to-cart button",
+          "status": "passed",
+          "detail": ".btn-cart",
+          "timeMs": 1283
+        },
+        {
+          "stepOrder": 5,
+          "keyword": "assertLocalStorageObjectNotEmpty",
+          "objectName": "cartStorage",
+          "testData": "",
+          "description": "Verify cart localStorage is not empty",
+          "status": "passed",
+          "detail": "DatHang",
+          "timeMs": 1192
+        }
+      ],
+      "timeMs": 3607
+    },
+    {
+      "id": "KWD_003",
+      "name": "Kiem tra trang dang nhap hien thi form",
+      "status": "passed",
+      "steps": [
+        {
+          "stepOrder": 1,
+          "keyword": "open",
+          "objectName": "loginPage",
+          "testData": "",
+          "description": "Navigate to login page",
+          "status": "passed",
+          "detail": "http://127.0.0.1:5500/pages/auth/login.html",
+          "timeMs": 500
+        },
+        {
+          "stepOrder": 2,
+          "keyword": "configureApi",
+          "objectName": "",
+          "testData": "",
+          "description": "Inject API base URL",
+          "status": "passed",
+          "detail": "https://localhost:7114",
+          "timeMs": 5
+        },
+        {
+          "stepOrder": 3,
+          "keyword": "waitVisible",
+          "objectName": "loginUsernameInput",
+          "testData": "",
+          "description": "Verify username input is visible",
+          "status": "passed",
+          "detail": "#tenTK",
+          "timeMs": 35
+        },
+        {
+          "stepOrder": 4,
+          "keyword": "waitVisible",
+          "objectName": "loginPasswordInput",
+          "testData": "",
+          "description": "Verify password input is visible",
+          "status": "passed",
+          "detail": "#matKhau",
+          "timeMs": 53
+        },
+        {
+          "stepOrder": 5,
+          "keyword": "waitVisible",
+          "objectName": "loginSubmitButton",
+          "testData": "",
+          "description": "Verify submit button is visible",
+          "status": "passed",
+          "detail": "button[type=\"submit\"]",
+          "timeMs": 29
+        }
+      ],
+      "timeMs": 1248
+    }
+  ]
+}

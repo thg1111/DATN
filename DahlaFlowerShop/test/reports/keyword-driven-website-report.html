@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dahla Keyword-Driven Website Report</title>
+  <style>
+    :root { --bg:#f5f7fb; --panel:#fff; --ink:#1f2937; --muted:#667085; --line:#d9e2ec; --brand:#e44d69; --ok:#137333; --bad:#b3261e; --ok-bg:#e8f5ec; --bad-bg:#fdebea; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 28px; background: var(--bg); color: var(--ink); font-family: Segoe UI, Arial, sans-serif; }
+    .layout { max-width: 1280px; margin: 0 auto; display: grid; gap: 18px; }
+    header, section { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+    header { padding: 24px; }
+    h1 { margin: 10px 0 8px; font-size: 28px; }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    p { margin: 0; color: var(--muted); line-height: 1.5; }
+    .status { display: inline-flex; padding: 6px 10px; border-radius: 999px; font-weight: 700; text-transform: uppercase; font-size: 12px; }
+    .status.passed { color: var(--ok); background: var(--ok-bg); }
+    .status.failed { color: var(--bad); background: var(--bad-bg); }
+    .metrics { display: grid; grid-template-columns: repeat(4, minmax(140px, 1fr)); gap: 12px; margin-top: 18px; }
+    .metric { border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: #fcfdff; }
+    .metric span { display: block; color: var(--muted); font-size: 12px; text-transform: uppercase; font-weight: 700; }
+    .metric strong { display: block; font-size: 28px; margin-top: 6px; }
+    section { padding: 18px; overflow: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 11px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: #f8fafc; color: #344054; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+    code { background: #f1f5f9; padding: 2px 5px; border-radius: 4px; word-break: break-word; }
+    pre { margin: 0; white-space: pre-wrap; word-break: break-word; }
+    details summary { cursor: pointer; font-weight: 700; color: var(--brand); }
+    .step-table { margin-top: 10px; font-size: 13px; }
+    .pill { display: inline-flex; min-width: 64px; justify-content: center; padding: 4px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    .pill.passed { color: var(--ok); background: var(--ok-bg); }
+    .pill.failed { color: var(--bad); background: var(--bad-bg); }
+    .muted { color: var(--muted); }
+    .env { display: grid; grid-template-columns: repeat(2, minmax(260px, 1fr)); gap: 8px 18px; margin-top: 14px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 800px) { body { padding: 16px; } .metrics, .env { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <header>
+      <span class="status passed">passed</span>
+      <h1>Dahla Keyword-Driven Website Report</h1>
+      <p>Website automation scenarios loaded from Excel TestSteps and executed through ActionKeywords.</p>
+      <div class="metrics">
+        <div class="metric"><span>Total</span><strong>3</strong></div>
+        <div class="metric"><span>Passed</span><strong>3</strong></div>
+        <div class="metric"><span>Failed</span><strong>0</strong></div>
+        <div class="metric"><span>Pass Rate</span><strong>100%</strong></div>
+      </div>
+      <div class="env">
+        <div><strong>Generated:</strong> 2026-05-10T09:20:04.868Z</div>
+        <div><strong>Frontend:</strong> http://127.0.0.1:5500</div>
+        <div><strong>API:</strong> https://localhost:7114</div>
+        <div><strong>Framework:</strong> keyword-driven</div>
+      </div>
+    </header>
+    <section>
+      <h2>Test Cases</h2>
+      <table>
+        <thead><tr><th>ID</th><th>Group</th><th>Name</th><th>Status</th><th>Expected</th><th>Time</th><th>Detail</th></tr></thead>
+        <tbody>
+      <tr>
+        <td>KWD_001</td>
+        <td></td>
+        <td>Mo trang chu va tim kiem san pham</td>
+        <td><span class="pill passed">passed</span></td>
+        <td></td>
+        <td>4.49 s</td>
+        <td><details><summary>6 step(s)</summary><table class="step-table"><thead><tr><th>#</th><th>Status</th><th>Keyword</th><th>Object</th><th>Data</th><th>Detail</th><th>Time</th></tr></thead><tbody>
+    <tr>
+      <td>1</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>open</td>
+      <td><code>homePage</code></td>
+      <td></td>
+      <td>Open browser and navigate to home page</td>
+      <td>876 ms</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>configureApi</td>
+      <td><code></code></td>
+      <td></td>
+      <td>Inject API base URL for frontend calls</td>
+      <td>6 ms</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>waitVisible</td>
+      <td><code>siteHeader</code></td>
+      <td></td>
+      <td>Verify header is visible</td>
+      <td>48 ms</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>waitVisible</td>
+      <td><code>siteMenu</code></td>
+      <td></td>
+      <td>Verify menu is visible</td>
+      <td>36 ms</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>type</td>
+      <td><code>homeSearchInput</code></td>
+      <td>hoa</td>
+      <td>Enter product search keyword</td>
+      <td>563 ms</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>assertValue</td>
+      <td><code>homeSearchInput</code></td>
+      <td>hoa</td>
+      <td>Verify search keyword is entered</td>
+      <td>187 ms</td>
+    </tr></tbody></table></details></td>
+      </tr>
+      <tr>
+        <td>KWD_002</td>
+        <td></td>
+        <td>Mo danh muc va them san pham vao gio hang</td>
+        <td><span class="pill passed">passed</span></td>
+        <td></td>
+        <td>3.61 s</td>
+        <td><details><summary>5 step(s)</summary><table class="step-table"><thead><tr><th>#</th><th>Status</th><th>Keyword</th><th>Object</th><th>Data</th><th>Detail</th><th>Time</th></tr></thead><tbody>
+    <tr>
+      <td>1</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>open</td>
+      <td><code>categoryPage</code></td>
+      <td></td>
+      <td>Navigate to category page</td>
+      <td>502 ms</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>configureApi</td>
+      <td><code></code></td>
+      <td></td>
+      <td>Inject API base URL</td>
+      <td>4 ms</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>waitVisible</td>
+      <td><code>categoryProductCard</code></td>
+      <td></td>
+      <td>Verify product card is visible</td>
+      <td>34 ms</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>click</td>
+      <td><code>categoryAddToCartButton</code></td>
+      <td></td>
+      <td>Click add-to-cart button</td>
+      <td>1.28 s</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>assertLocalStorageObjectNotEmpty</td>
+      <td><code>cartStorage</code></td>
+      <td></td>
+      <td>Verify cart localStorage is not empty</td>
+      <td>1.19 s</td>
+    </tr></tbody></table></details></td>
+      </tr>
+      <tr>
+        <td>KWD_003</td>
+        <td></td>
+        <td>Kiem tra trang dang nhap hien thi form</td>
+        <td><span class="pill passed">passed</span></td>
+        <td></td>
+        <td>1.25 s</td>
+        <td><details><summary>5 step(s)</summary><table class="step-table"><thead><tr><th>#</th><th>Status</th><th>Keyword</th><th>Object</th><th>Data</th><th>Detail</th><th>Time</th></tr></thead><tbody>
+    <tr>
+      <td>1</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>open</td>
+      <td><code>loginPage</code></td>
+      <td></td>
+      <td>Navigate to login page</td>
+      <td>500 ms</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>configureApi</td>
+      <td><code></code></td>
+      <td></td>
+      <td>Inject API base URL</td>
+      <td>5 ms</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>waitVisible</td>
+      <td><code>loginUsernameInput</code></td>
+      <td></td>
+      <td>Verify username input is visible</td>
+      <td>35 ms</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>waitVisible</td>
+      <td><code>loginPasswordInput</code></td>
+      <td></td>
+      <td>Verify password input is visible</td>
+      <td>53 ms</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><span class="pill passed">passed</span></td>
+      <td>waitVisible</td>
+      <td><code>loginSubmitButton</code></td>
+      <td></td>
+      <td>Verify submit button is visible</td>
+      <td>29 ms</td>
+    </tr></tbody></table></details></td>
+      </tr></tbody>
+      </table>
+    </section>
+  </div>
+</body>
+</html>
