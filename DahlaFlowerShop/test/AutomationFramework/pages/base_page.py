@@ -64,12 +64,13 @@ class BasePage:
         self.driver.execute_script("arguments[0].click();", element)
         self.log.debug(f"JS Click: {locator}")
 
-    def type_text(self, locator: tuple[str, str], text: str) -> None:
+    def type_text(self, locator: tuple[str, str], text: Any) -> None:
         element = self.find_visible(locator)
         element.clear()
-        if text:
-            element.send_keys(text)
-        self.log.debug(f"Nhập: {locator} = '{text}'")
+        value = "" if text is None else str(text)
+        if value:
+            element.send_keys(value)
+        self.log.debug(f"Nhập: {locator} = '{value}'")
 
     def get_text(self, locator: tuple[str, str]) -> str:
         return self.find_visible(locator).text
