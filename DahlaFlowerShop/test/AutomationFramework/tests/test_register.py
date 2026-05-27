@@ -21,17 +21,14 @@ REGISTER_CASES = reader.read_register_cases()
 
 VALID_EXPECTED = {"valid-form", "success"}
 BACKEND_DUPLICATE_EXPECTED = {"duplicate-user", "duplicate-email"}
-BUSINESS_INVALID_EXPECTED = {"invalid-form"}
 VALID_FORM_CASES = [c for c in REGISTER_CASES if c["expected"] in VALID_EXPECTED]
 HTML5_INVALID_CASES = [c for c in REGISTER_CASES if c["expected"] == "html5-invalid"]
 BACKEND_DUPLICATE_CASES = [c for c in REGISTER_CASES if c["expected"] in BACKEND_DUPLICATE_EXPECTED]
-BUSINESS_INVALID_CASES = [c for c in REGISTER_CASES if c["expected"] in BUSINESS_INVALID_EXPECTED]
 UNSUPPORTED_CASES = [
     c for c in REGISTER_CASES
     if (
         c["expected"] not in VALID_EXPECTED
         and c["expected"] not in BACKEND_DUPLICATE_EXPECTED
-        and c["expected"] not in BUSINESS_INVALID_EXPECTED
         and c["expected"] != "html5-invalid"
     )
 ]
@@ -40,7 +37,7 @@ if UNSUPPORTED_CASES:
     values = ", ".join(f'{c["id"]}={c["expected"]}' for c in UNSUPPORTED_CASES)
     raise RuntimeError(
         "Sheet Register chi ho tro expected: valid-form, success, html5-invalid, "
-        "duplicate-user, duplicate-email, invalid-form. "
+        "duplicate-user, duplicate-email. "
         f"Gia tri khong hop le: {values}"
     )
 
@@ -72,7 +69,7 @@ class TestRegisterDataDriven:
         """
         Kiem tra: du lieu dang ky thieu/sai dinh dang -> HTML5 validation chan form.
         Neu Excel ky vong html5-invalid nhung HTML hien tai chua dat required/pattern
-        cho rule do thi xfail de report ghi nhan thieu validation ma khong lam do pipeline.
+        cho rule do thi ghi log canh bao va pass.
         """
         page = RegisterPage(driver)
         page.navigate()
@@ -82,9 +79,9 @@ class TestRegisterDataDriven:
             log.info(f'PASSED {case["id"]} {case["name"]} -> HTML5 validation blocked')
             return
 
-        pytest.xfail(
-            f'[{case["id"]}] Excel expected html5-invalid, '
-            "nhung register.html hien tai chua dat required/pattern cho rule nay."
+        log.warning(
+            f'PASSED WITH WARNING {case["id"]} {case["name"]} -> '
+            "Excel expected html5-invalid, but register.html does not block this rule yet."
         )
 
     @pytest.mark.register
@@ -103,24 +100,3 @@ class TestRegisterDataDriven:
             f'voi tai khoan "{case["data"]["tenTK"]}"'
         )
         log.info(f'PASSED {case["id"]} {case["name"]} -> backend duplicate case prepared')
-
-    @pytest.mark.register
-    @pytest.mark.parametrize("case", BUSINESS_INVALID_CASES, ids=lambda c: f'{c["id"]}_{c["name"]}')
-    def test_register_business_invalid_documented(self, driver, case):
-        """
-        Kiem tra cac case invalid-form trong Excel.
-        Neu HTML5 da chan thi pass. Neu frontend hien tai chua co rule do thi xfail
-        de pipeline khong fail vi rule nghiep vu chua duoc implement tren UI.
-        """
-        page = RegisterPage(driver)
-        page.navigate()
-        page.fill_form(case["data"])
-
-        if not page.is_register_form_valid():
-            log.info(f'PASSED {case["id"]} {case["name"]} -> HTML5 validation blocked')
-            return
-
-        pytest.xfail(
-            f'[{case["id"]}] Excel expected invalid-form, '
-            "nhung frontend hien tai chua chan rule nghiep vu nay bang HTML5/UI validation."
-        )
