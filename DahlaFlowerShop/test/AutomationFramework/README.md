@@ -7,6 +7,7 @@ Framework kiểm thử tự động tích hợp **3 phương pháp test** trong 
 | Phương pháp | Input | File test | Mô tả |
 |-------------|-------|-----------|-------|
 | **Data-Driven** (Đăng nhập) | `test_data.xlsx` → Sheet Login | `test_login.py` | Đọc username/password từ Excel |
+| **Data-Driven** (Đăng ký) | `test_data.xlsx` → Sheet Register | `test_register.py` | Đọc thông tin đăng ký từ Excel |
 | **Data-Driven** (Đặt hàng) | `test_data.xlsx` → Sheet Checkout | `test_checkout.py` | Đọc sản phẩm, KH từ Excel |
 | **Keyword-Driven** | `keyword_steps.xlsx` → Sheet TestSteps | `test_keyword_driven.py` | Chạy từng bước theo keyword Excel |
 
@@ -81,6 +82,33 @@ pytest --html=reports/report.html --self-contained-html
 ```
 
 ## Input Excel - Chi tiết
+
+### Data-Driven Register
+
+File Excel dùng cho đăng ký nằm tại:
+
+`test/AutomationFramework/testdata/test_data.xlsx`
+
+Thêm test case đăng ký vào sheet `Register`, không thêm vào folder `ci/jenkins-excel-tests`.
+
+Cột bắt buộc: `id`, `name`, `tenTK`, `matKhau`, `email`, `tenND`, `sdt`, `expected`.
+
+Cột tùy chọn: `sinhNhat`, `diaChi`, `gioiTinh`.
+
+Giá trị `expected` hỗ trợ:
+
+| expected | Ý nghĩa |
+|----------|---------|
+| `valid-form` | Dữ liệu hợp lệ, form có thể submit |
+| `success` | Tương đương `valid-form` trong automation, không tạo user lặp lại |
+| `html5-invalid` | Dữ liệu thiếu/sai, HTML5 validation phải chặn form |
+
+Chạy riêng test đăng ký:
+
+```powershell
+cd test\AutomationFramework
+pytest tests\test_register.py -v
+```
 
 ### 📊 test_data.xlsx
 

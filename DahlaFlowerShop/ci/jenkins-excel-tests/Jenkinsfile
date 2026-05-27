@@ -145,6 +145,10 @@ if not exist "%EFFECTIVE_FRAMEWORK_ROOT%\\tests\\test_login.py" (
     echo Missing tests\\test_login.py
     exit /b 1
 )
+if not exist "%EFFECTIVE_FRAMEWORK_ROOT%\\tests\\test_register.py" (
+    echo Missing tests\\test_register.py
+    exit /b 1
+)
 if not exist "%EFFECTIVE_FRAMEWORK_ROOT%\\tests\\test_keyword_driven.py" (
     echo Missing tests\\test_keyword_driven.py
     exit /b 1
@@ -203,7 +207,7 @@ set "FRONTEND_BASE_URL=%EFFECTIVE_FRONTEND_BASE_URL%"
 set "API_BASE_URL=%EFFECTIVE_API_BASE_URL%"
 
 if not exist reports mkdir reports
-"%EFFECTIVE_PYTHON_EXE%" -m pytest tests\\test_login.py -v --html=reports\\data-driven-auth-report.html --self-contained-html
+"%EFFECTIVE_PYTHON_EXE%" -m pytest tests\\test_login.py tests\\test_register.py -v --html=reports\\data-driven-auth-report.html --self-contained-html
 exit /b %ERRORLEVEL%
 '''
             }
