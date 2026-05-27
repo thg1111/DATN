@@ -15,6 +15,28 @@ def clean(value: Any) -> str:
     return str(value or "").strip()
 
 
+def clean_phone(value: Any) -> str:
+    """Chuan hoa so dien thoai tu Excel, giu so 0 dau neu Excel luu dang number."""
+    text = clean(value)
+    if text.endswith(".0"):
+        text = text[:-2]
+    if text.isdigit() and len(text) == 9:
+        return "0" + text
+    return text
+
+
+def clean_date(value: Any) -> str:
+    """Chuan hoa ngay Excel ve yyyy-MM-dd cho input type=date."""
+    if not value:
+        return ""
+    if hasattr(value, "strftime"):
+        return value.strftime("%Y-%m-%d")
+    text = clean(value)
+    if " " in text:
+        return text.split(" ", 1)[0]
+    return text
+
+
 def has_data(row: dict[str, Any]) -> bool:
     """Kiểm tra dòng có dữ liệu hay không."""
     return any(clean(v) for v in row.values())
@@ -89,8 +111,8 @@ class ExcelReader:
                     "matKhau": clean(row.get("matKhau")),
                     "email": clean(row.get("email")),
                     "tenND": clean(row.get("tenND")),
-                    "sdt": clean(row.get("sdt")),
-                    "sinhNhat": clean(row.get("sinhNhat")),
+                    "sdt": clean_phone(row.get("sdt")),
+                    "sinhNhat": clean_date(row.get("sinhNhat")),
                     "diaChi": clean(row.get("diaChi")),
                     "gioiTinh": clean(row.get("gioiTinh")),
                 },
