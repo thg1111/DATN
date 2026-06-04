@@ -12,7 +12,8 @@ param(
     [switch]$SkipSelenium,
     [switch]$DisablePerfAssertion,
     [switch]$KeepServices,
-    [switch]$OpenReport
+    [switch]$OpenReport,
+    [string]$PythonExe = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -71,6 +72,51 @@ function Test-UrlReady {
     catch {
         return $false
     }
+}
+
+function Resolve-PythonExecutable {
+    param([string]$PreferredPythonExe = "")
+
+    $candidates = New-Object System.Collections.Generic.List[string]
+
+    if (-not [string]::IsNullOrWhiteSpace($PreferredPythonExe)) {
+        $candidates.Add($PreferredPythonExe) | Out-Null
+    }
+
+    $pythonCommands = @(Get-Command python.exe -All -ErrorAction SilentlyContinue)
+    foreach ($command in $pythonCommands) {
+        if ($command.Source -and $command.Source -notlike "*\WindowsApps\*") {
+            $candidates.Add($command.Source) | Out-Null
+        }
+    }
+
+    $pyLauncher = Get-Command py.exe -ErrorAction SilentlyContinue
+    if ($pyLauncher) {
+        $launcherPython = & $pyLauncher.Source -3 -c "import sys; print(sys.executable)" 2>$null
+        if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace($launcherPython)) {
+            $candidates.Add($launcherPython.Trim()) | Out-Null
+        }
+    }
+
+    $patterns = @(
+        "C:\Users\*\AppData\Local\Programs\Python\Python*\python.exe",
+        "C:\Python*\python.exe",
+        "C:\Program Files\Python*\python.exe",
+        "C:\Program Files (x86)\Python*\python.exe"
+    )
+
+    foreach ($pattern in $patterns) {
+        Get-ChildItem -Path $pattern -File -ErrorAction SilentlyContinue |
+            ForEach-Object { $candidates.Add($_.FullName) | Out-Null }
+    }
+
+    foreach ($candidate in ($candidates | Where-Object { $_ } | Select-Object -Unique)) {
+        if ((Test-Path -LiteralPath $candidate) -and (& $candidate --version 2>$null)) {
+            return $candidate
+        }
+    }
+
+    throw "Python executable was not found. Install Python, add python.exe to PATH, or run this script with -PythonExe <full path to python.exe>."
 }
 
 function Wait-Url {
@@ -193,7 +239,10 @@ function Start-Frontend {
     $stderr = Join-Path $serviceReportsDir "frontend.err.log"
 
     Write-Host "Starting frontend static server on $frontendUrl"
-    $process = Start-Process -FilePath "python" `
+    $resolvedPythonExe = Resolve-PythonExecutable -PreferredPythonExe $PythonExe
+    Write-Host "Using Python executable: $resolvedPythonExe"
+
+    $process = Start-Process -FilePath $resolvedPythonExe `
         -ArgumentList @("-m", "http.server", "$FrontendPort", "--bind", "127.0.0.1") `
         -WorkingDirectory $frontendRoot `
         -RedirectStandardOutput $stdout `
