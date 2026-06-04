@@ -227,23 +227,62 @@ exit /b %ERRORLEVEL%
 '''
             }
         }
+
+        stage('Package Test Artifacts') {
+            steps {
+                powershell '''
+        $artifactDir = "$env:WORKSPACE\\artifacts"
+        $zipFile = "$artifactDir\\automation-test-artifacts.zip"
+
+        if (Test-Path $artifactDir) {
+            Remove-Item $artifactDir -Recurse -Force
+        }
+
+        New-Item -ItemType Directory -Path $artifactDir | Out-Null
+
+        if (Test-Path "$env:WORKSPACE\\test\\reports") {
+            Copy-Item "$env:WORKSPACE\\test\\reports" -Destination "$artifactDir\\reports" -Recurse
+        }
+
+        if (Test-Path "$env:EFFECTIVE_FRAMEWORK_ROOT\\testdata") {
+            Copy-Item "$env:EFFECTIVE_FRAMEWORK_ROOT\\testdata" -Destination "$artifactDir\\testdata" -Recurse
+        }
+
+        if (Test-Path $zipFile) {
+            Remove-Item $zipFile -Force
+        }
+
+        Compress-Archive -Path "$artifactDir\\reports","$artifactDir\\testdata" -DestinationPath $zipFile
+        '''
+            }
+        }
     }
 
     post {
         always {
             bat '''
-@echo off
-chcp 65001>nul
-if /I "%KEEP_SERVICES%"=="true" (
-    echo KEEP_SERVICES=true, skip stopping local web services.
+    @echo off
+    chcp 65001>nul
+    if /I "%KEEP_SERVICES%"=="true" (
+        echo KEEP_SERVICES=true, skip stopping local web services.
+        exit /b 0
+    )
+    if exist "%EFFECTIVE_REPO_ROOT%\\ci\\stop-local-web.ps1" (
+        powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\stop-local-web.ps1"
+    )
     exit /b 0
-)
-if exist "%EFFECTIVE_REPO_ROOT%\\ci\\stop-local-web.ps1" (
-    powershell -NoProfile -ExecutionPolicy Bypass -File "%EFFECTIVE_REPO_ROOT%\\ci\\stop-local-web.ps1"
-)
-exit /b 0
-'''
-            archiveArtifacts allowEmptyArchive: true, fingerprint: true, artifacts: 'test/reports/**/*.html,DahlaFlowerShop/test/AutomationFramework/reports/**/*.html,DahlaFlowerShop/test/AutomationFramework/testdata/**/*.xlsx'
+    '''
+
+            archiveArtifacts(
+                allowEmptyArchive: true,
+                fingerprint: true,
+                artifacts: '''
+    artifacts/automation-test-artifacts.zip,
+    test/reports/**/*.html,
+    DahlaFlowerShop/test/AutomationFramework/reports/**/*.html,
+    DahlaFlowerShop/test/AutomationFramework/testdata/**/*.xlsx
+    '''
+            )
         }
     }
 }
