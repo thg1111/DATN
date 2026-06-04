@@ -74,7 +74,33 @@ class CheckoutPage(BasePage):
         self.configure_api()
 
     def is_cart_empty(self) -> bool:
-        return self.is_element_visible(self.CART_EMPTY_MSG, timeout=3)
+        try:
+            WebDriverWait(self.driver, 5).until(
+                lambda d: d.execute_script(
+                    """
+                    const content = document.querySelector('#content');
+                    const rows = document.querySelectorAll('#cart-table tbody tr').length;
+                    const raw = localStorage.getItem('DatHang');
+                    let cart = {};
+                    try {
+                        cart = raw ? JSON.parse(raw) : {};
+                    } catch (e) {
+                        cart = {};
+                    }
+                    return Boolean(content) && rows === 0 && Object.keys(cart || {}).length === 0;
+                    """
+                )
+            )
+        except Exception:
+            return False
+
+        content_text = self.execute_js(
+            "return (document.querySelector('#content') || {}).innerText || '';"
+        )
+        if "trống" in str(content_text).lower():
+            return True
+
+        return not self.is_cart_table_visible(timeout=1) and self.get_cart_item_count() == 0
 
     def is_cart_table_visible(self) -> bool:
         return self.is_element_visible(self.CART_TABLE, timeout=5)
