@@ -277,10 +277,7 @@ exit /b %ERRORLEVEL%
                 allowEmptyArchive: true,
                 fingerprint: true,
                 artifacts: '''
-    artifacts/automation-test-artifacts.zip,
-    test/reports/**/*.html,
-    DahlaFlowerShop/test/AutomationFramework/reports/**/*.html,
-    DahlaFlowerShop/test/AutomationFramework/testdata/**/*.xlsx
+    artifacts/automation-test-artifacts.zip
     '''
             )
         }
