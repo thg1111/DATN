@@ -60,51 +60,7 @@ echo Branch: %EFFECTIVE_GIT_BRANCH%
                         returnStdout: true,
                         script: '''
 @echo off
-setlocal
-
-for /f "delims=" %%P in ('where python 2^>nul') do (
-    echo %%P | findstr /I "\\\\WindowsApps\\\\" >nul
-    if errorlevel 1 (
-        "%%P" --version >nul 2>nul
-        if not errorlevel 1 (
-            echo %%P
-            exit /b 0
-        )
-    )
-)
-
-for /f "delims=" %%P in ('where py 2^>nul') do (
-    for /f "delims=" %%X in ('"%%P" -3 -c "import sys; print(sys.executable)" 2^>nul') do (
-        if exist "%%X" (
-            echo %%X
-            exit /b 0
-        )
-    )
-)
-
-for /d %%D in ("%ProgramFiles%\\Python*") do (
-    if exist "%%D\\python.exe" (
-        echo %%D\\python.exe
-        exit /b 0
-    )
-)
-
-for /d %%D in ("%ProgramFiles(x86)%\\Python*") do (
-    if exist "%%D\\python.exe" (
-        echo %%D\\python.exe
-        exit /b 0
-    )
-)
-
-for /d %%D in ("C:\\Users\\*\\AppData\\Local\\Programs\\Python\\Python*") do (
-    if exist "%%D\\python.exe" (
-        echo %%D\\python.exe
-        exit /b 0
-    )
-)
-
-echo __PYTHON_NOT_FOUND__
-exit /b 0
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='SilentlyContinue'; $candidates=@(); $pythonCmds=@(Get-Command python.exe -All); foreach($cmd in $pythonCmds){ if($cmd.Source -and $cmd.Source -notlike '*\\WindowsApps\\*'){ $candidates += $cmd.Source } }; $py=Get-Command py.exe; if($py){ $exe=& $py.Source -3 -c 'import sys; print(sys.executable)' 2>$null; if($LASTEXITCODE -eq 0 -and $exe){ $candidates += $exe.Trim() } }; $patterns=@('C:\\Users\\*\\AppData\\Local\\Programs\\Python\\Python*\\python.exe','C:\\Python*\\python.exe','C:\\Program Files\\Python*\\python.exe','C:\\Program Files (x86)\\Python*\\python.exe'); foreach($pattern in $patterns){ $candidates += @(Get-ChildItem -Path $pattern -File | Select-Object -ExpandProperty FullName) }; foreach($candidate in ($candidates | Where-Object { $_ } | Select-Object -Unique)){ if((Test-Path -LiteralPath $candidate) -and (& $candidate --version 2>$null)){ Write-Output $candidate; exit 0 } }; Write-Output '__PYTHON_NOT_FOUND__'; exit 0"
 '''
                     ).trim()
                 }
