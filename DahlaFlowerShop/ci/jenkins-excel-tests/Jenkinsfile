@@ -103,7 +103,8 @@ for /d %%D in ("C:\\Users\\*\\AppData\\Local\\Programs\\Python\\Python*") do (
     )
 )
 
-exit /b 1
+echo __PYTHON_NOT_FOUND__
+exit /b 0
 '''
                     ).trim()
                 }
@@ -161,6 +162,11 @@ where dotnet
 dotnet --version
 where node
 node --version
+if "%EFFECTIVE_PYTHON_EXE%"=="__PYTHON_NOT_FOUND__" (
+    echo Python executable was not auto-detected on this Jenkins agent.
+    echo Install Python, add python.exe to PATH, or set Jenkins parameter PYTHON_EXE to the full path of python.exe.
+    exit /b 1
+)
 if not exist "%EFFECTIVE_PYTHON_EXE%" (
     echo Python executable not found: %EFFECTIVE_PYTHON_EXE%
     echo Update Jenkins parameter PYTHON_EXE to the full path of python.exe.
